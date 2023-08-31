@@ -187,8 +187,8 @@ prodia({
 
 #### Models
 
-| Code | Model | Name |
-|--------------|--------------||--------------|
+| Code | Model                                 | Name               |
+|------|---------------------------------------|--------------------|
 | 1 | absolutereality_V16.safetensors [37db0fc3] | Absolute Reality V1.6 |
 | 2 | absolutereality_v181.safetensors [3d9d4d2b] | Absolute Reality V1.8.1 |
 | 3 | analog-diffusion-1.0.ckpt [9ca13f02] | Analog V1 |
