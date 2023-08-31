@@ -1,8 +1,9 @@
 {
   "name": "gpti",
-  "version": "1.0.0",
+  "version": "1.0.3",
   "description": "This package simplifies your interaction with various GPT models, removing the need for tokens or other methods to access GPT",
   "main": "index.js",
+  "types": "main.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "ts-node main.ts"
@@ -28,5 +29,10 @@
   },
   "dependencies": {
     "axios": "^1.5.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yandricr/gpti-js"
+  },
+  "homepage": "https://gpti.projectsrpp.repl.co"
 }
