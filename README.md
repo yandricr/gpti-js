@@ -104,7 +104,7 @@ dalle({
 ```
 ## Usage Lexica
 
-```php
+```javascript
 // import { lexica } from "gpti";
 const { lexica } = require("gpti");
 
@@ -141,7 +141,10 @@ lexica({
 ```
 ## Usage Prodia
 
-```php
+```javascript
+// import { prodia } from "gpti";
+const { prodia } = require("gpti");
+
 prodia({
     prompt: "the sun bids farewell in a warm sky, painting soft colors as the clouds dance",
     model: "Realistic_Vision_V5.0.safetensors [614d1063]",                          // code or model
@@ -224,7 +227,7 @@ prodia({
 
 #### Samplers
 
-| Code | Model |
+| Code | Sampler |
 |--------------|--------------|
 | 1 | Euler |
 | 2 | Euler a |
