@@ -3,14 +3,62 @@
 
 This package simplifies your interaction with various GPT models, eliminating the need for tokens or other methods to access GPT. It also allows you to use three artificial intelligences to generate images: DALL·E, Prodia, and Lexica, all of this without restrictions or limits
 
-
 ## Installation
 
 You can install the package via NPM
 
 ```bash
-  npm i gpti
+npm i gpti
 ```
+
+### CDN Links
+
+If you'd rather not install the package via NPM, you can also include it directly from a Content Delivery Network (CDN).
+
+Once you've included the script, you can use the package like this:
+
+```javascript
+const { gpt, dalle, lexica, prodia } = gpti;
+```
+
+#### UNPKG:
+
+To include the package from UNPKG, add the following script tag to your HTML file:
+
+```html
+<script src="https://unpkg.com/gpti@1.0.4/gpti.js"></script>
+```
+
+#### jsDelivr:
+
+To include the package from jsDelivr, add the following script tag to your HTML file:
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/gpti@1.0.4/gpti.js"></script>
+```
+
+#### esm.sh
+
+For esm.sh, include the following script tag in your HTML file:
+
+```html
+<script src="https://esm.sh/gpti@1.0.4/gpti.js"></script>
+```
+
+#### Skypack:
+
+If you prefer using ES6 modules, you can import the package from Skypack as follows:
+
+```html
+<script type="module">
+    import { gpt, dalle, lexica, prodia } from 'https://cdn.skypack.dev/gpti@1.0.4';
+
+    // Now you can use the 'gpti' package in your JavaScript code
+</script>
+```
+
+These CDN options allow you to include the package in your web project with ease. Simply choose the one that fits your project's requirements.
+
 ## Usage GPT
 
 ```javascript

@@ -1,5 +1,5 @@
 /*
-    Author: Yandri Chacon-Rivera
+    Author: yandricr
     API: https://lazy-blue-elk-hat.cyclic.cloud/
     Docs: https://gpti.projectsrpp.repl.co/
 */
