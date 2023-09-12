@@ -1,13 +1,13 @@
 "use strict";
 /*
     Author: yandricr
-    API: https://lazy-blue-elk-hat.cyclic.cloud/
+    API: https://gpti.projectsrpp.repl.co/api
     Docs: https://gpti.projectsrpp.repl.co/
 */
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.util = exports.prodia = exports.lexica = exports.dalle = exports.gpt = void 0;
 var axios_1 = require("axios");
-var api = "https://lazy-blue-elk-hat.cyclic.cloud";
+var api = "https://gpti.projectsrpp.repl.co/api";
 var doc = "https://gpti.projectsrpp.repl.co/";
 var gptmodel = [
     {

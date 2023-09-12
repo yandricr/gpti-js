@@ -1,5 +1,5 @@
 // import { gpt, dalle, lexica, prodia, util } from "gpti";
-const { gpt, dalle, lexica, prodia, util } = require("./main");
+const { gpt, dalle, lexica, prodia, util } = require("gpti");
 
 /* gpt */
 gpt({

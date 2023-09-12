@@ -26,7 +26,7 @@ const { gpt, dalle, lexica, prodia } = gpti;
 To include the package from UNPKG, add the following script tag to your HTML file:
 
 ```html
-<script src="https://unpkg.com/gpti@1.0.4/gpti.js"></script>
+<script src="https://unpkg.com/gpti@1.0.5/gpti.js"></script>
 ```
 
 #### jsDelivr:
@@ -34,7 +34,7 @@ To include the package from UNPKG, add the following script tag to your HTML fil
 To include the package from jsDelivr, add the following script tag to your HTML file:
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/gpti@1.0.4/gpti.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gpti@1.0.5/gpti.js"></script>
 ```
 
 #### esm.sh
@@ -42,7 +42,7 @@ To include the package from jsDelivr, add the following script tag to your HTML 
 For esm.sh, include the following script tag in your HTML file:
 
 ```html
-<script src="https://esm.sh/gpti@1.0.4/gpti.js"></script>
+<script src="https://esm.sh/gpti@1.0.5/gpti.js"></script>
 ```
 
 #### Skypack:
@@ -51,7 +51,7 @@ If you prefer using ES6 modules, you can import the package from Skypack as foll
 
 ```html
 <script type="module">
-    import { gpt, dalle, lexica, prodia } from 'https://cdn.skypack.dev/gpti@1.0.4';
+    import { gpt, dalle, lexica, prodia } from 'https://cdn.skypack.dev/gpti@1.0.5';
 
     // Now you can use the 'gpti' package in your JavaScript code
 </script>
@@ -286,7 +286,7 @@ prodia({
 
 ## API Reference
 
-Currently, the [API](https://lazy-blue-elk-hat.cyclic.cloud/) has no access restrictions or usage limits.
+Currently, the [API](https://gpti.projectsrpp.repl.co/api/) has no access restrictions or usage limits.
 
 For more details and examples, refer to the complete [documentation](https://gpti.projectsrpp.repl.co/)
 

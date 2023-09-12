@@ -1,12 +1,12 @@
 /*
     Author: yandricr
-    API: https://lazy-blue-elk-hat.cyclic.cloud/
+    API: https://gpti.projectsrpp.repl.co/api
     Docs: https://gpti.projectsrpp.repl.co/
 */
 
 import axios from "axios";
 
-const api = "https://lazy-blue-elk-hat.cyclic.cloud";
+const api = "https://gpti.projectsrpp.repl.co/api";
 const doc = "https://gpti.projectsrpp.repl.co/";
 
 const gptmodel = [

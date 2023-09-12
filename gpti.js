@@ -1,6 +1,6 @@
 /*
     Author: yandricr
-    API: https://lazy-blue-elk-hat.cyclic.cloud/
+    API: https://gpti.projectsrpp.repl.co/api
     Docs: https://gpti.projectsrpp.repl.co/
 */
 
@@ -134,7 +134,7 @@ const gpti = {
             }
         });
 
-        const url = "https://lazy-blue-elk-hat.cyclic.cloud/gpti";
+        const url = "https://gpti.projectsrpp.repl.co/api/gpti";
         const js = {
             prompt: (prompt != undefined ? prompt.toString() : ""),
             model: (md["code"] != null ? md["code"] : "-1"),
@@ -172,7 +172,7 @@ const gpti = {
             "doc": "https://gpti.projectsrpp.repl.co"
         }
 
-        const url = "https://lazy-blue-elk-hat.cyclic.cloud/dalleai";
+        const url = "https://gpti.projectsrpp.repl.co/api/dalleai";
         const js = {
             prompt: (prompt != undefined && prompt.toString().trim().length > 0 ? prompt.toString() : undefined),
             type: (type != undefined && type.toString().toLowerCase() === "text" ? "" : "")
@@ -209,7 +209,7 @@ const gpti = {
             "doc": "https://gpti.projectsrpp.repl.co"
         }
 
-        const url = "https://lazy-blue-elk-hat.cyclic.cloud/lexicaai";
+        const url = "https://gpti.projectsrpp.repl.co/api/lexicaai";
         const js = {
             prompt: (prompt != undefined && prompt.toString().trim().length > 0 ? prompt.toString() : ""),
             type: (type != undefined && type.toString().toLowerCase() === "text" ? "" : "")
@@ -504,7 +504,7 @@ const gpti = {
             md["cfg_scale"] = null;
         }
 
-        const url = "https://lazy-blue-elk-hat.cyclic.cloud/prodiaai";
+        const url = "https://gpti.projectsrpp.repl.co/api/prodiaai";
         const js = {
             prompt: (prompt != undefined && prompt.toString().trim().length > 0 ? prompt.toString() : ""),
             model: (md["model"]["code"] != null ? md["model"]["code"] : "-1"),
