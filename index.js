@@ -1,11 +1,10 @@
 /*
     Author: yandricr
-    API: https://gpti.projectsrpp.repl.co/api/
-    Docs: https://gpti.projectsrpp.repl.co/
+    API: https://nexra.aryahcr.cc/
 */
 
-const { gpt, dalle, lexica, prodia, util } = require("./main.js").default;
+const { gpt, bing, pixart, dalle, prodia } = require("./main");
 
 module.exports = {
-    gpt, dalle, lexica, prodia, util
+    gpt, bing, pixart, dalle, prodia
 }

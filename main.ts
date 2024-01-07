@@ -1,894 +1,1186 @@
 /*
     Author: yandricr
-    API: https://gpti.projectsrpp.repl.co/api
-    Docs: https://gpti.projectsrpp.repl.co/
+    API: https://nexra.aryahcr.cc/
 */
 
 import axios from "axios";
 
-const api = "https://gpti.projectsrpp.repl.co/api";
-const doc = "https://gpti.projectsrpp.repl.co/";
-
-const gptmodel = [
-    {
-        "code": 1,
-        "model": "gpt-4"
-    },
-    {
-        "code": 2,
-        "model": "gpt-4-0613"
-    },
-    {
-        "code": 3,
-        "model": "gpt-4-32k"
-    },
-    {
-        "code": 4,
-        "model": "gpt-4-0314"
-    },
-    {
-        "code": 5,
-        "model": "gpt-4-32k-0314"
-    },
-    {
-        "code": 6,
-        "model": "gpt-3.5-turbo"
-    },
-    {
-        "code": 7,
-        "model": "gpt-3.5-turbo-16k"
-    },
-    {
-        "code": 8,
-        "model": "gpt-3.5-turbo-0613"
-    },
-    {
-        "code": 9,
-        "model": "gpt-3.5-turbo-16k-0613"
-    },
-    {
-        "code": 10,
-        "model": "gpt-3.5-turbo-0301"
-    },
-    {
-        "code": 11,
-        "model": "text-davinci-003"
-    },
-    {
-        "code": 12,
-        "model": "text-davinci-002"
-    },
-    {
-        "code": 13,
-        "model": "code-davinci-002"
-    },
-    {
-        "code": 14,
-        "model": "gpt-3"
-    },
-    {
-        "code": 15,
-        "model": "text-curie-001"
-    },
-    {
-        "code": 16,
-        "model": "text-babbage-001"
-    },
-    {
-        "code": 17,
-        "model": "text-ada-001"
-    },
-    {
-        "code": 18,
-        "model": "davinci"
-    },
-    {
-        "code": 19,
-        "model": "curie"
-    },
-    {
-        "code": 20,
-        "model": "babbage"
-    },
-    {
-        "code": 21,
-        "model": "ada"
-    },
-    {
-        "code": 22,
-        "model": "babbage-002"
-    },
-    {
-        "code": 23,
-        "model": "davinci-002"
-    }
-];
-
-const prodiaai = {
-    model: [
-        {
-            "code": 1,
-            "model": "absolutereality_V16.safetensors [37db0fc3]",
-            "name": "Absolute Reality V1.6"
-        },
-        {
-            "code": 2,
-            "model": "absolutereality_v181.safetensors [3d9d4d2b]",
-            "name": "Absolute Reality V1.8.1"
-        },
-        {
-            "code": 3,
-            "model": "analog-diffusion-1.0.ckpt [9ca13f02]",
-            "name": "Analog V1"
-        },
-        {
-            "code": 4,
-            "model": "anythingv3_0-pruned.ckpt [2700c435]",
-            "name": "Anything V3"
-        },
-        {
-            "code": 5,
-            "model": "anything-v4.5-pruned.ckpt [65745d25]",
-            "name": "Anything V4.5"
-        },
-        {
-            "code": 6,
-            "model": "anythingV5_PrtRE.safetensors [893e49b9]",
-            "name": "Anything V5"
-        },
-        {
-            "code": 7,
-            "model": "AOM3A3_orangemixs.safetensors [9600da17]",
-            "name": "AbyssOrangeMix V3"
-        },
-        {
-            "code": 8,
-            "model": "deliberate_v2.safetensors [10ec4b29]",
-            "name": "Deliberate V2"
-        },
-        {
-            "code": 9,
-            "model": "dreamlike-diffusion-1.0.safetensors [5c9fd6e0]",
-            "name": "Dreamlike Diffusion V1"
-        },
-        {
-            "code": 10,
-            "model": "dreamlike-photoreal-2.0.safetensors [fdcf65e7]",
-            "name": "Dreamlike Photoreal V2"
-        },
-        {
-            "code": 11,
-            "model": "dreamshaper_6BakedVae.safetensors [114c8abb]",
-            "name": "Dreamshaper 6 baked vae"
-        },
-        {
-            "code": 12,
-            "model": "dreamshaper_7.safetensors [5cf5ae06]",
-            "name": "Dreamshaper 7"
-        },
-        {
-            "code": 13,
-            "model": "dreamshaper_8.safetensors [9d40847d]",
-            "name": "Dreamshaper 8"
-        },
-        {
-            "code": 14,
-            "model": "EimisAnimeDiffusion_V1.ckpt [4f828a15]",
-            "name": "Eimis Anime Diffusion V1.0"
-        },
-        {
-            "code": 15,
-            "model": "elldreths-vivid-mix.safetensors [342d9d26]",
-            "name": "Elldreth's Vivid"
-        },
-        {
-            "code": 16,
-            "model": "lyriel_v16.safetensors [68fceea2]",
-            "name": "Lyriel V1.6"
-        },
-        {
-            "code": 17,
-            "model": "mechamix_v10.safetensors [ee685731]",
-            "name": "MechaMix V1.0"
-        },
-        {
-            "code": 18,
-            "model": "meinamix_meinaV9.safetensors [2ec66ab0]",
-            "name": "MeinaMix Meina V9"
-        },
-        {
-            "code": 19,
-            "model": "meinamix_meinaV11.safetensors [b56ce717]",
-            "name": "MeinaMix Meina V11"
-        },
-        {
-            "code": 20,
-            "model": "openjourney_V4.ckpt [ca2f377f]",
-            "name": "Openjourney V4"
-        },
-        {
-            "code": 21,
-            "model": "portraitplus_V1.0.safetensors [1400e684]",
-            "name": "Portrait+ V1"
-        },
-        {
-            "code": 22,
-            "model": "Realistic_Vision_V1.4-pruned-fp16.safetensors [8d21810b]",
-            "name": "Realistic Vision V1.4"
-        },
-        {
-            "code": 23,
-            "model": "Realistic_Vision_V2.0.safetensors [79587710]",
-            "name": "Realistic Vision V2.0"
-        },
-        {
-            "code": 24,
-            "model": "Realistic_Vision_V4.0.safetensors [29a7afaa]",
-            "name": "Realistic Vision V4.0"
-        },
-        {
-            "code": 25,
-            "model": "Realistic_Vision_V5.0.safetensors [614d1063]",
-            "name": "Realistic Vision V5.0"
-        },
-        {
-            "code": 26,
-            "model": "redshift_diffusion-V10.safetensors [1400e684]",
-            "name": "Redshift Diffusion V1.0"
-        },
-        {
-            "code": 27,
-            "model": "revAnimated_v122.safetensors [3f4fefd9]",
-            "name": "ReV Animated V1.2.2"
-        },
-        {
-            "code": 28,
-            "model": "sdv1_4.ckpt [7460a6fa]",
-            "name": "SD V1.4"
-        },
-        {
-            "code": 29,
-            "model": "v1-5-pruned-emaonly.safetensors [d7049739]",
-            "name": "SD V1.5"
-        },
-        {
-            "code": 30,
-            "model": "shoninsBeautiful_v10.safetensors [25d8c546]",
-            "name": "Shonin's Beautiful People V1.0"
-        },
-        {
-            "code": 31,
-            "model": "theallys-mix-ii-churned.safetensors [5d9225a4]",
-            "name": "TheAlly's Mix II"
-        },
-        {
-            "code": 32,
-            "model": "timeless-1.0.ckpt [7c4971d4]",
-            "name": "Timeless V1"
-        }
-    ],
-    sampler: [
-        {
-            "code": 1,
-            "sampler": "Euler"
-        },
-        {
-            "code": 2,
-            "sampler": "Euler a"
-        },
-        {
-            "code": 3,
-            "sampler": "Heun"
-        },
-        {
-            "code": 4,
-            "sampler": "DPM++ 2M Karras"
-        },
-        {
-            "code": 5,
-            "sampler": "DPM++ SDE Karras"
-        },
-        {
-            "code": 6,
-            "sampler": "DDIM"
-        }
-    ]
+type gptdata = {
+    messages?: messagesdata[],
+    prompt?: string,
+    model?: string
+    markdown?: boolean
 }
 
-type gptiopt = {
-    prompt: string;
-    model: "" | "gpt-4" | "gpt-4-0613" | "gpt-4-32k" | "gpt-4-0314" | "gpt-4-32k-0314" | "gpt-3.5-turbo" | "gpt-3.5-turbo-16k" | "gpt-3.5-turbo-0613" | "gpt-3.5-turbo-16k-0613" | "gpt-3.5-turbo-0301" | "text-davinci-003" | "text-davinci-002" | "code-davinci-002" | "gpt-3" | "text-curie-001" | "text-babbage-001" | "text-ada-001" | "davinci" | "curie" | "babbage" | "ada" | "babbage-002" | "davinci-002";
-    type?: "json" | "markdown"
-}
-
-type gpt_ = {
-    api: string;
-    code: 200 | 400;
-    status: true | false;
-    model: {
-        code: number | null;
-        type: string | null
-    };
-    gpt: string | null;
-}
-
-type gptErr = {
-    api: string;
-    code: 400;
-    status: false;
-    message: string,
-    doc: string
-}
-
-type dalleopt = {
-    prompt: string,
-    type?: "json"
-}
-
-type dalle_ = {
-    "api": "dalleai",
-    "code": 200 | 400,
-    "status": true | false,
-    "prompt": string | null,
-    "ul": string | null
-}
-
-type dalleErr = {
-    api: string;
-    code: 400;
-    status: false;
-    message: string;
-    doc: string
-}
-
-type lexicaopt = {
-    prompt: string;
-    type?: "json"
-}
-
-type lexicaErr = {
-    api: string;
-    code: 400;
-    status: false;
-    message: string;
-    doc: string
-}
-
-type lexImage = {
-    ul: string
-}
-
-type lexica_ = {
-    api: "lexicaai";
-    code: 200 | 400;
-    status: true | false;
-    prompt: string | null;
-    images: lexImage[] | null;
-}
-
-type prodiaopt = {
-    prompt: string;
-    model: "" | "absolutereality_V16.safetensors [37db0fc3]" | "absolutereality_v181.safetensors [3d9d4d2b]" | "analog-diffusion-1.0.ckpt [9ca13f02]" | "anythingv3_0-pruned.ckpt [2700c435]" | "anything-v4.5-pruned.ckpt [65745d25]" | "anythingV5_PrtRE.safetensors [893e49b9]" | "AOM3A3_orangemixs.safetensors [9600da17]" | "deliberate_v2.safetensors [10ec4b29]" | "dreamlike-diffusion-1.0.safetensors [5c9fd6e0]" | "dreamlike-photoreal-2.0.safetensors [fdcf65e7]" | "dreamshaper_6BakedVae.safetensors [114c8abb]" | "dreamshaper_7.safetensors [5cf5ae06]" | "dreamshaper_8.safetensors [9d40847d]" | "EimisAnimeDiffusion_V1.ckpt [4f828a15]" | "elldreths-vivid-mix.safetensors [342d9d26]" | "lyriel_v16.safetensors [68fceea2]" | "mechamix_v10.safetensors [ee685731]" | "meinamix_meinaV9.safetensors [2ec66ab0]" | "meinamix_meinaV11.safetensors [b56ce717]" | "openjourney_V4.ckpt [ca2f377f]" | "portraitplus_V1.0.safetensors [1400e684]" | "Realistic_Vision_V1.4-pruned-fp16.safetensors [8d21810b]" | "Realistic_Vision_V2.0.safetensors [79587710]" | "Realistic_Vision_V4.0.safetensors [29a7afaa]" | "Realistic_Vision_V5.0.safetensors [614d1063]" | "redshift_diffusion-V10.safetensors [1400e684]" | "revAnimated_v122.safetensors [3f4fefd9]" | "sdv1_4.ckpt [7460a6fa]" | "v1-5-pruned-emaonly.safetensors [d7049739]" | "shoninsBeautiful_v10.safetensors [25d8c546]" | "theallys-mix-ii-churned.safetensors [5d9225a4]" | "timeless-1.0.ckpt [7c4971d4]",
-    sampler: "" | "Euler" | "Euler a" | "Heun" | "DPM++ 2M Karras" | "DPM++ SDE Karras" | "DDIM",
-    steps: number,
-    cfg_scale: number,
-    negative_prompt?: string,
-    type?: "json"
-}
-
-type prodiaErr = {
-    api: string;
-    code: 400;
-    status: false;
-    message: string;
-    doc: string
-}
-
-type prodia_ = {
-    api: "prodiaai";
-    code: 200 | 400;
-    status: true | false;
-    model: {
-        model: {
-            code: number | null;
-            type: string | null;
-            name: string | null;
-        },
-        sampler: {
-            code: number | null;
-            type: string | null;
-        },
-        steps: number | null;
-        cfg_scale: number | null;
-        prompt: string | null;
-        negative_prompt: string | null;
-    };
-    ul: string | null;
+type messagesdata = {
+    role: "user" | "assistant",
+    content: string
 }
 
 const gpt = ({
+    messages = [],
     prompt = "",
     model = "",
-    type = "json",
-}: gptiopt, proc: (err: gptErr | null,  data: gpt_) => void) => {
-    type mddata = {
-        code: Number | null;
-        model: string | null
-    }
-
-    let md: mddata = {
-        code: null,
-        model: null
-    }
-
-    gptmodel.forEach(e => {
-        if(md["model"] === null && md["code"] === null){
-            if("NaN".toLowerCase() != Number(model).toString().toLowerCase()){
-                if(e["code"] === Number(model)){
-                    md["model"] = e["model"];
-                    md["code"] = Number(e["code"]);
-                }
-            } else {
-                if(e["model"].toString().toLowerCase() === model.toString().toLowerCase()){
-                    md["model"] = e["model"];
-                    md["code"] = Number(e["code"]);
-                }
-            }
-        }
-    });
-
+    markdown = false
+}: gptdata, process: (err: any, data: any) => void) => {
     try {
-        axios.post(`${api}/gpti`, {
-            prompt: (prompt != undefined ? prompt.toString() : ""),
-            model: md["code"] != null ? Number(md["code"]) : "-1",
-            type: type != undefined ? type.toString().toLowerCase() != "text" ? type.toString() : "" : ""
+        axios.post('https://nexra.aryahcr.cc/api/chat/gpt', {
+            messages: messages != undefined && messages != null ? messages : [],
+            prompt: prompt != undefined  && prompt != null ? prompt : "",
+            model: model != undefined && model != null ? model : "",
+            markdown: markdown != undefined && markdown != null ? markdown : false
         }, {
             headers: {
-                "Content-Type": "application/json"
+                'Content-Type': 'application/json'
             }
-        }).then((response) => {
-            if(response.status === 200 && response["data"]["status"] != undefined && response["data"]["status"] === true){
-                const sgpt: gpt_ = response["data"];
-                return proc(null, sgpt);
-            } else {
-                const egpt: gptErr = {
-                    api: "gpti",
-                    code: 400,
-                    status: false,
-                    message: "error",
-                    doc: doc
-                };
-                
-                const sgpt: gpt_ = {
-                    api: "gpti",
-                    code: 400,
-                    status: false,
-                    model: {
-                        code: (Number(md["code"]).toString().toLowerCase() != "NaN".toLowerCase() ? Number(md["code"]) : null),
-                        type: md["model"]
-                    },
-                    gpt: null
+        }).then(response => {
+            if(response.status === 200){
+                if((typeof response.data).toString().toLowerCase() === "Object".toLowerCase()){
+                    if(response.data.code != undefined && response.data.code != null && response.data.code === 200 && response.data.status != undefined && response.data.status != null && response.data.status === true){
+                        return process(null, response.data);
+                    } else {
+                        return process(response.data, null);
+                    }
+                } else {
+                    let js = null;
+                    let count = -1;
+                    for(let i = 0; i < response.data.length; i++){
+                        if(count <= -1){
+                            if(response.data[i] === "{"){
+                                count = i;
+                            }
+                        } else {
+                            break;
+                        }
+                    }
+
+                    if(count <= -1){
+                        return process({
+                            "code": 500,
+                            "status": false,
+                            "error": "INTERNAL_SERVER_ERROR",
+                            "message": "general (unknown) error"
+                        }, null);
+                    } else {
+                        try {
+                            js = response.data.slice(count);
+                            js = JSON.parse(js);
+                            if(js != undefined && js != null && js.code != undefined && js.code != null && js.code === 200 && js.status != undefined && js.status != null && js.status === true){
+                                return process(null, js);
+                            } else {
+                                return process(js, null);
+                            }
+                        } catch(e){
+                            return process({
+                                "code": 500,
+                                "status": false,
+                                "error": "INTERNAL_SERVER_ERROR",
+                                "message": "general (unknown) error"
+                            }, null);
+                        }
+                    }
                 }
-
-                return proc(egpt, sgpt);
+            } else {
+                return process(response.data, null);
             }
-        }).catch((e) => {
-            const egpt: gptErr = {
-                api: "gpti",
-                code: 400,
-                status: false,
-                message: "error",
-                doc: doc
-            };
-            
-            const sgpt: gpt_ = {
-                api: "gpti",
-                code: 400,
-                status: false,
-                model: {
-                    code: (Number(md["code"]).toString().toLowerCase() != "NaN".toLowerCase() ? Number(md["code"]) : null),
-                    type: md["model"]
-                },
-                gpt: null
+        }).catch(error => {
+            try {
+                if (error.response) {
+                    return process(error.response.data, null)
+                } else if (error.request) {
+                    return process({
+                        "code": 404,
+                        "error": "NOT_FOUND",
+                        "message": "the service is currently unavailable"
+                    }, null);
+                } else {
+                    return process({
+                        "code": 500,
+                        "status": false,
+                        "error": "INTERNAL_SERVER_ERROR",
+                        "message": "general (unknown) error"
+                    }, null);
+                }
+            } catch(e){
+                return process({
+                    "code": 500,
+                    "status": false,
+                    "error": "INTERNAL_SERVER_ERROR",
+                    "message": "general (unknown) error"
+                }, null);
             }
-
-            return proc(egpt, sgpt);
         });
     } catch(e){
-        const egpt: gptErr = {
-            api: "gpti",
-            code: 400,
-            status: false,
-            message: "error",
-            doc: doc
-        };
-        
-        const sgpt: gpt_ = {
-            api: "gpti",
-            code: 400,
-            status: false,
-            model: {
-                code: (Number(md["code"]).toString().toLowerCase() != "NaN".toLowerCase() ? Number(md["code"]) : null),
-                type: md["model"]
-            },
-            gpt: null
-        }
+        return process({
+            "code": 404,
+            "error": "NOT_FOUND",
+            "message": "the service is currently unavailable"
+        }, null);
+    }
+}
 
-        return proc(egpt, sgpt);
+type bingdata = {
+    messages: messagesdata[],
+    conversation_style?: "Balanced" | "Creative" | "Precise",
+    markdown?: boolean,
+    stream?: boolean
+}
+
+const bing = ({
+    messages = [],
+    conversation_style = "Balanced",
+    markdown = false,
+    stream = false,
+}: bingdata, process: (err: any, data: any) => void) => {
+    let str = false;
+    try {
+        if(stream != undefined && stream != null && (typeof stream).toString().toLowerCase() === "Boolean".toLowerCase()){
+            if(stream === true){
+                str = true;
+            } else {
+                stream = false;
+            }
+        } else {
+            stream = false;
+        }
+    } catch(e){
+        stream = false;
+    }
+
+    let config = {};
+
+    if(str === true){
+        config = {
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            responseType: "stream"
+        }
+    } else {
+        config = {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }
+    }
+
+    try {
+        axios.post('https://nexra.aryahcr.cc/api/chat/complements', {
+            messages: messages != undefined && messages != null ? messages : [],
+            conversation_style: conversation_style,
+            markdown: markdown != undefined && markdown != null ? markdown : false,
+            model: "bing",
+            stream: str === true ? true : false
+        }, config).then(response => {
+            if(response.status === 200){
+                if(str === true){
+                    let chat: any = null;
+                    let error: any = false;
+                    response.data.on("data", (chunk: any) => {
+                        let chk = chunk.toString();
+                        chk = chk.split("");
+                        let tmp: any = null;
+                
+                        chk.forEach((data: any) => {
+                            let result = null;
+                            let convert = "";
+                            
+                            try {
+                                convert = JSON.parse(data);
+                                result = data;
+                                tmp = null;
+                            } catch(e){
+                                if(tmp === null){
+                                    tmp = data;
+                                } else {
+                                    try {
+                                        convert = JSON.parse(tmp);
+                                        result = tmp;
+                                        tmp = null;
+                                    } catch(e){
+                                        tmp = tmp + data;
+                                        try {
+                                            convert = JSON.parse(tmp);
+                                            result = tmp;
+                                            tmp = null;
+                                        } catch(e){
+                                            tmp = tmp;
+                                        }
+                                    }
+                                }
+                            }
+                
+                            if(result != null){
+                                try {
+                                    result = JSON.parse(result);
+                                    if(chat === null && result != null){
+                                        chat = "";
+                                    }
+    
+                                    if(result != undefined && result != null && result.code === undefined && result.status === undefined){
+                                        if(error != true){
+                                            if(result != undefined && result != null && result.finish != undefined && result.finish != null && result.finish === true){
+                                                chat = result;
+                                            } else {
+                                                chat = result;
+                                                process(null, result);
+                                            }
+                                        }
+                                    } else {
+                                        error = true;
+                                        chat = result;
+                                    }
+                                } catch(e){
+                                    // continue
+                                }
+                            }
+                        });
+                    })
+                
+                    response.data.on("end", () => {
+                        if(chat != null){
+                            if(error != true){
+                                return process(chat, null);
+                            } else {
+                                return process(null, chat);
+                            }
+                        } else {
+                            return process({
+                                "code": 500,
+                                "status": false,
+                                "error": "INTERNAL_SERVER_ERROR",
+                                "message": "general (unknown) error"
+                            }, null);
+                        }
+                    });
+                
+                    response.data.on("error", (err: any) => {
+                        return process({
+                            "code": 500,
+                            "status": false,
+                            "error": "INTERNAL_SERVER_ERROR",
+                            "message": "general (unknown) error"
+                        }, null);
+                    });
+                } else {
+                    if((typeof response.data).toString().toLowerCase() === "Object".toLowerCase()){
+                        if(response.data.code != undefined && response.data.code != null && response.data.code === 200 && response.data.status != undefined && response.data.status != null && response.data.status === true){
+                            return process(null, response.data);
+                        } else {
+                            return process(response.data, null);
+                        }
+                    } else {
+                        let js = null;
+                        let count = -1;
+                        for(let i = 0; i < response.data.length; i++){
+                            if(count <= -1){
+                                if(response.data[i] === "{"){
+                                    count = i;
+                                }
+                            } else {
+                                break;
+                            }
+                        }
+
+                        if(count <= -1){
+                            return process({
+                                "code": 500,
+                                "status": false,
+                                "error": "INTERNAL_SERVER_ERROR",
+                                "message": "general (unknown) error"
+                            }, null);
+                        } else {
+                            try {
+                                js = response.data.slice(count);
+                                js = JSON.parse(js);
+                                if(js != undefined && js != null && js.code != undefined && js.code != null && js.code === 200 && js.status != undefined && js.status != null && js.status === true){
+                                    return process(null, js);
+                                } else {
+                                    return process(js, null);
+                                }
+                            } catch(e){
+                                return process({
+                                    "code": 500,
+                                    "status": false,
+                                    "error": "INTERNAL_SERVER_ERROR",
+                                    "message": "general (unknown) error"
+                                }, null);
+                            }
+                        }
+                    }
+                }
+            } else {
+                return process(response.data, null);
+            }
+        }).catch(error => {
+            try {
+                if (error.response) {
+                    return process(error.response.data, null)
+                } else if (error.request) {
+                    return process({
+                        "code": 404,
+                        "error": "NOT_FOUND",
+                        "message": "the service is currently unavailable"
+                    }, null);
+                } else {
+                    return process({
+                        "code": 500,
+                        "status": false,
+                        "error": "INTERNAL_SERVER_ERROR",
+                        "message": "general (unknown) error"
+                    }, null);
+                }
+            } catch(e){
+                return process({
+                    "code": 500,
+                    "status": false,
+                    "error": "INTERNAL_SERVER_ERROR",
+                    "message": "general (unknown) error"
+                }, null);
+            }
+        });
+    } catch(e){
+        return process({
+            "code": 404,
+            "error": "NOT_FOUND",
+            "message": "the service is currently unavailable"
+        }, null);
     }
 };
 
-const dalle = ({
-    prompt = "",
-    type = "json"
-}: dalleopt, proc: (err: dalleErr | null, data: dalle_) => void) => {
-    try {
-        axios.post(`${api}/dalleai`, {
-            prompt: (prompt != undefined && prompt.toString().trim().length > 0 ? prompt.toString() : undefined),
-            type: type != undefined && type.toString().toLowerCase() === "text" ? ""  : ""
-        }, {
-            headers: {
-                "Content-Type": "application/json"
-            }
-        }).then((response => {
-            if(response.status === 200 && response["data"]["status"] != undefined && response["data"]["status"] === true){
-                const ddalle: dalle_ = response["data"];
-                return proc(null, ddalle);
-            } else {
-                const edalle: dalleErr = {
-                    api: "dalleai",
-                    code: 400,
-                    status: false,
-                    message: "error",
-                    doc: doc
-                };
-        
-                const ddalle: dalle_ = {
-                    "api": "dalleai",
-                    "code": 400,
-                    "status": false,
-                    "prompt": (prompt != undefined && prompt.toString().trim().length > 0 ? prompt.toString() : null),
-                    "ul": null
-                };
-        
-                return proc(edalle, ddalle);
-            }
-        })).catch((err) => {
-            const edalle: dalleErr = {
-                api: "dalleai",
-                code: 400,
-                status: false,
-                message: "error",
-                doc: doc
-            };
-    
-            const ddalle: dalle_ = {
-                "api": "dalleai",
-                "code": 400,
-                "status": false,
-                "prompt": (prompt != undefined && prompt.toString().trim().length > 0 ? prompt.toString() : null),
-                "ul": null
-            };
-    
-            return proc(edalle, ddalle);
-        });
-    } catch(e){
-        const edalle: dalleErr = {
-            api: "dalleai",
-            code: 400,
-            status: false,
-            message: "error",
-            doc: doc
-        };
-
-        const ddalle: dalle_ = {
-            "api": "dalleai",
-            "code": 400,
-            "status": false,
-            "prompt": (prompt != undefined && prompt.toString().trim().length > 0 ? prompt.toString() : null),
-            "ul": null
-        };
-
-        return proc(edalle, ddalle);
+type pixartadata = {
+    prompt: string,
+    data?: {
+        prompt_negative?: string,
+        sampler?: "DPM-Solver" | "SA-Solver",
+        image_style?: "(No style)" | "Cinematic" | "Photographic" | "Anime" | "Manga" | "Digital Art" | "Pixel art" | "Fantasy art" | "Neonpunk" | "3D Model",
+        width?: Number,
+        height?: Number,
+        dpm_guidance_scale?: Number,
+        dpm_inference_steps?: Number,
+        sa_guidance_scale?: Number,
+        sa_inference_steps?: Number
     }
 }
 
-const lexica = ({
-    prompt = "",
-    type = "json"
-}: lexicaopt, proc: (err: lexicaErr | null, data: lexica_) => void) => {
-    try {
-        axios.post(`${api}/lexicaai`, {
-            prompt: (prompt != undefined ? prompt.toString() : ""),
-            type: type != undefined && type.toString().toLowerCase() === "text" ? ""  : ""
-        }, {
-            headers: {
-                "Content-Type": "application/json"
-            }
-        }).then((response) => {
-            if(response.status === 200 && response["data"]["status"] != undefined && response["data"]["status"] == true){
-                const slexica: lexica_ = response["data"];
-                return proc(null, slexica);
-            } else {
-                const elexica: lexicaErr = {
-                    api: "lexicaai",
-                    code: 400,
-                    status: false,
-                    message: "error",
-                    doc: doc
-                };
-        
-                const slexica: lexica_ = {
-                    "api": "lexicaai",
-                    "code": 400,
-                    "status": false,
-                    "prompt": (prompt != undefined && prompt.toString().trim().length > 0 ? prompt.toString() : null),
-                    "images": null
-                };
-        
-                return proc(elexica, slexica);
-            }
-        }).catch((err) => {
-            const elexica: lexicaErr = {
-                api: "lexicaai",
-                code: 400,
-                status: false,
-                message: "error",
-                doc: doc
-            };
-
-            const slexica: lexica_ = {
-                "api": "lexicaai",
-                "code": 400,
-                "status": false,
-                "prompt": (prompt != undefined && prompt.toString().trim().length > 0 ? prompt.toString() : null),
-                "images": null
-            };
-
-            return proc(elexica, slexica);
-        });
-    } catch(e){
-        const elexica: lexicaErr = {
-            api: "lexicaai",
-            code: 400,
-            status: false,
-            message: "error",
-            doc: doc
-        };
-
-        const slexica: lexica_ = {
-            "api": "lexicaai",
-            "code": 400,
-            "status": false,
-            "prompt": (prompt != undefined && prompt.toString().trim().length > 0 ? prompt.toString() : null),
-            "images": null
-        };
-
-        return proc(elexica, slexica);
+type pixartlcmdata = {
+    prompt: string,
+    data?: {
+        prompt_negative?: string,
+        image_style?: "(No style)" | "Cinematic" | "Photographic" | "Anime" | "Manga" | "Digital Art" | "Pixel art" | "Fantasy art" | "Neonpunk" | "3D Model",
+        width?: Number,
+        height?: Number,
+        lcm_inference_steps?: Number
     }
 }
 
-const prodia = ({
-    prompt = "",
-    model = "",
-    sampler = "",
-    steps = Number(),
-    cfg_scale = Number(),
-    negative_prompt = "",
-    type = "json",
-}: prodiaopt, proc: (err: prodiaErr | null, data: prodia_) => void) => {
-    type mddata = {
-        model: {
-            code: Number | null;
-            type: string | null;
-            name: string | null;
-        };
-        sampler: {
-            code: Number | null;
-            type: string | null;
-        };
-        steps: number | null;
-        cfg_scale: number | null;
-    }
-
-    let md: mddata = {
-        model: {
-            code: null,
-            type: null,
-            name: null,
-        },
-        sampler: {
-            code: null,
-            type: null,
-        },
-        steps: null,
-        cfg_scale: null
-    }
-
-    prodiaai["model"].forEach(e => {
-        if(md["model"]["code"] === null && md["model"]["type"] === null && md["model"]["name"] === null){
-            if("NaN".toLowerCase() != Number(model).toString().toLowerCase()){
-                if(e["code"] === Number(model)){
-                    md["model"]["code"] = Number(e["code"]);
-                    md["model"]["type"] = e["model"];
-                    md["model"]["name"] = e["name"];
-                }
-            } else {
-                if(e["model"].toString().toLowerCase() === model.toString().toLowerCase()){
-                    md["model"]["code"] = Number(e["code"]);
-                    md["model"]["type"] = e["model"];
-                    md["model"]["name"] = e["name"];
-                }
-            }
+class pixart {
+    static async a({
+        prompt = "",
+        data = {
+            prompt_negative: "",
+            sampler: "DPM-Solver",
+            image_style: "(No style)",
+            width: 1024,
+            height: 1024,
+            dpm_guidance_scale: 4.5,
+            dpm_inference_steps: 14,
+            sa_guidance_scale: 3,
+            sa_inference_steps: 25
         }
-    });
+    }: pixartadata, process: (err: any, data: any) => void){
+        try {
+            axios.post('https://nexra.aryahcr.cc/api/image/complements', {
+                prompt: prompt != undefined && prompt != null ? prompt : "",
+                model: "pixart-a",
+                data: {
+                    prompt_negative: data != undefined && data != null && data.prompt_negative != undefined && data.prompt_negative != null ? data.prompt_negative : "",
+                    sampler: data != undefined && data != null && data.sampler != undefined && data.sampler != null ? data.sampler : "DPM-Solver",
+                    image_style: data != undefined && data != null && data.image_style != undefined && data.image_style != null ? data.image_style : "(No style)",
+                    width: data != undefined && data != null && data.width != undefined && data.width != null ? data.width : 1024,
+                    height: data != undefined && data != null && data.height != undefined && data.height != null ? data.height : 1024,
+                    dpm_guidance_scale: data != undefined && data != null && data.dpm_guidance_scale != undefined && data.dpm_guidance_scale != null ? data.dpm_guidance_scale : 4.5,
+                    dpm_inference_steps: data != undefined && data != null && data.dpm_inference_steps != undefined && data.dpm_inference_steps != null ? data.dpm_inference_steps : 14,
+                    sa_guidance_scale: data != undefined && data != null && data.sa_guidance_scale != undefined && data.sa_guidance_scale != null ? data.sa_guidance_scale : 3,
+                    sa_inference_steps: data != undefined && data != null && data.sa_inference_steps != undefined && data.sa_inference_steps != null ? data.sa_inference_steps : 25
+                }
+            }, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).then(response => {
+                if(response.status === 200){
+                    if((typeof response.data).toString().toLowerCase() === "Object".toLowerCase()){
+                        if(response.data.code != undefined && response.data.code != null && response.data.code === 200 && response.data.status != undefined && response.data.status != null && response.data.status === true){
+                            return process(null, response.data);
+                        } else {
+                            return process(response.data, null);
+                        }
+                    } else {
+                        let js = null;
+                        let count = -1;
+                        for(let i = 0; i < response.data.length; i++){
+                            if(count <= -1){
+                                if(response.data[i] === "{"){
+                                    count = i;
+                                }
+                            } else {
+                                break;
+                            }
+                        }
 
-    prodiaai["sampler"].forEach(e => {
-        if(md["sampler"]["code"] === null && md["sampler"]["type"] === null){
-            if("NaN".toLowerCase() != Number(sampler).toString().toLowerCase()){
-                if(e["code"] === Number(model)){
-                    md["sampler"]["code"] = Number(e["code"]);
-                    md["sampler"]["type"] = e["sampler"];
+                        if(count <= -1){
+                            return process({
+                                "code": 500,
+                                "status": false,
+                                "error": "INTERNAL_SERVER_ERROR",
+                                "message": "general (unknown) error"
+                            }, null);
+                        } else {
+                            try {
+                                js = response.data.slice(count);
+                                js = JSON.parse(js);
+                                if(js != undefined && js != null && js.code != undefined && js.code != null && js.code === 200 && js.status != undefined && js.status != null && js.status === true){
+                                    return process(null, js);
+                                } else {
+                                    return process(js, null);
+                                }
+                            } catch(e){
+                                return process({
+                                    "code": 500,
+                                    "status": false,
+                                    "error": "INTERNAL_SERVER_ERROR",
+                                    "message": "general (unknown) error"
+                                }, null);
+                            }
+                        }
+                    }
+                } else {
+                    return process(response.data, null);
                 }
-            } else {
-                if(e["sampler"].toString().toLowerCase() === sampler.toString().toLowerCase()){
-                    md["sampler"]["code"] = Number(e["code"]);
-                    md["sampler"]["type"] = e["sampler"];
+            }).catch(error => {
+                try {
+                    if (error.response) {
+                        return process(error.response.data, null)
+                    } else if (error.request) {
+                        return process({
+                            "code": 404,
+                            "error": "NOT_FOUND",
+                            "message": "the service is currently unavailable"
+                        }, null);
+                    } else {
+                        return process({
+                            "code": 500,
+                            "status": false,
+                            "error": "INTERNAL_SERVER_ERROR",
+                            "message": "general (unknown) error"
+                        }, null);
+                    }
+                } catch(e){
+                    return process({
+                        "code": 500,
+                        "status": false,
+                        "error": "INTERNAL_SERVER_ERROR",
+                        "message": "general (unknown) error"
+                    }, null);
                 }
-            }
+            });
+        } catch(e){
+            return process({
+                "code": 404,
+                "error": "NOT_FOUND",
+                "message": "the service is currently unavailable"
+            }, null);
         }
-    });
-
-    if(steps > 0 && steps <= 30){
-        md["steps"] = Number(steps);
-    } else {
-        md["steps"] = null;
     }
+    static async lcm({
+        prompt = "",
+        data = {
+            prompt_negative: "",
+            image_style: "(No style)",
+            width: 1024,
+            height: 1024,
+            lcm_inference_steps: 9
+        }
+    }: pixartlcmdata, process: (err: any, data: any) => void){
+        try {
+            axios.post('https://nexra.aryahcr.cc/api/image/complements', {
+                prompt: prompt != undefined && prompt != null ? prompt : "",
+                model: "pixart-lcm",
+                data: {
+                    prompt_negative: data != undefined && data != null && data.prompt_negative != undefined && data.prompt_negative != null ? data.prompt_negative : "",
+                    image_style: data != undefined && data != null && data.image_style != undefined && data.image_style != null ? data.image_style : "(No style)",
+                    width: data != undefined && data != null && data.width != undefined && data.width != null ? data.width : 1024,
+                    height: data != undefined && data != null && data.height != undefined && data.height != null ? data.height : 1024,
+                    lcm_inference_steps: data != undefined && data != null && data.lcm_inference_steps != undefined && data.lcm_inference_steps != null ? data.lcm_inference_steps : 9
+                }
+            }, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).then(response => {
+                if(response.status === 200){
+                    if((typeof response.data).toString().toLowerCase() === "Object".toLowerCase()){
+                        if(response.data.code != undefined && response.data.code != null && response.data.code === 200 && response.data.status != undefined && response.data.status != null && response.data.status === true){
+                            return process(null, response.data);
+                        } else {
+                            return process(response.data, null);
+                        }
+                    } else {
+                        let js = null;
+                        let count = -1;
+                        for(let i = 0; i < response.data.length; i++){
+                            if(count <= -1){
+                                if(response.data[i] === "{"){
+                                    count = i;
+                                }
+                            } else {
+                                break;
+                            }
+                        }
 
-    if(cfg_scale >= 0 && cfg_scale <= 20){
-        md["cfg_scale"] = Number(cfg_scale);
-    } else {
-        md["cfg_scale"] = null;
-    }
-
-    try {
-        axios.post(`${api}/prodiaai`, {
-            prompt: (prompt != undefined && prompt.toString().trim().length > 0 ? prompt.toString() : ""),
-            model: (md["model"]["code"] != null ? md["model"]["code"] : -1),
-            sampler: (md["sampler"]["code"] != null ? md["sampler"]["code"] : -1),
-            steps: md["steps"],
-            cfg_scale: md["cfg_scale"],
-            negative_prompt: (negative_prompt != undefined && negative_prompt.toString().trim().length > 0 ? negative_prompt.toString() : ""),
-            type: (type != undefined && type.toString().toLowerCase() === "text" ? "" : ""),
-        }).then((response) => {
-            if(response.status === 200 && response["data"]["status"] != undefined && response["data"]["status"] === true){
-                const sprodia: prodia_ = response["data"];
-                return proc(null, sprodia);
-            } else {
-                const eprodia: prodiaErr = {
-                    api: "prodiaai",
-                    code: 400,
-                    status: false,
-                    message: "error",
-                    doc: doc
-                };
-        
-                const sprodia: prodia_ = {
-                    "api": "prodiaai",
-                    "code": 400,
-                    "status": false,
-                    "model": {
-                        "model": {
-                            "code": (md["model"]["code"] != null ? Number(md["model"]["code"]) : null),
-                            "type": md["model"]["type"],
-                            "name": md["model"]["name"]
-                        },
-                        "sampler": {
-                            "code": 1,
-                            "type": "Euler"
-                        },
-                        "steps": md["steps"],
-                        "cfg_scale": md["cfg_scale"],
-                        "prompt": (prompt != undefined && prompt.toString().trim().length > 0 ? prompt.toString() : ""),
-                        "negative_prompt": ""
-                    },
-                    "ul": null
-                };
-        
-                return proc(eprodia, sprodia);
-            }
-        }).catch((err) => {
-            const eprodia: prodiaErr = {
-                api: "prodiaai",
-                code: 400,
-                status: false,
-                message: "error",
-                doc: doc
-            };
-    
-            const sprodia: prodia_ = {
-                "api": "prodiaai",
-                "code": 400,
-                "status": false,
-                "model": {
-                    "model": {
-                        "code": (md["model"]["code"] != null ? Number(md["model"]["code"]) : null),
-                        "type": md["model"]["type"],
-                        "name": md["model"]["name"]
-                    },
-                    "sampler": {
-                        "code": 1,
-                        "type": "Euler"
-                    },
-                    "steps": md["steps"],
-                    "cfg_scale": md["cfg_scale"],
-                    "prompt": (prompt != undefined && prompt.toString().trim().length > 0 ? prompt.toString() : ""),
-                    "negative_prompt": ""
-                },
-                "ul": null
-            };
-    
-            return proc(eprodia, sprodia);
-        });
-    } catch(e){
-        const eprodia: prodiaErr = {
-            api: "prodiaai",
-            code: 400,
-            status: false,
-            message: "error",
-            doc: doc
-        };
-
-        const sprodia: prodia_ = {
-            "api": "prodiaai",
-            "code": 400,
-            "status": false,
-            "model": {
-                "model": {
-                    "code": (md["model"]["code"] != null ? Number(md["model"]["code"]) : null),
-                    "type": md["model"]["type"],
-                    "name": md["model"]["name"]
-                },
-                "sampler": {
-                    "code": 1,
-                    "type": "Euler"
-                },
-                "steps": md["steps"],
-                "cfg_scale": md["cfg_scale"],
-                "prompt": (prompt != undefined && prompt.toString().trim().length > 0 ? prompt.toString() : ""),
-                "negative_prompt": ""
-            },
-            "ul": null
-        };
-
-        return proc(eprodia, sprodia);
+                        if(count <= -1){
+                            return process({
+                                "code": 500,
+                                "status": false,
+                                "error": "INTERNAL_SERVER_ERROR",
+                                "message": "general (unknown) error"
+                            }, null);
+                        } else {
+                            try {
+                                js = response.data.slice(count);
+                                js = JSON.parse(js);
+                                if(js != undefined && js != null && js.code != undefined && js.code != null && js.code === 200 && js.status != undefined && js.status != null && js.status === true){
+                                    return process(null, js);
+                                } else {
+                                    return process(js, null);
+                                }
+                            } catch(e){
+                                return process({
+                                    "code": 500,
+                                    "status": false,
+                                    "error": "INTERNAL_SERVER_ERROR",
+                                    "message": "general (unknown) error"
+                                }, null);
+                            }
+                        }
+                    }
+                } else {
+                    return process(response.data, null);
+                }
+            }).catch(error => {
+                try {
+                    if (error.response) {
+                        return process(error.response.data, null)
+                    } else if (error.request) {
+                        return process({
+                            "code": 404,
+                            "error": "NOT_FOUND",
+                            "message": "the service is currently unavailable"
+                        }, null);
+                    } else {
+                        return process({
+                            "code": 500,
+                            "status": false,
+                            "error": "INTERNAL_SERVER_ERROR",
+                            "message": "general (unknown) error"
+                        }, null);
+                    }
+                } catch(e){
+                    return process({
+                        "code": 500,
+                        "status": false,
+                        "error": "INTERNAL_SERVER_ERROR",
+                        "message": "general (unknown) error"
+                    }, null);
+                }
+            });
+        } catch(e){
+            return process({
+                "code": 404,
+                "error": "NOT_FOUND",
+                "message": "the service is currently unavailable"
+            }, null);
+        }
     }
 }
 
-const util = {
-    gptModel: () => {
-        return gptmodel;
-    },
-    prodiaModel: () => {
-        return prodiaai["model"];
-    },
-    prodiaSampler: () => {
-        return prodiaai["sampler"];
+type dalledata = {
+    prompt: string
+}
+
+class dalle {
+    static async v1({
+        prompt = ""
+    }: dalledata, process: (err: any, data: any) => void){
+        try {
+            axios.post('https://nexra.aryahcr.cc/api/image/complements', {
+                prompt: prompt != undefined && prompt != null ? prompt : "",
+                model: "dalle"
+            }, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).then(response => {
+                if(response.status === 200){
+                    if((typeof response.data).toString().toLowerCase() === "Object".toLowerCase()){
+                        if(response.data.code != undefined && response.data.code != null && response.data.code === 200 && response.data.status != undefined && response.data.status != null && response.data.status === true){
+                            return process(null, response.data);
+                        } else {
+                            return process(response.data, null);
+                        }
+                    } else {
+                        let js = null;
+                        let count = -1;
+                        for(let i = 0; i < response.data.length; i++){
+                            if(count <= -1){
+                                if(response.data[i] === "{"){
+                                    count = i;
+                                }
+                            } else {
+                                break;
+                            }
+                        }
+
+                        if(count <= -1){
+                            return process({
+                                "code": 500,
+                                "status": false,
+                                "error": "INTERNAL_SERVER_ERROR",
+                                "message": "general (unknown) error"
+                            }, null);
+                        } else {
+                            try {
+                                js = response.data.slice(count);
+                                js = JSON.parse(js);
+                                if(js != undefined && js != null && js.code != undefined && js.code != null && js.code === 200 && js.status != undefined && js.status != null && js.status === true){
+                                    return process(null, js);
+                                } else {
+                                    return process(js, null);
+                                }
+                            } catch(e){
+                                return process({
+                                    "code": 500,
+                                    "status": false,
+                                    "error": "INTERNAL_SERVER_ERROR",
+                                    "message": "general (unknown) error"
+                                }, null);
+                            }
+                        }
+                    }
+                } else {
+                    return process(response.data, null);
+                }
+            }).catch(error => {
+                try {
+                    if (error.response) {
+                        return process(error.response.data, null)
+                    } else if (error.request) {
+                        return process({
+                            "code": 404,
+                            "error": "NOT_FOUND",
+                            "message": "the service is currently unavailable"
+                        }, null);
+                    } else {
+                        return process({
+                            "code": 500,
+                            "status": false,
+                            "error": "INTERNAL_SERVER_ERROR",
+                            "message": "general (unknown) error"
+                        }, null);
+                    }
+                } catch(e){
+                    return process({
+                        "code": 500,
+                        "status": false,
+                        "error": "INTERNAL_SERVER_ERROR",
+                        "message": "general (unknown) error"
+                    }, null);
+                }
+            });
+        } catch(e){
+            return process({
+                "code": 404,
+                "error": "NOT_FOUND",
+                "message": "the service is currently unavailable"
+            }, null);
+        }
+    }
+    static async mini({
+        prompt = "" 
+    }: dalledata, process: (err: any, data: any) => void){
+        try {
+            axios.post('https://nexra.aryahcr.cc/api/image/complements', {
+                prompt: prompt != undefined && prompt != null ? prompt : "",
+                model: "dalle-mini"
+            }, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).then(response => {
+                if(response.status === 200){
+                    if((typeof response.data).toString().toLowerCase() === "Object".toLowerCase()){
+                        if(response.data.code != undefined && response.data.code != null && response.data.code === 200 && response.data.status != undefined && response.data.status != null && response.data.status === true){
+                            return process(null, response.data);
+                        } else {
+                            return process(response.data, null);
+                        }
+                    } else {
+                        let js = null;
+                        let count = -1;
+                        for(let i = 0; i < response.data.length; i++){
+                            if(count <= -1){
+                                if(response.data[i] === "{"){
+                                    count = i;
+                                }
+                            } else {
+                                break;
+                            }
+                        }
+
+                        if(count <= -1){
+                            return process({
+                                "code": 500,
+                                "status": false,
+                                "error": "INTERNAL_SERVER_ERROR",
+                                "message": "general (unknown) error"
+                            }, null);
+                        } else {
+                            try {
+                                js = response.data.slice(count);
+                                js = JSON.parse(js);
+                                if(js != undefined && js != null && js.code != undefined && js.code != null && js.code === 200 && js.status != undefined && js.status != null && js.status === true){
+                                    return process(null, js);
+                                } else {
+                                    return process(js, null);
+                                }
+                            } catch(e){
+                                return process({
+                                    "code": 500,
+                                    "status": false,
+                                    "error": "INTERNAL_SERVER_ERROR",
+                                    "message": "general (unknown) error"
+                                }, null);
+                            }
+                        }
+                    }
+                } else {
+                    return process(response.data, null);
+                }
+            }).catch(error => {
+                try {
+                    if (error.response) {
+                        return process(error.response.data, null)
+                    } else if (error.request) {
+                        return process({
+                            "code": 404,
+                            "error": "NOT_FOUND",
+                            "message": "the service is currently unavailable"
+                        }, null);
+                    } else {
+                        return process({
+                            "code": 500,
+                            "status": false,
+                            "error": "INTERNAL_SERVER_ERROR",
+                            "message": "general (unknown) error"
+                        }, null);
+                    }
+                } catch(e){
+                    return process({
+                        "code": 500,
+                        "status": false,
+                        "error": "INTERNAL_SERVER_ERROR",
+                        "message": "general (unknown) error"
+                    }, null);
+                }
+            });
+        } catch(e){
+            return process({
+                "code": 404,
+                "error": "NOT_FOUND",
+                "message": "the service is currently unavailable"
+            }, null);
+        }
+    }
+}
+
+type prodiav1data = {
+    prompt: string,
+    data?: {
+        model?: string,
+        steps?: number,
+        cfg_scale?: number,
+        sampler?: string,
+        negative_prompt?: string
+    }
+}
+
+type prodiastablediffusion = {
+    prompt: string,
+    data?: {
+        prompt_negative?: string,
+        model?: string,
+        sampling_method?: string,
+        sampling_steps?: number,
+        width?: number,
+        height?: number,
+        cfg_scale?: number
+    }
+}
+
+class prodia {
+    static async v1({
+        prompt = "",
+        data = {
+            model: "absolutereality_V16.safetensors [37db0fc3]",
+            steps: 25,
+            cfg_scale: 7,
+            sampler: "DPM++ 2M Karras",
+            negative_prompt: ""
+        }
+    }: prodiav1data, process: (err: any, data: any) => void){
+        try {
+            axios.post('https://nexra.aryahcr.cc/api/image/complements', {
+                prompt: prompt != undefined && prompt != null ? prompt : "",
+                model: "prodia",
+                data: {
+                    model: data != undefined && data != null && data.model != undefined && data.model != null ? data.model : "absolutereality_V16.safetensors [37db0fc3]",
+                    steps: data != undefined && data != null && data.steps != undefined && data.steps != null ? data.steps : 25,
+                    cfg_scale: data != undefined && data != null && data.cfg_scale != undefined && data.cfg_scale != null ? data.cfg_scale : 7,
+                    sampler: data != undefined && data != null && data.sampler != undefined && data.sampler != null ? data.sampler : "DPM++ 2M Karras",
+                    negative_prompt: data != undefined && data != null && data.negative_prompt != undefined && data.negative_prompt != null ? data.negative_prompt : ""
+                }
+            }, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).then(response => {
+                if(response.status === 200){
+                    if((typeof response.data).toString().toLowerCase() === "Object".toLowerCase()){
+                        if(response.data.code != undefined && response.data.code != null && response.data.code === 200 && response.data.status != undefined && response.data.status != null && response.data.status === true){
+                            return process(null, response.data);
+                        } else {
+                            return process(response.data, null);
+                        }
+                    } else {
+                        let js = null;
+                        let count = -1;
+                        for(let i = 0; i < response.data.length; i++){
+                            if(count <= -1){
+                                if(response.data[i] === "{"){
+                                    count = i;
+                                }
+                            } else {
+                                break;
+                            }
+                        }
+
+                        if(count <= -1){
+                            return process({
+                                "code": 500,
+                                "status": false,
+                                "error": "INTERNAL_SERVER_ERROR",
+                                "message": "general (unknown) error"
+                            }, null);
+                        } else {
+                            try {
+                                js = response.data.slice(count);
+                                js = JSON.parse(js);
+                                if(js != undefined && js != null && js.code != undefined && js.code != null && js.code === 200 && js.status != undefined && js.status != null && js.status === true){
+                                    return process(null, js);
+                                } else {
+                                    return process(js, null);
+                                }
+                            } catch(e){
+                                return process({
+                                    "code": 500,
+                                    "status": false,
+                                    "error": "INTERNAL_SERVER_ERROR",
+                                    "message": "general (unknown) error"
+                                }, null);
+                            }
+                        }
+                    }
+                } else {
+                    return process(response.data, null);
+                }
+            }).catch(error => {
+                try {
+                    if (error.response) {
+                        return process(error.response.data, null)
+                    } else if (error.request) {
+                        return process({
+                            "code": 404,
+                            "error": "NOT_FOUND",
+                            "message": "the service is currently unavailable"
+                        }, null);
+                    } else {
+                        return process({
+                            "code": 500,
+                            "status": false,
+                            "error": "INTERNAL_SERVER_ERROR",
+                            "message": "general (unknown) error"
+                        }, null);
+                    }
+                } catch(e){
+                    return process({
+                        "code": 500,
+                        "status": false,
+                        "error": "INTERNAL_SERVER_ERROR",
+                        "message": "general (unknown) error"
+                    }, null);
+                }
+            });
+        } catch(e){
+            return process({
+                "code": 404,
+                "error": "NOT_FOUND",
+                "message": "the service is currently unavailable"
+            }, null);
+        }
+    }
+    static async stablediffusion({
+        prompt = "",
+        data = {
+            prompt_negative: "",
+            model: "absolutereality_v181.safetensors [3d9d4d2b]",
+            sampling_method: "DPM++ 2M Karras",
+            sampling_steps: 25,
+            width: 512,
+            height: 512,
+            cfg_scale: 7
+        }
+    }: prodiastablediffusion, process: (err: any, data: any) => void){
+        try {
+            axios.post('https://nexra.aryahcr.cc/api/image/complements', {
+                prompt: prompt != undefined && prompt != null ? prompt : "",
+                model: "prodia-stablediffusion",
+                data: {
+                    model: data != undefined && data != null && data.model != undefined && data.model != null ? data.model : "absolutereality_v181.safetensors [3d9d4d2b]",
+                    sampling_method: data != undefined && data != null && data.sampling_method != undefined && data.sampling_method != null ? data.sampling_method : "DPM++ 2M Karras",
+                    sampling_steps: data != undefined && data != null && data.sampling_steps != undefined && data.sampling_steps != null ? data.sampling_steps : 25,
+                    width: data != undefined && data != null && data.width != undefined && data.width != null ? data.width : 512,
+                    height: data != undefined && data != null && data.height != undefined && data.height != null ? data.height : 512,
+                    cfg_scale: data != undefined && data != null && data.cfg_scale != undefined && data.cfg_scale != null ? data.cfg_scale : 7,
+                    prompt_negative: data != undefined && data != null && data.prompt_negative != undefined && data.prompt_negative != null ? data.prompt_negative : "",
+                }
+            }, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).then(response => {
+                if(response.status === 200){
+                    if((typeof response.data).toString().toLowerCase() === "Object".toLowerCase()){
+                        if(response.data.code != undefined && response.data.code != null && response.data.code === 200 && response.data.status != undefined && response.data.status != null && response.data.status === true){
+                            return process(null, response.data);
+                        } else {
+                            return process(response.data, null);
+                        }
+                    } else {
+                        let js = null;
+                        let count = -1;
+                        for(let i = 0; i < response.data.length; i++){
+                            if(count <= -1){
+                                if(response.data[i] === "{"){
+                                    count = i;
+                                }
+                            } else {
+                                break;
+                            }
+                        }
+
+                        if(count <= -1){
+                            return process({
+                                "code": 500,
+                                "status": false,
+                                "error": "INTERNAL_SERVER_ERROR",
+                                "message": "general (unknown) error"
+                            }, null);
+                        } else {
+                            try {
+                                js = response.data.slice(count);
+                                js = JSON.parse(js);
+                                if(js != undefined && js != null && js.code != undefined && js.code != null && js.code === 200 && js.status != undefined && js.status != null && js.status === true){
+                                    return process(null, js);
+                                } else {
+                                    return process(js, null);
+                                }
+                            } catch(e){
+                                return process({
+                                    "code": 500,
+                                    "status": false,
+                                    "error": "INTERNAL_SERVER_ERROR",
+                                    "message": "general (unknown) error"
+                                }, null);
+                            }
+                        }
+                    }
+                } else {
+                    return process(response.data, null);
+                }
+            }).catch(error => {
+                try {
+                    if (error.response) {
+                        return process(error.response.data, null)
+                    } else if (error.request) {
+                        return process({
+                            "code": 404,
+                            "error": "NOT_FOUND",
+                            "message": "the service is currently unavailable"
+                        }, null);
+                    } else {
+                        return process({
+                            "code": 500,
+                            "status": false,
+                            "error": "INTERNAL_SERVER_ERROR",
+                            "message": "general (unknown) error"
+                        }, null);
+                    }
+                } catch(e){
+                    return process({
+                        "code": 500,
+                        "status": false,
+                        "error": "INTERNAL_SERVER_ERROR",
+                        "message": "general (unknown) error"
+                    }, null);
+                }
+            });
+        } catch(e){
+            return process({
+                "code": 404,
+                "error": "NOT_FOUND",
+                "message": "the service is currently unavailable"
+            }, null);
+        }
+    }
+    static async stablediffusion_xl({
+        prompt = "",
+        data = {
+            prompt_negative: "",
+            model: "sd_xl_base_1.0.safetensors [be9edd61]",
+            sampling_method: "DPM++ 2M Karras",
+            sampling_steps: 25,
+            width: 1024,
+            height: 1024,
+            cfg_scale: 7
+        }
+    }: prodiastablediffusion, process: (err: any, data: any) => void){
+        try {
+            axios.post('https://nexra.aryahcr.cc/api/image/complements', {
+                prompt: prompt != undefined && prompt != null ? prompt : "",
+                model: "prodia-stablediffusion-xl",
+                data: {
+                    model: data != undefined && data != null && data.model != undefined && data.model != null ? data.model : "sd_xl_base_1.0.safetensors [be9edd61]",
+                    sampling_method: data != undefined && data != null && data.sampling_method != undefined && data.sampling_method != null ? data.sampling_method : "DPM++ 2M Karras",
+                    sampling_steps: data != undefined && data != null && data.sampling_steps != undefined && data.sampling_steps != null ? data.sampling_steps : 25,
+                    width: data != undefined && data != null && data.width != undefined && data.width != null ? data.width : 1024,
+                    height: data != undefined && data != null && data.height != undefined && data.height != null ? data.height : 1024,
+                    cfg_scale: data != undefined && data != null && data.cfg_scale != undefined && data.cfg_scale != null ? data.cfg_scale : 7,
+                    prompt_negative: data != undefined && data != null && data.prompt_negative != undefined && data.prompt_negative != null ? data.prompt_negative : "",
+                }
+            }, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).then(response => {
+                if(response.status === 200){
+                    if((typeof response.data).toString().toLowerCase() === "Object".toLowerCase()){
+                        if(response.data.code != undefined && response.data.code != null && response.data.code === 200 && response.data.status != undefined && response.data.status != null && response.data.status === true){
+                            return process(null, response.data);
+                        } else {
+                            return process(response.data, null);
+                        }
+                    } else {
+                        let js = null;
+                        let count = -1;
+                        for(let i = 0; i < response.data.length; i++){
+                            if(count <= -1){
+                                if(response.data[i] === "{"){
+                                    count = i;
+                                }
+                            } else {
+                                break;
+                            }
+                        }
+
+                        if(count <= -1){
+                            return process({
+                                "code": 500,
+                                "status": false,
+                                "error": "INTERNAL_SERVER_ERROR",
+                                "message": "general (unknown) error"
+                            }, null);
+                        } else {
+                            try {
+                                js = response.data.slice(count);
+                                js = JSON.parse(js);
+                                if(js != undefined && js != null && js.code != undefined && js.code != null && js.code === 200 && js.status != undefined && js.status != null && js.status === true){
+                                    return process(null, js);
+                                } else {
+                                    return process(js, null);
+                                }
+                            } catch(e){
+                                return process({
+                                    "code": 500,
+                                    "status": false,
+                                    "error": "INTERNAL_SERVER_ERROR",
+                                    "message": "general (unknown) error"
+                                }, null);
+                            }
+                        }
+                    }
+                } else {
+                    return process(response.data, null);
+                }
+            }).catch(error => {
+                try {
+                    if (error.response) {
+                        return process(error.response.data, null)
+                    } else if (error.request) {
+                        return process({
+                            "code": 404,
+                            "error": "NOT_FOUND",
+                            "message": "the service is currently unavailable"
+                        }, null);
+                    } else {
+                        return process({
+                            "code": 500,
+                            "status": false,
+                            "error": "INTERNAL_SERVER_ERROR",
+                            "message": "general (unknown) error"
+                        }, null);
+                    }
+                } catch(e){
+                    return process({
+                        "code": 500,
+                        "status": false,
+                        "error": "INTERNAL_SERVER_ERROR",
+                        "message": "general (unknown) error"
+                    }, null);
+                }
+            });
+        } catch(e){
+            return process({
+                "code": 404,
+                "error": "NOT_FOUND",
+                "message": "the service is currently unavailable"
+            }, null);
+        }
     }
 }
 
 export {
     gpt,
+    bing,
+    pixart,
     dalle,
-    lexica,
-    prodia,
-    util
+    prodia
 }
 
 export default {
     gpt,
+    bing,
+    pixart,
     dalle,
-    lexica,
-    prodia,
-    util
+    prodia
 }

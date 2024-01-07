@@ -1,6 +1,6 @@
 {
   "name": "gpti",
-  "version": "1.0.5",
+  "version": "1.0.8",
   "description": "This package simplifies your interaction with various GPT models, removing the need for tokens or other methods to access GPT",
   "main": "index.js",
   "types": "main.ts",
@@ -18,8 +18,12 @@
     "ai",
     "generate-image",
     "prodia",
-    "lexica",
-    "dalle"
+    "bing",
+    "chat",
+    "stream",
+    "dalle",
+    "stable-diffusion",
+    "pixart"
   ],
   "author": "yandricr",
   "license": "MIT",
@@ -34,5 +38,5 @@
     "type": "git",
     "url": "https://github.com/yandricr/gpti-js"
   },
-  "homepage": "https://gpti.projectsrpp.repl.co"
+  "homepage": "https://nexra.aryahcr.cc/"
 }
