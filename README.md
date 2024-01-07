@@ -133,6 +133,14 @@ bing({
 }
 ```
 
+#### Parameters
+
+| Parameter          | Default  | Description                                                                                             |
+|--------------------|----------|---------------------------------------------------------------------------------------------------------|
+| conversation_style | Balanced | You can use between: "Balanced", "Creative" and "Precise"                                               |
+| markdown           | false    | You can convert the dialogues into continuous streams or not into Markdown                                |
+| stream             | false    | You are given the option to choose whether you prefer the responses to be in real-time or not            |
+
 #### JSON Streaming
 
 ```js
