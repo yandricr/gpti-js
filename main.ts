@@ -240,9 +240,9 @@ const bing = ({
                     response.data.on("end", () => {
                         if(chat != null){
                             if(error != true){
-                                return process(chat, null);
-                            } else {
                                 return process(null, chat);
+                            } else {
+                                return process(chat, null);
                             }
                         } else {
                             return process({

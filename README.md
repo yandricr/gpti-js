@@ -133,14 +133,6 @@ bing({
 }
 ```
 
-#### Parameters
-
-| Parameter          | Default  | Description                                                                                             |
-|--------------------|----------|---------------------------------------------------------------------------------------------------------|
-| conversation_style | Balanced | You can use between: "Balanced", "Creative" and "Precise"                                               |
-| markdown           | false    | You can convert the dialogues into continuous streams or not into Markdown                                |
-| stream             | false    | You are given the option to choose whether you prefer the responses to be in real-time or not            |
-
 #### JSON Streaming
 
 ```js
@@ -176,6 +168,14 @@ bing({
 {"message":"I have told you about **50 movies** that were released in 2023. Is there anything else I can help you with?","original":null,"finish":false,"error":false}
 {"message":null,"original":null,"finish":true,"error":false}
 ```
+
+#### Parameters
+
+| Parameter          | Default  | Description                                                                                             |
+|--------------------|----------|---------------------------------------------------------------------------------------------------------|
+| conversation_style | Balanced | You can use between: "Balanced", "Creative" and "Precise"                                               |
+| markdown           | false    | You can convert the dialogues into continuous streams or not into Markdown                                |
+| stream             | false    | You are given the option to choose whether you prefer the responses to be in real-time or not            |
 
 ## Usage DALL·E
 

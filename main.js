@@ -1,6 +1,7 @@
 "use strict";
 /*
     Author: yandricr
+    API: https://nexra.aryahcr.cc/
 */
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -262,10 +263,10 @@ var bing = function (_a, process) {
                     response.data.on("end", function () {
                         if (chat_1 != null) {
                             if (error_1 != true) {
-                                return process(chat_1, null);
+                                return process(null, chat_1);
                             }
                             else {
-                                return process(null, chat_1);
+                                return process(chat_1, null);
                             }
                         }
                         else {
