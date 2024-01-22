@@ -40,7 +40,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.prodia = exports.dalle = exports.pixart = exports.bing = exports.gpt = void 0;
+exports.emi = exports.stablediffusion = exports.prodia = exports.dalle = exports.pixart = exports.bing = exports.gpt = void 0;
 var axios_1 = require("axios");
 var gpt = function (_a, process) {
     var _b = _a.messages, messages = _b === void 0 ? [] : _b, _c = _a.prompt, prompt = _c === void 0 ? "" : _c, _d = _a.model, model = _d === void 0 ? "" : _d, _e = _a.markdown, markdown = _e === void 0 ? false : _e;
@@ -108,7 +108,12 @@ var gpt = function (_a, process) {
                 }
             }
             else {
-                return process(response.data, null);
+                return process({
+                    "code": 500,
+                    "status": false,
+                    "error": "INTERNAL_SERVER_ERROR",
+                    "message": "general (unknown) error"
+                }, null);
             }
         }).catch(function (error) {
             try {
@@ -143,9 +148,10 @@ var gpt = function (_a, process) {
     }
     catch (e) {
         return process({
-            "code": 404,
-            "error": "NOT_FOUND",
-            "message": "the service is currently unavailable"
+            "code": 500,
+            "status": false,
+            "error": "INTERNAL_SERVER_ERROR",
+            "message": "general (unknown) error"
         }, null);
     }
 };
@@ -341,7 +347,12 @@ var bing = function (_a, process) {
                 }
             }
             else {
-                return process(response.data, null);
+                return process({
+                    "code": 500,
+                    "status": false,
+                    "error": "INTERNAL_SERVER_ERROR",
+                    "message": "general (unknown) error"
+                }, null);
             }
         }).catch(function (error) {
             try {
@@ -376,9 +387,10 @@ var bing = function (_a, process) {
     }
     catch (e) {
         return process({
-            "code": 404,
-            "error": "NOT_FOUND",
-            "message": "the service is currently unavailable"
+            "code": 500,
+            "status": false,
+            "error": "INTERNAL_SERVER_ERROR",
+            "message": "general (unknown) error"
         }, null);
     }
 };
@@ -473,7 +485,12 @@ var pixart = /** @class */ (function () {
                             }
                         }
                         else {
-                            return process(response.data, null);
+                            return process({
+                                "code": 500,
+                                "status": false,
+                                "error": "INTERNAL_SERVER_ERROR",
+                                "message": "general (unknown) error"
+                            }, null);
                         }
                     }).catch(function (error) {
                         try {
@@ -508,9 +525,10 @@ var pixart = /** @class */ (function () {
                 }
                 catch (e) {
                     return [2 /*return*/, process({
-                            "code": 404,
-                            "error": "NOT_FOUND",
-                            "message": "the service is currently unavailable"
+                            "code": 500,
+                            "status": false,
+                            "error": "INTERNAL_SERVER_ERROR",
+                            "message": "general (unknown) error"
                         }, null)];
                 }
                 return [2 /*return*/];
@@ -596,7 +614,12 @@ var pixart = /** @class */ (function () {
                             }
                         }
                         else {
-                            return process(response.data, null);
+                            return process({
+                                "code": 500,
+                                "status": false,
+                                "error": "INTERNAL_SERVER_ERROR",
+                                "message": "general (unknown) error"
+                            }, null);
                         }
                     }).catch(function (error) {
                         try {
@@ -631,9 +654,10 @@ var pixart = /** @class */ (function () {
                 }
                 catch (e) {
                     return [2 /*return*/, process({
-                            "code": 404,
-                            "error": "NOT_FOUND",
-                            "message": "the service is currently unavailable"
+                            "code": 500,
+                            "status": false,
+                            "error": "INTERNAL_SERVER_ERROR",
+                            "message": "general (unknown) error"
                         }, null)];
                 }
                 return [2 /*return*/];
@@ -712,7 +736,12 @@ var dalle = /** @class */ (function () {
                             }
                         }
                         else {
-                            return process(response.data, null);
+                            return process({
+                                "code": 500,
+                                "status": false,
+                                "error": "INTERNAL_SERVER_ERROR",
+                                "message": "general (unknown) error"
+                            }, null);
                         }
                     }).catch(function (error) {
                         try {
@@ -747,9 +776,10 @@ var dalle = /** @class */ (function () {
                 }
                 catch (e) {
                     return [2 /*return*/, process({
-                            "code": 404,
-                            "error": "NOT_FOUND",
-                            "message": "the service is currently unavailable"
+                            "code": 500,
+                            "status": false,
+                            "error": "INTERNAL_SERVER_ERROR",
+                            "message": "general (unknown) error"
                         }, null)];
                 }
                 return [2 /*return*/];
@@ -857,9 +887,10 @@ var dalle = /** @class */ (function () {
                 }
                 catch (e) {
                     return [2 /*return*/, process({
-                            "code": 404,
-                            "error": "NOT_FOUND",
-                            "message": "the service is currently unavailable"
+                            "code": 500,
+                            "status": false,
+                            "error": "INTERNAL_SERVER_ERROR",
+                            "message": "general (unknown) error"
                         }, null)];
                 }
                 return [2 /*return*/];
@@ -951,7 +982,12 @@ var prodia = /** @class */ (function () {
                             }
                         }
                         else {
-                            return process(response.data, null);
+                            return process({
+                                "code": 500,
+                                "status": false,
+                                "error": "INTERNAL_SERVER_ERROR",
+                                "message": "general (unknown) error"
+                            }, null);
                         }
                     }).catch(function (error) {
                         try {
@@ -986,9 +1022,10 @@ var prodia = /** @class */ (function () {
                 }
                 catch (e) {
                     return [2 /*return*/, process({
-                            "code": 404,
-                            "error": "NOT_FOUND",
-                            "message": "the service is currently unavailable"
+                            "code": 500,
+                            "status": false,
+                            "error": "INTERNAL_SERVER_ERROR",
+                            "message": "general (unknown) error"
                         }, null)];
                 }
                 return [2 /*return*/];
@@ -1078,7 +1115,12 @@ var prodia = /** @class */ (function () {
                             }
                         }
                         else {
-                            return process(response.data, null);
+                            return process({
+                                "code": 500,
+                                "status": false,
+                                "error": "INTERNAL_SERVER_ERROR",
+                                "message": "general (unknown) error"
+                            }, null);
                         }
                     }).catch(function (error) {
                         try {
@@ -1113,9 +1155,10 @@ var prodia = /** @class */ (function () {
                 }
                 catch (e) {
                     return [2 /*return*/, process({
-                            "code": 404,
-                            "error": "NOT_FOUND",
-                            "message": "the service is currently unavailable"
+                            "code": 500,
+                            "status": false,
+                            "error": "INTERNAL_SERVER_ERROR",
+                            "message": "general (unknown) error"
                         }, null)];
                 }
                 return [2 /*return*/];
@@ -1205,7 +1248,12 @@ var prodia = /** @class */ (function () {
                             }
                         }
                         else {
-                            return process(response.data, null);
+                            return process({
+                                "code": 500,
+                                "status": false,
+                                "error": "INTERNAL_SERVER_ERROR",
+                                "message": "general (unknown) error"
+                            }, null);
                         }
                     }).catch(function (error) {
                         try {
@@ -1240,9 +1288,10 @@ var prodia = /** @class */ (function () {
                 }
                 catch (e) {
                     return [2 /*return*/, process({
-                            "code": 404,
-                            "error": "NOT_FOUND",
-                            "message": "the service is currently unavailable"
+                            "code": 500,
+                            "status": false,
+                            "error": "INTERNAL_SERVER_ERROR",
+                            "message": "general (unknown) error"
                         }, null)];
                 }
                 return [2 /*return*/];
@@ -1252,10 +1301,479 @@ var prodia = /** @class */ (function () {
     return prodia;
 }());
 exports.prodia = prodia;
+var stablediffusion = /** @class */ (function () {
+    function stablediffusion() {
+    }
+    stablediffusion.v1 = function (_a, process) {
+        var _b = _a.prompt, prompt = _b === void 0 ? "" : _b;
+        try {
+            axios_1.default.post('https://nexra.aryahcr.cc/api/image/complements', {
+                prompt: prompt != undefined && prompt != null ? prompt : "",
+                model: "stablediffusion-1.5"
+            }, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).then(function (response) {
+                if (response.status === 200) {
+                    if ((typeof response.data).toString().toLowerCase() === "Object".toLowerCase()) {
+                        if (response.data.code != undefined && response.data.code != null && response.data.code === 200 && response.data.status != undefined && response.data.status != null && response.data.status === true) {
+                            return process(null, response.data);
+                        }
+                        else {
+                            return process(response.data, null);
+                        }
+                    }
+                    else {
+                        var js = null;
+                        var count = -1;
+                        for (var i = 0; i < response.data.length; i++) {
+                            if (count <= -1) {
+                                if (response.data[i] === "{") {
+                                    count = i;
+                                }
+                            }
+                            else {
+                                break;
+                            }
+                        }
+                        if (count <= -1) {
+                            return process({
+                                "code": 500,
+                                "status": false,
+                                "error": "INTERNAL_SERVER_ERROR",
+                                "message": "general (unknown) error"
+                            }, null);
+                        }
+                        else {
+                            try {
+                                js = response.data.slice(count);
+                                js = JSON.parse(js);
+                                if (js != undefined && js != null && js.code != undefined && js.code != null && js.code === 200 && js.status != undefined && js.status != null && js.status === true) {
+                                    return process(null, js);
+                                }
+                                else {
+                                    return process(js, null);
+                                }
+                            }
+                            catch (e) {
+                                return process({
+                                    "code": 500,
+                                    "status": false,
+                                    "error": "INTERNAL_SERVER_ERROR",
+                                    "message": "general (unknown) error"
+                                }, null);
+                            }
+                        }
+                    }
+                }
+                else {
+                    return process({
+                        "code": 500,
+                        "status": false,
+                        "error": "INTERNAL_SERVER_ERROR",
+                        "message": "general (unknown) error"
+                    }, null);
+                }
+            }).catch(function (error) {
+                try {
+                    if (error.response) {
+                        return process(error.response.data, null);
+                    }
+                    else if (error.request) {
+                        return process({
+                            "code": 404,
+                            "error": "NOT_FOUND",
+                            "message": "the service is currently unavailable"
+                        }, null);
+                    }
+                    else {
+                        return process({
+                            "code": 500,
+                            "status": false,
+                            "error": "INTERNAL_SERVER_ERROR",
+                            "message": "general (unknown) error"
+                        }, null);
+                    }
+                }
+                catch (e) {
+                    return process({
+                        "code": 500,
+                        "status": false,
+                        "error": "INTERNAL_SERVER_ERROR",
+                        "message": "general (unknown) error"
+                    }, null);
+                }
+            });
+        }
+        catch (e) {
+            return process({
+                "code": 500,
+                "status": false,
+                "error": "INTERNAL_SERVER_ERROR",
+                "message": "general (unknown) error"
+            }, null);
+        }
+    };
+    stablediffusion.v2 = function (_a, process) {
+        var _b = _a.prompt, prompt = _b === void 0 ? "" : _b, _c = _a.data, data = _c === void 0 ? {
+            prompt_negative: "",
+            guidance_scale: 9
+        } : _c;
+        try {
+            axios_1.default.post('https://nexra.aryahcr.cc/api/image/complements', {
+                prompt: prompt != undefined && prompt != null ? prompt : "",
+                model: "stablediffusion-2.1",
+                data: {
+                    prompt_negative: data != undefined && data != null && data.prompt_negative != undefined && data.prompt_negative != null ? data.prompt_negative : "",
+                    guidance_scale: data != undefined && data != null && data.guidance_scale != undefined && data.guidance_scale != null ? data.guidance_scale : 9,
+                }
+            }, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).then(function (response) {
+                if (response.status === 200) {
+                    if ((typeof response.data).toString().toLowerCase() === "Object".toLowerCase()) {
+                        if (response.data.code != undefined && response.data.code != null && response.data.code === 200 && response.data.status != undefined && response.data.status != null && response.data.status === true) {
+                            return process(null, response.data);
+                        }
+                        else {
+                            return process(response.data, null);
+                        }
+                    }
+                    else {
+                        var js = null;
+                        var count = -1;
+                        for (var i = 0; i < response.data.length; i++) {
+                            if (count <= -1) {
+                                if (response.data[i] === "{") {
+                                    count = i;
+                                }
+                            }
+                            else {
+                                break;
+                            }
+                        }
+                        if (count <= -1) {
+                            return process({
+                                "code": 500,
+                                "status": false,
+                                "error": "INTERNAL_SERVER_ERROR",
+                                "message": "general (unknown) error"
+                            }, null);
+                        }
+                        else {
+                            try {
+                                js = response.data.slice(count);
+                                js = JSON.parse(js);
+                                if (js != undefined && js != null && js.code != undefined && js.code != null && js.code === 200 && js.status != undefined && js.status != null && js.status === true) {
+                                    return process(null, js);
+                                }
+                                else {
+                                    return process(js, null);
+                                }
+                            }
+                            catch (e) {
+                                return process({
+                                    "code": 500,
+                                    "status": false,
+                                    "error": "INTERNAL_SERVER_ERROR",
+                                    "message": "general (unknown) error"
+                                }, null);
+                            }
+                        }
+                    }
+                }
+                else {
+                    return process({
+                        "code": 500,
+                        "status": false,
+                        "error": "INTERNAL_SERVER_ERROR",
+                        "message": "general (unknown) error"
+                    }, null);
+                }
+            }).catch(function (error) {
+                try {
+                    if (error.response) {
+                        return process(error.response.data, null);
+                    }
+                    else if (error.request) {
+                        return process({
+                            "code": 404,
+                            "error": "NOT_FOUND",
+                            "message": "the service is currently unavailable"
+                        }, null);
+                    }
+                    else {
+                        return process({
+                            "code": 500,
+                            "status": false,
+                            "error": "INTERNAL_SERVER_ERROR",
+                            "message": "general (unknown) error"
+                        }, null);
+                    }
+                }
+                catch (e) {
+                    return process({
+                        "code": 500,
+                        "status": false,
+                        "error": "INTERNAL_SERVER_ERROR",
+                        "message": "general (unknown) error"
+                    }, null);
+                }
+            });
+        }
+        catch (e) {
+            return process({
+                "code": 500,
+                "status": false,
+                "error": "INTERNAL_SERVER_ERROR",
+                "message": "general (unknown) error"
+            }, null);
+        }
+    };
+    stablediffusion.xl = function (_a, process) {
+        var _b = _a.prompt, prompt = _b === void 0 ? "" : _b, _c = _a.data, data = _c === void 0 ? {
+            prompt_negative: "",
+            image_style: "(No style)",
+            guidance_scale: 7.5
+        } : _c;
+        try {
+            axios_1.default.post('https://nexra.aryahcr.cc/api/image/complements', {
+                prompt: prompt != undefined && prompt != null ? prompt : "",
+                model: "stablediffusion-xl",
+                data: {
+                    prompt_negative: data != undefined && data != null && data.prompt_negative != undefined && data.prompt_negative != null ? data.prompt_negative : "",
+                    image_style: data != undefined && data != null && data.image_style != undefined && data.image_style != null ? data.image_style : "(No style)",
+                    guidance_scale: data != undefined && data != null && data.guidance_scale != undefined && data.guidance_scale != null ? data.guidance_scale : 7.5,
+                }
+            }, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).then(function (response) {
+                if (response.status === 200) {
+                    if ((typeof response.data).toString().toLowerCase() === "Object".toLowerCase()) {
+                        if (response.data.code != undefined && response.data.code != null && response.data.code === 200 && response.data.status != undefined && response.data.status != null && response.data.status === true) {
+                            return process(null, response.data);
+                        }
+                        else {
+                            return process(response.data, null);
+                        }
+                    }
+                    else {
+                        var js = null;
+                        var count = -1;
+                        for (var i = 0; i < response.data.length; i++) {
+                            if (count <= -1) {
+                                if (response.data[i] === "{") {
+                                    count = i;
+                                }
+                            }
+                            else {
+                                break;
+                            }
+                        }
+                        if (count <= -1) {
+                            return process({
+                                "code": 500,
+                                "status": false,
+                                "error": "INTERNAL_SERVER_ERROR",
+                                "message": "general (unknown) error"
+                            }, null);
+                        }
+                        else {
+                            try {
+                                js = response.data.slice(count);
+                                js = JSON.parse(js);
+                                if (js != undefined && js != null && js.code != undefined && js.code != null && js.code === 200 && js.status != undefined && js.status != null && js.status === true) {
+                                    return process(null, js);
+                                }
+                                else {
+                                    return process(js, null);
+                                }
+                            }
+                            catch (e) {
+                                return process({
+                                    "code": 500,
+                                    "status": false,
+                                    "error": "INTERNAL_SERVER_ERROR",
+                                    "message": "general (unknown) error"
+                                }, null);
+                            }
+                        }
+                    }
+                }
+                else {
+                    return process({
+                        "code": 500,
+                        "status": false,
+                        "error": "INTERNAL_SERVER_ERROR",
+                        "message": "general (unknown) error"
+                    }, null);
+                }
+            }).catch(function (error) {
+                try {
+                    if (error.response) {
+                        return process(error.response.data, null);
+                    }
+                    else if (error.request) {
+                        return process({
+                            "code": 404,
+                            "error": "NOT_FOUND",
+                            "message": "the service is currently unavailable"
+                        }, null);
+                    }
+                    else {
+                        return process({
+                            "code": 500,
+                            "status": false,
+                            "error": "INTERNAL_SERVER_ERROR",
+                            "message": "general (unknown) error"
+                        }, null);
+                    }
+                }
+                catch (e) {
+                    return process({
+                        "code": 500,
+                        "status": false,
+                        "error": "INTERNAL_SERVER_ERROR",
+                        "message": "general (unknown) error"
+                    }, null);
+                }
+            });
+        }
+        catch (e) {
+            return process({
+                "code": 500,
+                "status": false,
+                "error": "INTERNAL_SERVER_ERROR",
+                "message": "general (unknown) error"
+            }, null);
+        }
+    };
+    return stablediffusion;
+}());
+exports.stablediffusion = stablediffusion;
+var emi = function (_a, process) {
+    var _b = _a.prompt, prompt = _b === void 0 ? "" : _b;
+    try {
+        axios_1.default.post('https://nexra.aryahcr.cc/api/image/complements', {
+            prompt: prompt != undefined && prompt != null ? prompt : "",
+            model: "emi"
+        }, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(function (response) {
+            if (response.status === 200) {
+                if ((typeof response.data).toString().toLowerCase() === "Object".toLowerCase()) {
+                    if (response.data.code != undefined && response.data.code != null && response.data.code === 200 && response.data.status != undefined && response.data.status != null && response.data.status === true) {
+                        return process(null, response.data);
+                    }
+                    else {
+                        return process(response.data, null);
+                    }
+                }
+                else {
+                    var js = null;
+                    var count = -1;
+                    for (var i = 0; i < response.data.length; i++) {
+                        if (count <= -1) {
+                            if (response.data[i] === "{") {
+                                count = i;
+                            }
+                        }
+                        else {
+                            break;
+                        }
+                    }
+                    if (count <= -1) {
+                        return process({
+                            "code": 500,
+                            "status": false,
+                            "error": "INTERNAL_SERVER_ERROR",
+                            "message": "general (unknown) error"
+                        }, null);
+                    }
+                    else {
+                        try {
+                            js = response.data.slice(count);
+                            js = JSON.parse(js);
+                            if (js != undefined && js != null && js.code != undefined && js.code != null && js.code === 200 && js.status != undefined && js.status != null && js.status === true) {
+                                return process(null, js);
+                            }
+                            else {
+                                return process(js, null);
+                            }
+                        }
+                        catch (e) {
+                            return process({
+                                "code": 500,
+                                "status": false,
+                                "error": "INTERNAL_SERVER_ERROR",
+                                "message": "general (unknown) error"
+                            }, null);
+                        }
+                    }
+                }
+            }
+            else {
+                return process({
+                    "code": 500,
+                    "status": false,
+                    "error": "INTERNAL_SERVER_ERROR",
+                    "message": "general (unknown) error"
+                }, null);
+            }
+        }).catch(function (error) {
+            try {
+                if (error.response) {
+                    return process(error.response.data, null);
+                }
+                else if (error.request) {
+                    return process({
+                        "code": 404,
+                        "error": "NOT_FOUND",
+                        "message": "the service is currently unavailable"
+                    }, null);
+                }
+                else {
+                    return process({
+                        "code": 500,
+                        "status": false,
+                        "error": "INTERNAL_SERVER_ERROR",
+                        "message": "general (unknown) error"
+                    }, null);
+                }
+            }
+            catch (e) {
+                return process({
+                    "code": 500,
+                    "status": false,
+                    "error": "INTERNAL_SERVER_ERROR",
+                    "message": "general (unknown) error"
+                }, null);
+            }
+        });
+    }
+    catch (e) {
+        return process({
+            "code": 500,
+            "status": false,
+            "error": "INTERNAL_SERVER_ERROR",
+            "message": "general (unknown) error"
+        }, null);
+    }
+};
+exports.emi = emi;
 exports.default = {
     gpt: gpt,
     bing: bing,
     pixart: pixart,
     dalle: dalle,
-    prodia: prodia
+    prodia: prodia,
+    stablediffusion: stablediffusion,
+    emi: emi
 };

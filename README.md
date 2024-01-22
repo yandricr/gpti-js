@@ -669,6 +669,7 @@ pixart.a({
 ## Usage Pixart-LCM
 
 ```js
+// import { pixart } from "gpti";
 const { pixart } = require("gpti");
 
 pixart.lcm({
@@ -719,6 +720,167 @@ pixart.lcm({
 | width                 | 1024       | Min: 256, Max: 2048                                                                          |
 | height                | 1024       | Min: 256, Max: 2048                                                                          |
 | lcm_inference_steps   | 9          | Min: 1, Max: 30                                                                              |
+
+## Usage Stable-Diffusion 1.5
+
+```js
+// import { stablediffusion } from "gpti";
+const { stablediffusion } = require("gpti");
+
+stablediffusion.v1({
+    prompt: "An serene sunset landscape where a river winds through gentle hills covered in trees. The sky is tinged with warm and soft tones, with scattered clouds reflecting the last glimmers of the sun."
+}, (err, data) => {
+    if(err != null){
+        console.log(err);
+    } else {
+        console.log(data);
+    }
+});
+```
+
+#### JSON
+
+```json
+{
+    "code": 200,
+    "status": true,
+    "prompt": "An serene sunset landscape where a river winds through gentle hills covered in trees. The sky is tinged with warm and soft tones, with scattered clouds reflecting the last glimmers of the sun.",
+    "model": "StableDiffusion-1.5",
+    "images": [
+        "data:image/jpeg;base64,...",
+        "..."
+    ]
+}
+```
+
+## Usage Stable-Diffusion 2.1
+
+```js
+// import { stablediffusion } from "gpti";
+const { stablediffusion } = require("gpti");
+
+stablediffusion.v2({
+    prompt: "An serene sunset landscape where a river winds through gentle hills covered in trees. The sky is tinged with warm and soft tones, with scattered clouds reflecting the last glimmers of the sun.",
+    data: {
+        prompt_negative: "",
+        guidance_scale: 9
+    }
+}, (err, data) => {
+    if(err != null){
+        console.log(err);
+    } else {
+        console.log(data);
+    }
+});
+```
+
+#### JSON
+
+```json
+{
+    "code": 200,
+    "status": true,
+    "prompt": "An serene sunset landscape where a river winds through gentle hills covered in trees. The sky is tinged with warm and soft tones, with scattered clouds reflecting the last glimmers of the sun.",
+    "model": "StableDiffusion-2.1",
+    "data": {
+        "prompt_negative": "",
+        "guidance_scale": 9
+    },
+    "images": [
+        "data:image/jpeg;base64,...",
+        "..."
+    ]
+}
+```
+
+#### Parameters
+
+| Parameter         | Default | Description                           |
+|-------------------|---------|---------------------------------------|
+| prompt_negative   |         | Indicates what the AI should not do    |
+| guidance_scale    | 9       | Min: 0 Max: 50                        |
+
+## Usage Stable-Diffusion XL
+
+```js
+// import { stablediffusion } from "gpti";
+const { stablediffusion } = require("gpti");
+
+stablediffusion.xl({
+    prompt: "An serene sunset landscape where a river winds through gentle hills covered in trees. The sky is tinged with warm and soft tones, with scattered clouds reflecting the last glimmers of the sun.",
+    data: {
+        prompt_negative: "",
+        image_style: "(No style)",
+        guidance_scale: 7.5
+    }
+}, (err, data) => {
+    if(err != null){
+        console.log(err);
+    } else {
+        console.log(data);
+    }
+});
+```
+
+#### JSON
+
+```json
+{
+    "code": 200,
+    "status": true,
+    "prompt": "An serene sunset landscape where a river winds through gentle hills covered in trees. The sky is tinged with warm and soft tones, with scattered clouds reflecting the last glimmers of the sun.",
+    "model": "StableDiffusion-XL",
+    "data": {
+        "prompt_negative": "",
+        "image_style": "(No style)",
+        "guidance_scale": 7.5
+    },
+    "images": [
+        "data:image/jpeg;base64,...",
+        "..."
+    ]
+}
+```
+
+#### Parameters
+
+| Parameter         | Default      | Description                                                                                             |
+|-------------------|--------------|---------------------------------------------------------------------------------------------------------|
+| prompt_negative   |              | Indicates what the AI should not do                                                                    |
+| image_style       | (No style)    | Choose from various available image types: "(No style)", "Cinematic", "Photographic", "Anime", "Manga", "Digital Art", "Pixel art", "Fantasy art", "Neonpunk", "3D Model" |
+| guidance_scale    | 7.5            | Min: 0, Max: 50                                                                                        |
+
+## Usage EMI
+
+```js
+// import { emi } from "gpti";
+const { emi } = require("gpti");
+
+emi({
+    prompt: "A beautiful girl in a garden full of bright flowers. Her long, silky hair is adorned with flowers, and her large eyes reflect serenity. She wears a traditional kimono, smiling as she holds a delicate butterfly in her hand.",
+}, (err, data) => {
+    if(err != null){
+        console.log(err);
+    } else {
+        console.log(data);
+    }
+});
+```
+
+#### JSON
+
+```json
+{
+    "code": 200,
+    "status": true,
+    "prompt": "A beautiful girl in a garden full of bright flowers. Her long, silky hair is adorned with flowers, and her large eyes reflect serenity. She wears a traditional kimono, smiling as she holds a delicate butterfly in her hand.",
+    "model": "Emi",
+    "scene": "a young woman stands in a beautiful garden, full of vibrant flowers. Her long, flowing silk kimono is adorned with the same flowers, and her large, expressive eyes seem to reflect a sense of peaceful serenity. In her hand, she clutches a delicate butterfly, which seems to be caught up in the beauty of the moment. She is surrounded",
+    "images": [
+        "data:image/jpeg;base64,..."
+    ]
+}
+```
 
 ## API Reference
 

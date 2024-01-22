@@ -3,8 +3,8 @@
     API: https://nexra.aryahcr.cc/
 */
 
-const { gpt, bing, pixart, dalle, prodia } = require("./main");
+const { gpt, bing, pixart, dalle, prodia, stablediffusion, emi } = require("./main");
 
 module.exports = {
-    gpt, bing, pixart, dalle, prodia
+    gpt, bing, pixart, dalle, prodia, stablediffusion, emi
 }
