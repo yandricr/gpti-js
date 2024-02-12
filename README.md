@@ -117,7 +117,7 @@ const { gptweb } = require("gpti");
 
 gptweb({
     prompt: "Are you familiar with the movie Wonka released in 2023?",
-    markdown: false,
+    markdown: false
 }, (err, data) => {
     if(err != null){
         console.log(err);
@@ -401,7 +401,7 @@ dalle.v2({
 {
     "code": 200,
     "status": true,
-    "prompt": "An enchanted forest with twisted trees, a waterfall cascading into a pond of bright water lilies, and in the background, a magical tower surrounded by mythical creatures like unicorns, fairies, and dragons, under a starry sky and a giant moon.",
+    "prompt": "An extensive green valley stretches toward imposing mountains, adorned with meadows and a winding stream. The morning sun paints the sky with warm tones, illuminating the landscape with a serenity that invites contemplation and peace.",
     "model": "DALL·E-2",
     "data": {
         "gpu": false,
@@ -413,6 +413,13 @@ dalle.v2({
     ]
 }
 ```
+
+#### Parameters
+
+Parameter           | Default | Description
+--------------------|---------|-------------------------------------------
+gpu                 | false   | You can leverage GPU usage for generating images if preferred
+prompt_improvement  | false   | Enhance your results with the model by optimizing the prompt
 
 ## Usage DALL·E Mini
 
