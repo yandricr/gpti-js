@@ -1,6 +1,6 @@
 {
   "name": "gpti",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "This package simplifies your interaction with various GPT models, removing the need for tokens or other methods to access GPT",
   "main": "index.js",
   "types": "main.ts",
@@ -22,6 +22,8 @@
     "chat",
     "stream",
     "dalle",
+    "dalle-2",
+    "llama-2",
     "stable-diffusion",
     "pixart",
     "EMI"

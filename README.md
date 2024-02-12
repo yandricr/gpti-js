@@ -1,7 +1,7 @@
 
 # GPTI
 
-This package simplifies your interaction with various GPT models, eliminating the need for tokens or other methods to access GPT. It also allows you to use three artificial intelligences to generate images: DALL·E, Prodia, and Lexica, all of this without restrictions or limits
+This package simplifies your interaction with various GPT models, eliminating the need for tokens or other methods to access GPT. It also allows you to use three artificial intelligences to generate images: DALL·E, Prodia, and more, all of this without restrictions or limits
 
 ## Installation
 
@@ -10,6 +10,29 @@ You can install the package via NPM
 ```bash
 npm i gpti
 ```
+
+## Available Models
+
+GPTI provides access to a variety of artificial intelligence models to meet various needs. Currently, the available models include:
+
+- **ChatGPT**
+- **ChatGPT Web**
+- **Bing**
+- **LLaMA-2**
+- **DALL·E**
+- **DALL-E 2**
+- **DALL-E Mini**
+- **Prodia**
+- **Prodia Stable-Diffusion**
+- **Prodia Stable-Diffusion XL**
+- **Pixart-A**
+- **Pixart-LCM**
+- **Stable-Diffusion 1.5**
+- **Stable-Diffusion 2.1**
+- **Stable-Diffusion XL**
+- **EMI**
+
+These are just some examples of the models available in this package. I will continue expanding to include an even greater variety of models.
 
 ## Usage GPT
 
@@ -28,7 +51,7 @@ gpt({
             content: "Hello, my name is Yandri."
         },
         {
-            role: "assitant",
+            role: "assistant",
             content: "Hello, Yandri! How are you today?"
         }
     ],
@@ -83,6 +106,37 @@ Select one of these available models in the API to enhance your experience.
 - ada
 - babbage-002
 - davinci-002
+
+## Usage GPT Web
+
+GPT-4 has been enhanced by me, but errors may arise due to technological complexity. It is advisable to exercise caution when relying entirely on its accuracy for online queries.
+
+```javascript
+// import { gptweb } from "gpti";
+const { gptweb } = require("gpti");
+
+gptweb({
+    prompt: "Are you familiar with the movie Wonka released in 2023?",
+    markdown: false,
+}, (err, data) => {
+    if(err != null){
+        console.log(err);
+    } else {
+        console.log(data);
+    }
+});
+```
+
+#### JSON
+
+```json
+{
+    "code": 200,
+    "status": true,
+    "gpt": "Yes, I am familiar with the movie Wonka released in 2023. Wonka is a musical fantasy film directed by Paul King, adapted from the character at the center of Roald Dahl's iconic children's book, \"Charlie and the Chocolate Factory.\" The film follows the story of a young and poor Willy Wonka as he dreams of opening a shop in a chocolate-renowned city and discovers that the industry is controlled by a greedy cartel. The film has a rating of 7.1/10 and has received positive reviews with a score of 83% on Rotten Tomatoes. It was released on December 15, 2023, and has earned $552.1 million at the box office. The cast includes actors such as Timothée Chalamet. Unfortunately, I couldn't find information on whether the movie is available on Netflix.",
+    "original": null
+}
+```
 
 ## Usage Bing
 
@@ -177,6 +231,118 @@ bing({
 | markdown           | false    | You can convert the dialogues into continuous streams or not into Markdown                                |
 | stream             | false    | You are given the option to choose whether you prefer the responses to be in real-time or not            |
 
+## Usage LLaMA-2
+
+```javascript
+// import { llama2 } from "gpti";
+const { llama2 } = require("gpti");
+
+
+llama2({
+    messages:  [
+        {
+            "role": "assistant",
+            "content": "Hello! How are you?"
+        },
+        {
+            "role": "user",
+            "content": "Hello! How are you? Could you tell me your name?"
+        }
+    ],
+    system_message: "",
+    temperature: 0.9,
+    max_tokens: 4096,
+    top_p: 0.6,
+    repetition_penalty: 1.2,
+    markdown: false,
+    stream: false
+}, (err, data) => {
+    if(err != null){
+        console.log(err);
+    } else {
+        console.log(data);
+    }
+});
+```
+
+#### JSON
+
+```json
+{
+    "code": 200,
+    "status": true,
+    "model": "LLaMA2",
+    "message": "Sure, my name is LLaMA. I'm doing well, thanks for asking! Is there anything else you would like to chat about or ask me?",
+    "original": null
+}
+```
+
+#### JSON Streaming
+
+```json
+{"message":"Hello","original":null,"finish":false,"error":false}
+{"message":"Hello!","original":null,"finish":false,"error":false}
+{"message":"Hello! I","original":null,"finish":false,"error":false}
+{"message":"Hello! I'","original":null,"finish":false,"error":false}
+{"message":"Hello! I'm","original":null,"finish":false,"error":false}
+{"message":"Hello! I'm doing","original":null,"finish":false,"error":false}
+{"message":"Hello! I'm doing well","original":null,"finish":false,"error":false}
+{"message":"Hello! I'm doing well,","original":null,"finish":false,"error":false}
+{"message":"Hello! I'm doing well, thanks","original":null,"finish":false,"error":false}
+{"message":"Hello! I'm doing well, thanks for","original":null,"finish":false,"error":false}
+{"message":"Hello! I'm doing well, thanks for asking","original":null,"finish":false,"error":false}
+{"message":"Hello! I'm doing well, thanks for asking.","original":null,"finish":false,"error":false}
+{"message":"Hello! I'm doing well, thanks for asking. My","original":null,"finish":false,"error":false}
+{"message":"Hello! I'm doing well, thanks for asking. My name","original":null,"finish":false,"error":false}
+{"message":"Hello! I'm doing well, thanks for asking. My name is","original":null,"finish":false,"error":false}
+{"message":"Hello! I'm doing well, thanks for asking. My name is L","original":null,"finish":false,"error":false}
+{"message":"Hello! I'm doing well, thanks for asking. My name is LLa","original":null,"finish":false,"error":false}
+{"message":"Hello! I'm doing well, thanks for asking. My name is LLaMA","original":null,"finish":false,"error":false}
+{"message":"Hello! I'm doing well, thanks for asking. My name is LLaMA,","original":null,"finish":false,"error":false}
+{"message":"Hello! I'm doing well, thanks for asking. My name is LLaMA, I","original":null,"finish":false,"error":false}
+{"message":"Hello! I'm doing well, thanks for asking. My name is LLaMA, I'","original":null,"finish":false,"error":false}
+{"message":"Hello! I'm doing well, thanks for asking. My name is LLaMA, I'm","original":null,"finish":false,"error":false}
+{"message":"Hello! I'm doing well, thanks for asking. My name is LLaMA, I'm a","original":null,"finish":false,"error":false}
+{"message":"Hello! I'm doing well, thanks for asking. My name is LLaMA, I'm a large","original":null,"finish":false,"error":false}
+{"message":"Hello! I'm doing well, thanks for asking. My name is LLaMA, I'm a large language","original":null,"finish":false,"error":false}
+{"message":"Hello! I'm doing well, thanks for asking. My name is LLaMA, I'm a large language model","original":null,"finish":false,"error":false}
+{"message":"Hello! I'm doing well, thanks for asking. My name is LLaMA, I'm a large language model trained","original":null,"finish":false,"error":false}
+{"message":"Hello! I'm doing well, thanks for asking. My name is LLaMA, I'm a large language model trained by","original":null,"finish":false,"error":false}
+{"message":"Hello! I'm doing well, thanks for asking. My name is LLaMA, I'm a large language model trained by a","original":null,"finish":false,"error":false}
+{"message":"Hello! I'm doing well, thanks for asking. My name is LLaMA, I'm a large language model trained by a team","original":null,"finish":false,"error":false}
+{"message":"Hello! I'm doing well, thanks for asking. My name is LLaMA, I'm a large language model trained by a team of","original":null,"finish":false,"error":false}
+{"message":"Hello! I'm doing well, thanks for asking. My name is LLaMA, I'm a large language model trained by a team of research","original":null,"finish":false,"error":false}
+{"message":"Hello! I'm doing well, thanks for asking. My name is LLaMA, I'm a large language model trained by a team of researcher","original":null,"finish":false,"error":false}
+{"message":"Hello! I'm doing well, thanks for asking. My name is LLaMA, I'm a large language model trained by a team of researcher at","original":null,"finish":false,"error":false}
+{"message":"Hello! I'm doing well, thanks for asking. My name is LLaMA, I'm a large language model trained by a team of researcher at Meta","original":null,"finish":false,"error":false}
+{"message":"Hello! I'm doing well, thanks for asking. My name is LLaMA, I'm a large language model trained by a team of researcher at Meta A","original":null,"finish":false,"error":false}
+{"message":"Hello! I'm doing well, thanks for asking. My name is LLaMA, I'm a large language model trained by a team of researcher at Meta AI","original":null,"finish":false,"error":false}
+{"message":"Hello! I'm doing well, thanks for asking. My name is LLaMA, I'm a large language model trained by a team of researcher at Meta AI.","original":null,"finish":false,"error":false}
+{"message":"Hello! I'm doing well, thanks for asking. My name is LLaMA, I'm a large language model trained by a team of researcher at Meta AI. How","original":null,"finish":false,"error":false}
+{"message":"Hello! I'm doing well, thanks for asking. My name is LLaMA, I'm a large language model trained by a team of researcher at Meta AI. How about","original":null,"finish":false,"error":false}
+{"message":"Hello! I'm doing well, thanks for asking. My name is LLaMA, I'm a large language model trained by a team of researcher at Meta AI. How about you","original":null,"finish":false,"error":false}
+{"message":"Hello! I'm doing well, thanks for asking. My name is LLaMA, I'm a large language model trained by a team of researcher at Meta AI. How about you?","original":null,"finish":false,"error":false}
+{"message":"Hello! I'm doing well, thanks for asking. My name is LLaMA, I'm a large language model trained by a team of researcher at Meta AI. How about you? What","original":null,"finish":false,"error":false}
+{"message":"Hello! I'm doing well, thanks for asking. My name is LLaMA, I'm a large language model trained by a team of researcher at Meta AI. How about you? What brings","original":null,"finish":false,"error":false}
+{"message":"Hello! I'm doing well, thanks for asking. My name is LLaMA, I'm a large language model trained by a team of researcher at Meta AI. How about you? What brings you","original":null,"finish":false,"error":false}
+{"message":"Hello! I'm doing well, thanks for asking. My name is LLaMA, I'm a large language model trained by a team of researcher at Meta AI. How about you? What brings you here","original":null,"finish":false,"error":false}
+{"message":"Hello! I'm doing well, thanks for asking. My name is LLaMA, I'm a large language model trained by a team of researcher at Meta AI. How about you? What brings you here today","original":null,"finish":false,"error":false}
+{"message":"Hello! I'm doing well, thanks for asking. My name is LLaMA, I'm a large language model trained by a team of researcher at Meta AI. How about you? What brings you here today?","original":null,"finish":false,"error":false}
+{"message":null,"original":null,"finish":true,"error":false}
+```
+
+#### Parameters
+
+| Parameter         | Default | Description                                                       |
+|-------------------|---------|-------------------------------------------------------------------|
+| system_message    |         | Explain what specific task you want the artificial intelligence to perform |
+| max_tokens        | 4096    | Min: 0, Max: 4096                                                |
+| temperature       | 0.9     | Min: 0.2, Max: 2                                                 |
+| top_p             | 0.6     | Min: 0, Max: 0.6                                                 |
+| repetition_penalty| 1.2     | Min: 1, Max: 2                                                   |
+| markdown          | false   | You can convert the dialogues into continuous streams or not into Markdown |
+| stream            | false   | You are given the option to choose whether you prefer the responses to be in real-time or not |
+
 ## Usage DALL·E
 
 ```javascript
@@ -204,6 +370,46 @@ dalle.v1({
     "model": "DALL·E",
     "images": [
         "data:image/jpeg;base64,..."
+    ]
+}
+```
+
+## Usage DALL·E 2
+
+```javascript
+// import { dalle } from "gpti";
+const { dalle } = require("gpti");
+
+dalle.v2({
+    prompt: "An extensive green valley stretches toward imposing mountains, adorned with meadows and a winding stream. The morning sun paints the sky with warm tones, illuminating the landscape with a serenity that invites contemplation and peace.",
+    data: {
+        gpu: false,
+        prompt_improvement: false
+    }
+}, (err, data) => {
+    if(err != null){
+        console.log(err);
+    } else {
+        console.log(data);
+    }
+});
+```
+
+#### JSON
+
+```json
+{
+    "code": 200,
+    "status": true,
+    "prompt": "An enchanted forest with twisted trees, a waterfall cascading into a pond of bright water lilies, and in the background, a magical tower surrounded by mythical creatures like unicorns, fairies, and dragons, under a starry sky and a giant moon.",
+    "model": "DALL·E-2",
+    "data": {
+        "gpu": false,
+        "prompt_improvement": false
+    },
+    "images": [
+        "data:image/jpeg;base64,...",
+        "..."
     ]
 }
 ```
