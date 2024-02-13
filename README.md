@@ -337,8 +337,8 @@ llama2({
 |-------------------|---------|-------------------------------------------------------------------|
 | system_message    |         | Explain what specific task you want the artificial intelligence to perform |
 | max_tokens        | 4096    | Min: 0, Max: 4096                                                |
-| temperature       | 0.9     | Min: 0.2, Max: 2                                                 |
-| top_p             | 0.6     | Min: 0, Max: 0.6                                                 |
+| temperature       | 0.9     | Min: 0, Max: 1                                                 |
+| top_p             | 0.6     | Min: 0, Max: 1                                                 |
 | repetition_penalty| 1.2     | Min: 1, Max: 2                                                   |
 | markdown          | false   | You can convert the dialogues into continuous streams or not into Markdown |
 | stream            | false   | You are given the option to choose whether you prefer the responses to be in real-time or not |
