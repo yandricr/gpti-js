@@ -1,6 +1,6 @@
 {
   "name": "gpti",
-  "version": "2.0.3",
+  "version": "2.0.5",
   "description": "This package simplifies your interaction with various GPT models, removing the need for tokens or other methods to access GPT",
   "main": "index.js",
   "types": "main.ts",
@@ -41,5 +41,9 @@
     "type": "git",
     "url": "https://github.com/yandricr/gpti-js"
   },
-  "homepage": "https://nexra.aryahcr.cc/"
+  "homepage": "https://nexra.aryahcr.cc/",
+  "funding": {
+    "type": "individual",
+    "url": "https://ko-fi.com/yandricr"
+  }
 }
