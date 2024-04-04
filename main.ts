@@ -2557,7 +2557,7 @@ const animagine = ({
     try {
         axios.post('https://nexra.aryahcr.cc/api/image/complements', {
             prompt: prompt != undefined && prompt != null ? prompt : "",
-            model: "animagine-x",
+            model: "animagine-xl",
             data: {
                 prompt_negative: data != undefined && data != null && data.prompt_negative != undefined && data.prompt_negative != null ? data.prompt_negative : "",
                 width: data != undefined && data != null && data.width != undefined && data.width != null ? data.width : 1024,
