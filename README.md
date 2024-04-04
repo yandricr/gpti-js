@@ -404,8 +404,10 @@ const { dalle } = require("gpti");
 dalle.v2({
     prompt: "An extensive green valley stretches toward imposing mountains, adorned with meadows and a winding stream. The morning sun paints the sky with warm tones, illuminating the landscape with a serenity that invites contemplation and peace.",
     data: {
-        gpu: false,
-        prompt_improvement: false
+        prompt_negative: "",
+        width: 1024,
+        height: 1024,
+        guidance_scale: 6
     }
 }, (err, data) => {
     if(err != null){
@@ -425,22 +427,25 @@ dalle.v2({
     "prompt": "An extensive green valley stretches toward imposing mountains, adorned with meadows and a winding stream. The morning sun paints the sky with warm tones, illuminating the landscape with a serenity that invites contemplation and peace.",
     "model": "DALL·E-2",
     "data": {
-        "gpu": false,
-        "prompt_improvement": false
+        "prompt_negative": "(deformed, distorted, disfigured:1.3), poorly drawn, bad anatomy, wrong anatomy, extra limb, missing limb, floating limbs, (mutated hands and fingers:1.4), disconnected limbs, mutation, mutated, ugly, disgusting, blurry, amputation, (NSFW:1.25)",
+        "width": 1024,
+        "height": 1024,
+        "guidance_scale": 6
     },
     "images": [
-        "data:image/jpeg;base64,...",
-        "..."
+        "data:image/jpeg;base64,..."
     ]
 }
 ```
 
 #### Parameters
 
-Parameter           | Default | Description
---------------------|---------|-------------------------------------------
-gpu                 | false   | You can leverage GPU usage for generating images if preferred
-prompt_improvement  | false   | Enhance your results with the model by optimizing the prompt
+| Parameter       | Default                                                                                                    | Description                                                            |
+|-----------------|------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------|
+| prompt_negative| (deformed, distorted, disfigured:1.3), poorly drawn, bad anatomy, wrong anatomy, extra limb, missing limb, floating limbs, (mutated hands and fingers:1.4), disconnected limbs, mutation, mutated, ugly, disgusting, blurry, amputation, (NSFW:1.25) | Indicates what the AI should not do                                    |
+| width           | 1024                                                                                                       | Min: 512, Max: 2048                                                   |
+| height          | 1024                                                                                                       | Min: 512, Max: 2048                                                   |
+| guidance_scale  | 6                                                                                                          | Min: 0.1, Max: 20                                                      |
 
 <a id="dalle-mini"></a>
 ## Usage DALL·E Mini
@@ -797,11 +802,13 @@ prodia.stablediffusion_xl({
 
 List of models:
 
-- sd_xl_base_1.0.safetensors [be9edd61]
 - dreamshaperXL10_alpha2.safetensors [c8afe2ef]
 - dynavisionXL_0411.safetensors [c39cc051]
 - juggernautXL_v45.safetensors [e75f5471]
 - realismEngineSDXL_v10.safetensors [af771c3f]
+- sd_xl_base_1.0.safetensors [be9edd61]
+- sd_xl_base_1.0_inpainting_0.1.safetensors [5679a81a]
+- turbovisionXL_v431.safetensors [78890989]
 
 #### Methods
 

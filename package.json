@@ -1,6 +1,6 @@
 {
   "name": "gpti",
-  "version": "2.0.7",
+  "version": "2.0.9",
   "description": "This package simplifies your interaction with various GPT models, removing the need for tokens or other methods to access GPT",
   "main": "index.js",
   "types": "main.ts",
@@ -28,7 +28,9 @@
     "pixart",
     "EMI",
     "render3d",
-    "pixel-art"
+    "pixel-art",
+    "playground",
+    "animagine-xl"
   ],
   "author": "yandricr",
   "license": "MIT",
