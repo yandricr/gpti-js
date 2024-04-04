@@ -1,6 +1,6 @@
 {
   "name": "gpti",
-  "version": "2.0.6",
+  "version": "2.0.7",
   "description": "This package simplifies your interaction with various GPT models, removing the need for tokens or other methods to access GPT",
   "main": "index.js",
   "types": "main.ts",

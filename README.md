@@ -4,7 +4,7 @@
 ![npm](https://img.shields.io/npm/dw/gpti?style=for-the-badge) ![License](https://img.shields.io/npm/l/gpti?style=for-the-badge) [![Contributors](https://img.shields.io/github/contributors/yandricr/gpti-js?style=for-the-badge)](https://github.com/yandricr/gpti-js/graphs/contributors) [![Size Package](https://img.shields.io/github/languages/code-size/yandricr/gpti-js?style=for-the-badge)](https://github.com/yandricr/gpti-js) ![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E) ![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white) [![Ko-Fi](https://img.shields.io/badge/Ko--fi-F16061?style=for-the-badge&logo=ko-fi&logoColor=white)](https://ko-fi.com/yandricr)
 
 
-This package simplifies your interaction with various GPT models, eliminating the need for tokens or other methods to access GPT. It also allows you to use three artificial intelligences to generate images: DALL·E, Prodia, and more, all of this without restrictions or limits
+This package simplifies your interaction with various GPT models, eliminating the need for tokens or other methods to access GPT. It also allows you to use three artificial intelligences to generate images: DALL·E, Prodia, and more, some of which are premium while others are free, all of this without restrictions or limits.
 
 ## Installation
 
@@ -23,21 +23,32 @@ GPTI provides access to a variety of artificial intelligence models to meet vari
 - [**Bing**](#bing)
 - [**LLaMA-2**](#llama2)
 - [**DALL·E**](#dalle)
-- [**DALL-E 2**](#dalle2)
+- [**DALL-E 2**](#dalle2) (PRO)
 - [**DALL-E Mini**](#dalle-mini)
 - [**Prodia**](#prodia)
 - [**Prodia Stable-Diffusion**](#prodia-stablediffusion)
-- [**Prodia Stable-Diffusion XL**](#prodia-stablediffusion-xl)
-- [**Pixart-A**](#pixart-a)
-- [**Pixart-LCM**](#pixart-lcm)
+- [**Prodia Stable-Diffusion XL**](#prodia-stablediffusion-xl) (PRO)
+- [**Pixart-A**](#pixart-a) (PRO)
+- [**Pixart-LCM**](#pixart-lcm) (PRO)
 - [**Stable-Diffusion 1.5**](#stablediffusion-1.5)
 - [**Stable-Diffusion 2.1**](#stablediffusion-2.1)
-- [**Stable-Diffusion XL**](#stablediffusion-xl)
+- [**Stable-Diffusion XL**](#stablediffusion-xl) (PRO)
 - [**EMI**](#emi)
-- [**Render3D**](#render3d)
-- [**PixelArt**](#pixelart)
+- [**Render3D**](#render3d) (PRO)
+- [**PixelArt**](#pixelart)  (PRO)
+- [**Animagine-XL**](#animagine-xl) (PRO)
+- [**Playground**](#playground) (PRO)
 
-These are just some examples of the models available in this package. I will continue expanding to include an even greater variety of models.
+## Api key
+
+If you want to access the premium models, enter your credentials. You can obtain them by [clicking here](https://nexra.aryahcr.cc/api-key/en).
+
+```js
+// import { nexra } from "gpti";
+const { nexra } = require("gpti");
+
+nexra("user-xxxxxxxx", "nx-xxxxxxx-xxxxx-xxxxx");
+```
 
 <a id="gpt"></a>
 ## Usage GPT
@@ -185,7 +196,7 @@ bing({
 
 #### JSON
 
-```js
+```json
 {
     "code": 200,
     "status": true,
@@ -197,7 +208,7 @@ bing({
 
 #### JSON Streaming
 
-```js
+```json
 {"message":"I","original":null,"finish":false,"error":false}
 {"message":"I have","original":null,"finish":false,"error":false}
 {"message":"I have told","original":null,"finish":false,"error":false}
@@ -384,7 +395,7 @@ dalle.v1({
 ```
 
 <a id="dalle2"></a>
-## Usage DALL·E 2
+## Usage DALL·E 2 (PRO)
 
 ```javascript
 // import { dalle } from "gpti";
@@ -733,7 +744,7 @@ List of methods:
 | cfg_scale        | 7                                     | Min: 1, Max: 20                          |
 
 <a id="prodia-stablediffusion-xl"></a>
-## Usage Prodia Stable-Diffusion XL
+## Usage Prodia Stable-Diffusion XL (PRO)
 
 ```js
 // import { prodia } from "gpti";
@@ -827,7 +838,7 @@ List of methods:
 | cfg_scale        | 7                                | Min: 1, Max: 20                          |
 
 <a id="pixart-a"></a>
-## Usage Pixart-A
+## Usage Pixart-A (PRO)
 
 ```js
 // import { pixart } from "gpti";
@@ -895,7 +906,7 @@ pixart.a({
 | sa_inference_steps   | 25           | Min: 10, Max: 40                                     |
 
 <a id="pixart-lcm"></a>
-## Usage Pixart-LCM
+## Usage Pixart-LCM (PRO)
 
 ```js
 // import { pixart } from "gpti";
@@ -1032,7 +1043,7 @@ stablediffusion.v2({
 | guidance_scale    | 9       | Min: 0 Max: 50                        |
 
 <a id="stablediffusion-xl"></a>
-## Usage Stable-Diffusion XL
+## Usage Stable-Diffusion XL (PRO)
 
 ```js
 // import { stablediffusion } from "gpti";
@@ -1116,7 +1127,7 @@ emi({
 ```
 
 <a id="render3d"></a>
-## Usage Render3D
+## Usage Render3D (PRO)
 
 ```js
 // import { render3d } from "gpti";
@@ -1191,24 +1202,149 @@ pixelart({
 }
 ```
 
+<a id="animagine-xl"></a>
+## Animagine XL (PRO)
+
+```js
+// import { animagine } from "gpti";
+const { animagine } = require("gpti");
+
+animagine({
+    prompt: "An anime girl surrounded by cherry blossoms",
+    data: {
+        prompt_negative: "",
+        quality_tags: "Standard",
+        style_present: "(None)",
+        width: 1024,
+        height: 1024,
+        strength: 0.5,
+        upscale: 1.5,
+        sampler: "Euler a",
+        guidance_scale: 7,
+        inference_steps: 28
+    }
+}, (err, data) => {
+    if(err != null){
+        console.log(err);
+    } else {
+        console.log(data);
+    }
+});
+```
+
+#### JSON
+
+```json
+{
+    "code": 200,
+    "status": true,
+    "prompt": "An anime girl surrounded by cherry blossoms",
+    "model": "Animagine-XL",
+    "data": {
+        "prompt_negative": "",
+        "quality_tags": "Standard",
+        "style_present": "(None)",
+        "width": 1024,
+        "height": 1024,
+        "strength": 0.5,
+        "upscale": 1.5,
+        "sampler": "Euler a",
+        "guidance_scale": 7,
+        "inference_steps": 28
+    },
+    "images": [
+        "data:image/jpeg;base64,..."
+    ]
+}
+```
+
+#### Parameters
+
+| Parameter       | Default | Description                                                            |
+|-----------------|---------|------------------------------------------------------------------------|
+| prompt_negative|         | Indicates what the AI should not do                                    |
+| width           | 1024    | Min: 512, Max: 2048                                                   |
+| height          | 1024    | Min: 512, Max: 2048                                                   |
+| guidance_scale  | 7       | Min: 1, Max: 12                                                        |
+| quality_tags    | Standard| Select from these: "Standard", "Light", "Heavy", "(None)"              |
+| style_present   | (None)  | Choose from various available image types: "(None)", "Cinematic", "Photographic", "Anime", "Manga", "Digital Art", "Pixel art", "Fantasy art", "Neonpunk", "3D Model" |
+| strength        | 0.5     | Min: 0, Max: 1                                                         |
+| upscale         | 1.5     | Min: 1, Max: 1.5                                                       |
+| sampler         | Euler a | Select from these: "Euler a", "DPM++ 2M Karras", "DPM++ SDE Karras", "DPM++ 2M SDE Karras", "Euler", "DDIM" |
+| inference_steps | 28      | Min: 1, Max: 50                                                        |
+
+<a id="playground"></a>
+## Playground (PRO)
+
+```js
+// import { playground } from "gpti";
+const { playground } = require("gpti");
+
+playground({
+    prompt: "An illustration of a red owl with bright blue eye",
+    model: "playground",
+    data: {
+        prompt_negative: "",
+        width: 1024,
+        height: 1024,
+        guidance_scale: 3
+    }
+}, (err, data) => {
+    if(err != null){
+        console.log(err);
+    } else {
+        console.log(data);
+    }
+});
+```
+
+#### JSON
+
+```json
+{
+    "code": 200,
+    "status": true,
+    "prompt": "An illustration of a red owl with bright blue eyes.",
+    "model": "Playground",
+    "data": {
+        "prompt_negative": "",
+        "width": 1024,
+        "height": 1024,
+        "guidance_scale": 3
+    },
+    "images": [
+        "data:image/jpeg;base64,..."
+    ]
+}
+```
+
+#### Parameters
+
+| Parameter       | Default | Description                                                            |
+|-----------------|---------|------------------------------------------------------------------------|
+| prompt_negative|         | Indicates what the AI should not do                                    |
+| width           | 1024    | Min: 256, Max: 1536                                                   |
+| height          | 1024    | Min: 256, Max: 1536                                                   |
+| guidance_scale  | 3       | Min: 0.1, Max: 20                                                      |
+
 ## API Reference
 
-At present, the API doesn't have any access restrictions or usage limits. For further details and examples, please refer to the complete [documentation](https://nexra.aryahcr.cc/).
+Currently, some models require your credentials to access them, while others are free. For more details and examples, please refer to the complete [documentation](https://nexra.aryahcr.cc/).
 
 #### Code Errors
 
 These are the error codes that will be presented in case the API fails.
 
-| Code | Error                  | Description                                    |
-|------|------------------------|------------------------------------------------|
-| 400  | BAD_REQUEST            | Not all parameters have been entered correctly |
-| 500  | INTERNAL_SERVER_ERROR  | The server has experienced failures             |
-| 200  |                        | The API worked without issues                    |
+| Code |                 Error | Description                                    |
+|------|----------------------:|------------------------------------------------|
+| 400  | BAD_REQUEST           | Not all parameters have been entered correctly |
+| 500  | INTERNAL_SERVER_ERROR | The server has experienced failures            |
+| 200  |                       | The API worked without issues                  |
+| 403  | FORBIDDEN             | The API credentials are not valid              |
+| 401  | UNAUTHORIZED          | API credentials are required                   |
 
 ## ☕ Do you want to support this project?
 
 If this package has helped you save time or solve a problem, consider inviting me for a coffee through Ko-fi. Your support helps me maintain and improve this project for you and other users like you. Furthermore, each donation contributes to the creation and free availability of more AI models in the future. Every small donation counts and is greatly appreciated!
 
 [![Support on Ko-fi](https://www.ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/yandricr)
-
-Remember: Programmers don't need coffee... but it helps a lot! 😉
