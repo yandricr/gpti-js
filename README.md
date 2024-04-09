@@ -540,6 +540,8 @@ List of models
 - anythingV5_PrtRE.safetensors [893e49b9]
 - AOM3A3_orangemixs.safetensors [9600da17]
 - blazing_drive_v10g.safetensors [ca1c1eab]
+- breakdomain_I2428.safetensors [43cc7d2f]
+- breakdomain_M2150.safetensors [15f7afca]
 - cetusMix_Version35.safetensors [de2f2560]
 - childrensStories_v13D.safetensors [9dfaabcb]
 - childrensStories_v1SemiReal.safetensors [a1c56dbb]
@@ -559,8 +561,11 @@ List of models
 - edgeOfRealism_eorV20.safetensors [3ed5de15]
 - EimisAnimeDiffusion_V1.ckpt [4f828a15]
 - elldreths-vivid-mix.safetensors [342d9d26]
+- epicphotogasm_xPlusPlus.safetensors [1a8f6d35]
 - epicrealism_naturalSinRC1VAE.safetensors [90a4c676]
+- epicrealism_pureEvolutionV3.safetensors [42c8440c]
 - ICantBelieveItsNotPhotography_seco.safetensors [4e7a3dfd]
+- indigoFurryMix_v75Hybrid.safetensors [91208cbb]
 - juggernaut_aftermath.safetensors [5e20c455]
 - lofi_v4.safetensors [ccc204d6]
 - lyriel_v16.safetensors [68fceea2]
@@ -582,6 +587,8 @@ List of models
 - rundiffusionFX25D_v10.safetensors [cd12b0ee]
 - rundiffusionFX_v10.safetensors [cd4e694d]
 - sdv1_4.ckpt [7460a6fa]
+- v1-5-pruned-emaonly.safetensors [d7049739]
+- v1-5-inpainting.safetensors [21c7ab71]
 - shoninsBeautiful_v10.safetensors [25d8c546]
 - theallys-mix-ii-churned.safetensors [5d9225a4]
 - timeless-1.0.ckpt [7c4971d4]
@@ -591,7 +598,7 @@ List of models
 
 | Parameter       | Default                          | Description                           |
 |-----------------|----------------------------------|---------------------------------------|
-| prompt_negative |                                  | Indicates what the AI should not do   |
+| negative_prompt |                                  | Indicates what the AI should not do   |
 | model           | absolutereality_V16.safetensors [37db0fc3] | Select from the list of models |
 | cfg_scale       | 7                                | Min: 0, Max: 20                       |
 | steps           | 25                               | Min: 1, Max: 30                       |
