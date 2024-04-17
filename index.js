@@ -3,8 +3,8 @@
     API: https://nexra.aryahcr.cc/
 */
 
-const { gpt, bing, pixart, dalle, prodia, stablediffusion, emi, llama2, gptweb, render3d, pixelart, nexra, playground, animagine } = require("./main");
+const { gpt, bing, pixart, dalle, prodia, stablediffusion, emi, llama2, render3d, pixelart, nexra, playground, animagine } = require("./main");
 
 module.exports = {
-    gpt, bing, pixart, dalle, prodia, stablediffusion, emi, llama2, gptweb, render3d, pixelart, nexra, playground, animagine
+    gpt, bing, pixart, dalle, prodia, stablediffusion, emi, llama2, render3d, pixelart, nexra, playground, animagine
 }

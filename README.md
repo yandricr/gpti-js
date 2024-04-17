@@ -19,7 +19,9 @@ npm i gpti
 GPTI provides access to a variety of artificial intelligence models to meet various needs. Currently, the available models include:
 
 - [**ChatGPT**](#gpt)
+- [**ChatGPT v2**](#gpt-v2)
 - [**ChatGPT Web**](#gptweb)
+- [**ChatGPT Prompts**](#gpt-prompts)
 - [**Bing**](#bing)
 - [**LLaMA-2**](#llama2)
 - [**DALL·E**](#dalle)
@@ -57,7 +59,7 @@ nexra("user-xxxxxxxx", "nx-xxxxxxx-xxxxx-xxxxx");
 // import { gpt } from "gpti";
 const { gpt } = require("gpti");
 
-gpt({
+gpt.v1({
     messages: [
         {
             role: "assistant",
@@ -124,16 +126,90 @@ Select one of these available models in the API to enhance your experience.
 - babbage-002
 - davinci-002
 
+<a id="gpt-v2"></a>
+## Usage GPT v2
+
+It's quite similar, with the difference that it has the capability to generate real-time responses via streaming using gpt-3.5-turbo.
+
+```javascript
+// import { gpt } from "gpti";
+const { gpt } = require("gpti");
+
+gpt.v2({
+    messages: [
+        {
+            "role": "assistant",
+            "content": "Hello! How are you today?"
+        },
+        {
+            "role": "user",
+            "content": "Hello, my name is Yandri."
+        },
+        {
+            "role": "assistant",
+            "content": "Hello, Yandri! How are you today?"
+        },
+        {
+            "role": "user",
+            "content": "Can you repeat my name?"
+        }
+    ],
+    markdown: false,
+    stream: false
+}, (err, data) => {
+    if(err != null){
+        console.log(err);
+    } else {
+        console.log(data);
+    }
+});
+```
+
+#### JSON
+
+```json
+{
+    "code": 200,
+    "status": true,
+    "model": "ChatGPT",
+    "message": "Of course, Yandri! How can I assist you today?",
+    "original": null
+}
+```
+
+#### JSON Streaming
+
+```json
+{"message":"Hello! How are you today?","original":null,"finish":false,"error":false}
+{"message":"","original":null,"finish":false,"error":false}
+{"message":"Of","original":null,"finish":false,"error":false}
+{"message":"Of course","original":null,"finish":false,"error":false}
+{"message":"Of course,","original":null,"finish":false,"error":false}
+{"message":"Of course, Yand","original":null,"finish":false,"error":false}
+{"message":"Of course, Yandri","original":null,"finish":false,"error":false}
+{"message":"Of course, Yandri!","original":null,"finish":false,"error":false}
+{"message":"Of course, Yandri! How","original":null,"finish":false,"error":false}
+{"message":"Of course, Yandri! How can","original":null,"finish":false,"error":false}
+{"message":"Of course, Yandri! How can I","original":null,"finish":false,"error":false}
+{"message":"Of course, Yandri! How can I assist","original":null,"finish":false,"error":false}
+{"message":"Of course, Yandri! How can I assist you","original":null,"finish":false,"error":false}
+{"message":"Of course, Yandri! How can I assist you today","original":null,"finish":false,"error":false}
+{"message":"Of course, Yandri! How can I assist you today?","original":null,"finish":false,"error":false}
+{"message":"Of course, Yandri! How can I assist you today?","original":null,"finish":false,"error":false}
+{"message":"Of course, Yandri! How can I assist you today?","original":null,"finish":false,"error":false}
+{"message":null,"original":null,"finish":true,"error":false}
+```
+
 <a id="gptweb"></a>
 ## Usage GPT Web
 
 GPT-4 has been enhanced by me, but errors may arise due to technological complexity. It is advisable to exercise caution when relying entirely on its accuracy for online queries.
 
 ```javascript
-// import { gptweb } from "gpti";
-const { gptweb } = require("gpti");
+// import { gpt } from "gpti";
+const { gpt } = require("gpti");
 
-gptweb({
+gpt.web({
     prompt: "Are you familiar with the movie Wonka released in 2023?",
     markdown: false
 }, (err, data) => {
@@ -153,6 +229,69 @@ gptweb({
     "status": true,
     "gpt": "Yes, I am familiar with the movie Wonka released in 2023. Wonka is a musical fantasy film directed by Paul King, adapted from the character at the center of Roald Dahl's iconic children's book, \"Charlie and the Chocolate Factory.\" The film follows the story of a young and poor Willy Wonka as he dreams of opening a shop in a chocolate-renowned city and discovers that the industry is controlled by a greedy cartel. The film has a rating of 7.1/10 and has received positive reviews with a score of 83% on Rotten Tomatoes. It was released on December 15, 2023, and has earned $552.1 million at the box office. The cast includes actors such as Timothée Chalamet. Unfortunately, I couldn't find information on whether the movie is available on Netflix.",
     "original": null
+}
+```
+
+<a id="gpt-prompts"></a>
+## Usage GPT Prompts
+
+```javascript
+// import { gpt } from "gpti";
+const { gpt } = require("gpti");
+
+gpt.prompts({
+    lang: "en",
+    limit: 4,
+    offset: 0
+}, (err, data) => {
+    if(err != null){
+        console.log(err);
+    } else {
+        console.log(data);
+    }
+});
+```
+
+#### JSON
+
+```json
+{
+    "code": 200,
+    "status": true,
+    "items": [
+        {
+            "id": "e90a6598",
+            "title": "Suggest fun activities",
+            "description": "to do indoors with my high-energy dog",
+            "prompt": "What are five fun and creative activities to do indoors with my dog who has a lot of energy?",
+            "category": "idea"
+        },
+        {
+            "id": "974d4604",
+            "title": "Help me pick",
+            "description": "a birthday gift for my mom who likes gardening",
+            "prompt": "Help me pick a birthday gift for my mom who likes gardening. But don't give me gardening tools – she already has all of them!",
+            "category": "shop"
+        },
+        {
+            "id": "d1c0099d",
+            "title": "Help me study",
+            "description": "vocabulary for a college entrance exam",
+            "prompt": "Help me study vocabulary: write a sentence for me to fill in the blank, and I'll try to pick the correct option.",
+            "category": "teach-or-explain"
+        },
+        {
+            "id": "a36cb799",
+            "title": "Write a letter to future me",
+            "description": "reflecting on my mental health",
+            "prompt": "Can you help me craft a letter to my future self? Start by asking me about the key milestones and struggles in my mental health journey I'd like to include.",
+            "category": "write"
+        }
+    ],
+    "total": 4,
+    "limit": 4,
+    "offset": 0,
+    "lang": "en"
 }
 ```
 
