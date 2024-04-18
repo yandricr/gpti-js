@@ -180,7 +180,6 @@ gpt.v2({
 #### JSON Streaming
 
 ```json
-{"message":"Hello! How are you today?","original":null,"finish":false,"error":false}
 {"message":"","original":null,"finish":false,"error":false}
 {"message":"Of","original":null,"finish":false,"error":false}
 {"message":"Of course","original":null,"finish":false,"error":false}
