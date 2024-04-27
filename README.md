@@ -21,7 +21,6 @@ GPTI provides access to a variety of artificial intelligence models to meet vari
 - [**ChatGPT**](#gpt)
 - [**ChatGPT v2**](#gpt-v2)
 - [**ChatGPT Web**](#gptweb)
-- [**ChatGPT Prompts**](#gpt-prompts)
 - [**Bing**](#bing)
 - [**LLaMA-2**](#llama2)
 - [**DALL·E**](#dalle)
@@ -228,69 +227,6 @@ gpt.web({
     "status": true,
     "gpt": "Yes, I am familiar with the movie Wonka released in 2023. Wonka is a musical fantasy film directed by Paul King, adapted from the character at the center of Roald Dahl's iconic children's book, \"Charlie and the Chocolate Factory.\" The film follows the story of a young and poor Willy Wonka as he dreams of opening a shop in a chocolate-renowned city and discovers that the industry is controlled by a greedy cartel. The film has a rating of 7.1/10 and has received positive reviews with a score of 83% on Rotten Tomatoes. It was released on December 15, 2023, and has earned $552.1 million at the box office. The cast includes actors such as Timothée Chalamet. Unfortunately, I couldn't find information on whether the movie is available on Netflix.",
     "original": null
-}
-```
-
-<a id="gpt-prompts"></a>
-## Usage GPT Prompts
-
-```javascript
-// import { gpt } from "gpti";
-const { gpt } = require("gpti");
-
-gpt.prompts({
-    lang: "en",
-    limit: 4,
-    offset: 0
-}, (err, data) => {
-    if(err != null){
-        console.log(err);
-    } else {
-        console.log(data);
-    }
-});
-```
-
-#### JSON
-
-```json
-{
-    "code": 200,
-    "status": true,
-    "items": [
-        {
-            "id": "e90a6598",
-            "title": "Suggest fun activities",
-            "description": "to do indoors with my high-energy dog",
-            "prompt": "What are five fun and creative activities to do indoors with my dog who has a lot of energy?",
-            "category": "idea"
-        },
-        {
-            "id": "974d4604",
-            "title": "Help me pick",
-            "description": "a birthday gift for my mom who likes gardening",
-            "prompt": "Help me pick a birthday gift for my mom who likes gardening. But don't give me gardening tools – she already has all of them!",
-            "category": "shop"
-        },
-        {
-            "id": "d1c0099d",
-            "title": "Help me study",
-            "description": "vocabulary for a college entrance exam",
-            "prompt": "Help me study vocabulary: write a sentence for me to fill in the blank, and I'll try to pick the correct option.",
-            "category": "teach-or-explain"
-        },
-        {
-            "id": "a36cb799",
-            "title": "Write a letter to future me",
-            "description": "reflecting on my mental health",
-            "prompt": "Can you help me craft a letter to my future self? Start by asking me about the key milestones and struggles in my mental health journey I'd like to include.",
-            "category": "write"
-        }
-    ],
-    "total": 4,
-    "limit": 4,
-    "offset": 0,
-    "lang": "en"
 }
 ```
 
