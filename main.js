@@ -62,168 +62,136 @@ var nexra = function (user, secret) {
     cred["x-nexra-user"] = user;
 };
 exports.nexra = nexra;
-var gpt = /** @class */ (function () {
-    function gpt() {
-    }
-    gpt.v1 = function (_a, process) {
-        var _b = _a.messages, messages = _b === void 0 ? [] : _b, _c = _a.prompt, prompt = _c === void 0 ? "" : _c, _d = _a.model, model = _d === void 0 ? "" : _d, _e = _a.markdown, markdown = _e === void 0 ? false : _e;
-        try {
-            axios_1.default.post('https://nexra.aryahcr.cc/api/chat/gpt', {
-                messages: messages != undefined && messages != null ? messages : [],
-                prompt: prompt != undefined && prompt != null ? prompt : "",
-                model: model != undefined && model != null ? model : "",
-                markdown: markdown != undefined && markdown != null ? markdown : false
-            }, {
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            }).then(function (response) {
-                if (response.status === 200) {
-                    if ((typeof response.data).toString().toLowerCase() === "Object".toLowerCase()) {
-                        if (response.data.code != undefined && response.data.code != null && response.data.code === 200 && response.data.status != undefined && response.data.status != null && response.data.status === true) {
-                            return process(null, response.data);
-                        }
-                        else {
-                            return process(response.data, null);
-                        }
-                    }
-                    else {
-                        var js = null;
-                        var count = -1;
-                        for (var i = 0; i < response.data.length; i++) {
-                            if (count <= -1) {
-                                if (response.data[i] === "{") {
-                                    count = i;
-                                }
-                            }
-                            else {
-                                break;
-                            }
-                        }
-                        if (count <= -1) {
-                            return process({
-                                "code": 500,
-                                "status": false,
-                                "error": "INTERNAL_SERVER_ERROR",
-                                "message": "general (unknown) error"
-                            }, null);
-                        }
-                        else {
-                            try {
-                                js = response.data.slice(count);
-                                js = JSON.parse(js);
-                                if (js != undefined && js != null && js.code != undefined && js.code != null && js.code === 200 && js.status != undefined && js.status != null && js.status === true) {
-                                    return process(null, js);
+function consult_(api, data) {
+    return __awaiter(this, void 0, void 0, function () {
+        var _this = this;
+        return __generator(this, function (_a) {
+            return [2 /*return*/, new Promise(function (res, rej) { return __awaiter(_this, void 0, void 0, function () {
+                    var response, js, count, i, error_1;
+                    return __generator(this, function (_a) {
+                        switch (_a.label) {
+                            case 0:
+                                _a.trys.push([0, 2, , 3]);
+                                return [4 /*yield*/, axios_1.default.post(api, data, {
+                                        headers: __assign({ "Content-Type": "application/json" }, cred)
+                                    })];
+                            case 1:
+                                response = _a.sent();
+                                if (response.status === 200) {
+                                    if ((typeof response.data).toString().toLowerCase() === "Object".toLowerCase()) {
+                                        if (response.data.code != undefined && response.data.code != null && response.data.code === 200 && response.data.status != undefined && response.data.status != null && response.data.status === true) {
+                                            return [2 /*return*/, res(response.data)];
+                                        }
+                                        else {
+                                            return [2 /*return*/, rej(response.data)];
+                                        }
+                                    }
+                                    else {
+                                        js = null;
+                                        count = -1;
+                                        for (i = 0; i < response.data.length; i++) {
+                                            if (count <= -1) {
+                                                if (response.data[i] === "{") {
+                                                    count = i;
+                                                }
+                                            }
+                                            else {
+                                                break;
+                                            }
+                                        }
+                                        if (count <= -1) {
+                                            return [2 /*return*/, rej({
+                                                    "code": 500,
+                                                    "status": false,
+                                                    "error": "INTERNAL_SERVER_ERROR",
+                                                    "message": "general (unknown) error"
+                                                })];
+                                        }
+                                        else {
+                                            try {
+                                                js = response.data.slice(count);
+                                                js = JSON.parse(js);
+                                                if (js != undefined && js != null && js.code != undefined && js.code != null && js.code === 200 && js.status != undefined && js.status != null && js.status === true) {
+                                                    return [2 /*return*/, res(js)];
+                                                }
+                                                else {
+                                                    return [2 /*return*/, rej(js)];
+                                                }
+                                            }
+                                            catch (e) {
+                                                return [2 /*return*/, rej({
+                                                        "code": 500,
+                                                        "status": false,
+                                                        "error": "INTERNAL_SERVER_ERROR",
+                                                        "message": "general (unknown) error"
+                                                    })];
+                                            }
+                                        }
+                                    }
                                 }
                                 else {
-                                    return process(js, null);
+                                    return [2 /*return*/, rej({
+                                            "code": 500,
+                                            "status": false,
+                                            "error": "INTERNAL_SERVER_ERROR",
+                                            "message": "general (unknown) error"
+                                        })];
                                 }
-                            }
-                            catch (e) {
-                                return process({
-                                    "code": 500,
-                                    "status": false,
-                                    "error": "INTERNAL_SERVER_ERROR",
-                                    "message": "general (unknown) error"
-                                }, null);
-                            }
+                                return [3 /*break*/, 3];
+                            case 2:
+                                error_1 = _a.sent();
+                                try {
+                                    if (error_1.response) {
+                                        return [2 /*return*/, rej(error_1.response.data)];
+                                    }
+                                    else if (error_1.request) {
+                                        return [2 /*return*/, rej({
+                                                "code": 404,
+                                                "error": "NOT_FOUND",
+                                                "message": "the service is currently unavailable"
+                                            })];
+                                    }
+                                    else {
+                                        return [2 /*return*/, rej({
+                                                "code": 500,
+                                                "status": false,
+                                                "error": "INTERNAL_SERVER_ERROR",
+                                                "message": "general (unknown) error"
+                                            })];
+                                    }
+                                }
+                                catch (e) {
+                                    return [2 /*return*/, rej({
+                                            "code": 500,
+                                            "status": false,
+                                            "error": "INTERNAL_SERVER_ERROR",
+                                            "message": "general (unknown) error"
+                                        })];
+                                }
+                                return [3 /*break*/, 3];
+                            case 3: return [2 /*return*/];
                         }
-                    }
-                }
-                else {
-                    return process({
-                        "code": 500,
-                        "status": false,
-                        "error": "INTERNAL_SERVER_ERROR",
-                        "message": "general (unknown) error"
-                    }, null);
-                }
-            }).catch(function (error) {
-                try {
-                    if (error.response) {
-                        return process(error.response.data, null);
-                    }
-                    else if (error.request) {
-                        return process({
-                            "code": 404,
-                            "error": "NOT_FOUND",
-                            "message": "the service is currently unavailable"
-                        }, null);
-                    }
-                    else {
-                        return process({
-                            "code": 500,
-                            "status": false,
-                            "error": "INTERNAL_SERVER_ERROR",
-                            "message": "general (unknown) error"
-                        }, null);
-                    }
-                }
-                catch (e) {
-                    return process({
-                        "code": 500,
-                        "status": false,
-                        "error": "INTERNAL_SERVER_ERROR",
-                        "message": "general (unknown) error"
-                    }, null);
-                }
-            });
-        }
-        catch (e) {
-            return process({
-                "code": 500,
-                "status": false,
-                "error": "INTERNAL_SERVER_ERROR",
-                "message": "general (unknown) error"
-            }, null);
-        }
-    };
-    gpt.v2 = function (_a, process) {
-        var _b = _a.messages, messages = _b === void 0 ? [] : _b, _c = _a.markdown, markdown = _c === void 0 ? false : _c, _d = _a.stream, stream = _d === void 0 ? false : _d;
-        var str = false;
-        try {
-            if (stream != undefined && stream != null && (typeof stream).toString().toLowerCase() === "Boolean".toLowerCase()) {
-                if (stream === true) {
-                    str = true;
-                }
-                else {
-                    stream = false;
-                }
-            }
-            else {
-                stream = false;
-            }
-        }
-        catch (e) {
-            stream = false;
-        }
-        var config = {};
-        if (str === true) {
-            config = {
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                responseType: "stream"
-            };
-        }
-        else {
-            config = {
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            };
-        }
-        try {
-            axios_1.default.post('https://nexra.aryahcr.cc/api/chat/complements', {
-                messages: messages != undefined && messages != null ? messages : [],
-                model: "chatgpt",
-                markdown: markdown != undefined && markdown != null ? markdown : false,
-                stream: str === true ? true : false
-            }, config).then(function (response) {
-                if (response.status === 200) {
-                    if (str === true) {
-                        var chat_1 = null;
-                        var error_1 = false;
+                    });
+                }); })];
+        });
+    });
+}
+function consult_strm(api, data, process) {
+    return __awaiter(this, void 0, void 0, function () {
+        var response, chat_1, error_3, error_2, err_1;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    _a.trys.push([0, 2, , 3]);
+                    return [4 /*yield*/, axios_1.default.post(api, __assign(__assign({}, data), { "stream": true }), {
+                            headers: __assign({ "Content-Type": "application/json" }, cred),
+                            responseType: "stream"
+                        })];
+                case 1:
+                    response = _a.sent();
+                    if (response.status === 200) {
+                        chat_1 = null;
+                        error_3 = false;
                         response.data.on("data", function (chunk) {
                             var chk = chunk.toString();
                             chk = chk.split("");
@@ -266,7 +234,7 @@ var gpt = /** @class */ (function () {
                                             chat_1 = "";
                                         }
                                         if (result != undefined && result != null && result.code === undefined && result.status === undefined) {
-                                            if (error_1 != true) {
+                                            if (error_3 != true) {
                                                 if (result != undefined && result != null && result.finish != undefined && result.finish != null && result.finish === true) {
                                                     chat_1 = result;
                                                 }
@@ -277,7 +245,7 @@ var gpt = /** @class */ (function () {
                                             }
                                         }
                                         else {
-                                            error_1 = true;
+                                            error_3 = true;
                                             chat_1 = result;
                                         }
                                     }
@@ -289,7 +257,7 @@ var gpt = /** @class */ (function () {
                         });
                         response.data.on("end", function () {
                             if (chat_1 != null) {
-                                if (error_1 != true) {
+                                if (error_3 != true) {
                                     return process(null, chat_1);
                                 }
                                 else {
@@ -315,710 +283,410 @@ var gpt = /** @class */ (function () {
                         });
                     }
                     else {
-                        if ((typeof response.data).toString().toLowerCase() === "Object".toLowerCase()) {
-                            if (response.data.code != undefined && response.data.code != null && response.data.code === 200 && response.data.status != undefined && response.data.status != null && response.data.status === true) {
-                                return process(null, response.data);
-                            }
-                            else {
-                                return process(response.data, null);
-                            }
-                        }
-                        else {
-                            var js = null;
-                            var count = -1;
-                            for (var i = 0; i < response.data.length; i++) {
-                                if (count <= -1) {
-                                    if (response.data[i] === "{") {
-                                        count = i;
-                                    }
-                                }
-                                else {
-                                    break;
-                                }
-                            }
-                            if (count <= -1) {
-                                return process({
-                                    "code": 500,
-                                    "status": false,
-                                    "error": "INTERNAL_SERVER_ERROR",
-                                    "message": "general (unknown) error"
-                                }, null);
-                            }
-                            else {
-                                try {
-                                    js = response.data.slice(count);
-                                    js = JSON.parse(js);
-                                    if (js != undefined && js != null && js.code != undefined && js.code != null && js.code === 200 && js.status != undefined && js.status != null && js.status === true) {
-                                        return process(null, js);
+                        return [2 /*return*/, process({
+                                "code": 500,
+                                "status": false,
+                                "error": "INTERNAL_SERVER_ERROR",
+                                "message": "general (unknown) error"
+                            }, null)];
+                    }
+                    return [3 /*break*/, 3];
+                case 2:
+                    error_2 = _a.sent();
+                    try {
+                        if (error_2.response) {
+                            try {
+                                err_1 = null;
+                                error_2.response.data.on("data", function (chk) {
+                                    if (err_1 != null) {
+                                        err_1 += chk.toString();
                                     }
                                     else {
-                                        return process(js, null);
+                                        err_1 = chk.toString();
                                     }
-                                }
-                                catch (e) {
+                                });
+                                error_2.response.data.on("end", function () {
+                                    try {
+                                        err_1 = JSON.parse(err_1);
+                                        return process(err_1, null);
+                                    }
+                                    catch (error) {
+                                        return process({
+                                            "code": 500,
+                                            "status": false,
+                                            "error": "INTERNAL_SERVER_ERROR",
+                                            "message": "general (unknown) error"
+                                        }, null);
+                                    }
+                                });
+                                error_2.response.data.on("error", function () {
                                     return process({
                                         "code": 500,
                                         "status": false,
                                         "error": "INTERNAL_SERVER_ERROR",
                                         "message": "general (unknown) error"
                                     }, null);
-                                }
+                                });
+                            }
+                            catch (error) {
+                                return [2 /*return*/, process({
+                                        "code": 500,
+                                        "status": false,
+                                        "error": "INTERNAL_SERVER_ERROR",
+                                        "message": "general (unknown) error"
+                                    }, null)];
                             }
                         }
-                    }
-                }
-                else {
-                    return process({
-                        "code": 500,
-                        "status": false,
-                        "error": "INTERNAL_SERVER_ERROR",
-                        "message": "general (unknown) error"
-                    }, null);
-                }
-            }).catch(function (error) {
-                try {
-                    if (error.response) {
-                        return process(error.response.data, null);
-                    }
-                    else if (error.request) {
-                        return process({
-                            "code": 404,
-                            "error": "NOT_FOUND",
-                            "message": "the service is currently unavailable"
-                        }, null);
-                    }
-                    else {
-                        return process({
-                            "code": 500,
-                            "status": false,
-                            "error": "INTERNAL_SERVER_ERROR",
-                            "message": "general (unknown) error"
-                        }, null);
-                    }
-                }
-                catch (e) {
-                    return process({
-                        "code": 500,
-                        "status": false,
-                        "error": "INTERNAL_SERVER_ERROR",
-                        "message": "general (unknown) error"
-                    }, null);
-                }
-            });
-        }
-        catch (e) {
-            return process({
-                "code": 500,
-                "status": false,
-                "error": "INTERNAL_SERVER_ERROR",
-                "message": "general (unknown) error"
-            }, null);
-        }
-    };
-    gpt.web = function (_a, process) {
-        var _b = _a.prompt, prompt = _b === void 0 ? "" : _b, _c = _a.markdown, markdown = _c === void 0 ? false : _c;
-        try {
-            axios_1.default.post('https://nexra.aryahcr.cc/api/chat/gptweb', {
-                prompt: prompt != undefined && prompt != null ? prompt : "",
-                markdown: markdown != undefined && markdown != null ? markdown : false
-            }, {
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            }).then(function (response) {
-                if (response.status === 200) {
-                    if ((typeof response.data).toString().toLowerCase() === "Object".toLowerCase()) {
-                        if (response.data.code != undefined && response.data.code != null && response.data.code === 200 && response.data.status != undefined && response.data.status != null && response.data.status === true) {
-                            return process(null, response.data);
+                        else if (error_2.request) {
+                            return [2 /*return*/, process({
+                                    "code": 404,
+                                    "error": "NOT_FOUND",
+                                    "message": "the service is currently unavailable"
+                                }, null)];
                         }
                         else {
-                            return process(response.data, null);
-                        }
-                    }
-                    else {
-                        var js = null;
-                        var count = -1;
-                        for (var i = 0; i < response.data.length; i++) {
-                            if (count <= -1) {
-                                if (response.data[i] === "{") {
-                                    count = i;
-                                }
-                            }
-                            else {
-                                break;
-                            }
-                        }
-                        if (count <= -1) {
-                            return process({
-                                "code": 500,
-                                "status": false,
-                                "error": "INTERNAL_SERVER_ERROR",
-                                "message": "general (unknown) error"
-                            }, null);
-                        }
-                        else {
-                            try {
-                                js = response.data.slice(count);
-                                js = JSON.parse(js);
-                                if (js != undefined && js != null && js.code != undefined && js.code != null && js.code === 200 && js.status != undefined && js.status != null && js.status === true) {
-                                    return process(null, js);
-                                }
-                                else {
-                                    return process(js, null);
-                                }
-                            }
-                            catch (e) {
-                                return process({
+                            return [2 /*return*/, process({
                                     "code": 500,
                                     "status": false,
                                     "error": "INTERNAL_SERVER_ERROR",
                                     "message": "general (unknown) error"
-                                }, null);
-                            }
+                                }, null)];
                         }
                     }
-                }
-                else {
-                    return process({
-                        "code": 500,
-                        "status": false,
-                        "error": "INTERNAL_SERVER_ERROR",
-                        "message": "general (unknown) error"
-                    }, null);
-                }
-            }).catch(function (error) {
-                try {
-                    if (error.response) {
-                        return process(error.response.data, null);
+                    catch (error) {
+                        return [2 /*return*/, process({
+                                "code": 500,
+                                "status": false,
+                                "error": "INTERNAL_SERVER_ERROR",
+                                "message": "general (unknown) error"
+                            }, null)];
                     }
-                    else if (error.request) {
-                        return process({
-                            "code": 404,
-                            "error": "NOT_FOUND",
-                            "message": "the service is currently unavailable"
-                        }, null);
+                    return [3 /*break*/, 3];
+                case 3: return [2 /*return*/];
+            }
+        });
+    });
+}
+var gpt = /** @class */ (function () {
+    function gpt() {
+    }
+    var _a;
+    _a = gpt;
+    gpt.v1 = function (_b, process_1) { return __awaiter(void 0, [_b, process_1], void 0, function (_c, process) {
+        var response, e_1;
+        var _d = _c.messages, messages = _d === void 0 ? [] : _d, _e = _c.prompt, prompt = _e === void 0 ? "" : _e, _f = _c.model, model = _f === void 0 ? "" : _f, _g = _c.markdown, markdown = _g === void 0 ? false : _g;
+        return __generator(_a, function (_h) {
+            switch (_h.label) {
+                case 0:
+                    _h.trys.push([0, 2, , 3]);
+                    return [4 /*yield*/, consult_('https://nexra.aryahcr.cc/api/chat/gpt', {
+                            messages: messages != undefined && messages != null ? messages : [],
+                            prompt: prompt != undefined && prompt != null ? prompt : "",
+                            model: model != undefined && model != null ? model : "",
+                            markdown: markdown != undefined && markdown != null ? markdown : false
+                        })];
+                case 1:
+                    response = _h.sent();
+                    return [2 /*return*/, process(null, response)];
+                case 2:
+                    e_1 = _h.sent();
+                    if (typeof (e_1) == "object") {
+                        return [2 /*return*/, process(e_1, null)];
                     }
                     else {
-                        return process({
+                        return [2 /*return*/, process({
+                                "code": 500,
+                                "status": false,
+                                "error": "INTERNAL_SERVER_ERROR",
+                                "message": "general (unknown) error"
+                            }, null)];
+                    }
+                    return [3 /*break*/, 3];
+                case 3: return [2 /*return*/];
+            }
+        });
+    }); };
+    gpt.v2 = function (_b, process_1) { return __awaiter(void 0, [_b, process_1], void 0, function (_c, process) {
+        var strm, response, e_2, e_3;
+        var _d = _c.messages, messages = _d === void 0 ? [] : _d, _e = _c.markdown, markdown = _e === void 0 ? false : _e, _f = _c.stream, stream = _f === void 0 ? false : _f;
+        return __generator(_a, function (_g) {
+            switch (_g.label) {
+                case 0:
+                    strm = false;
+                    try {
+                        if (stream != undefined && stream != null && (typeof stream).toString().toLowerCase() === "Boolean".toLowerCase()) {
+                            if (stream === true) {
+                                strm = true;
+                            }
+                            else {
+                                strm = false;
+                            }
+                        }
+                        else {
+                            strm = false;
+                        }
+                    }
+                    catch (e) {
+                        strm = false;
+                    }
+                    if (!(strm === false)) return [3 /*break*/, 5];
+                    _g.label = 1;
+                case 1:
+                    _g.trys.push([1, 3, , 4]);
+                    return [4 /*yield*/, consult_('https://nexra.aryahcr.cc/api/chat/gpt', {
+                            messages: messages != undefined && messages != null ? messages : [],
+                            model: "chatgpt",
+                            markdown: markdown != undefined && markdown != null ? markdown : false,
+                        })];
+                case 2:
+                    response = _g.sent();
+                    return [2 /*return*/, process(null, response)];
+                case 3:
+                    e_2 = _g.sent();
+                    if (typeof (e_2) == "object") {
+                        return [2 /*return*/, process(e_2, null)];
+                    }
+                    else {
+                        return [2 /*return*/, process({
+                                "code": 500,
+                                "status": false,
+                                "error": "INTERNAL_SERVER_ERROR",
+                                "message": "general (unknown) error"
+                            }, null)];
+                    }
+                    return [3 /*break*/, 4];
+                case 4: return [3 /*break*/, 8];
+                case 5:
+                    _g.trys.push([5, 7, , 8]);
+                    return [4 /*yield*/, consult_strm('https://nexra.aryahcr.cc/api/chat/complements', {
+                            messages: messages != undefined && messages != null ? messages : [],
+                            model: "chatgpt",
+                            markdown: markdown != undefined && markdown != null ? markdown : false,
+                        }, function (err, data) {
+                            return process(err, data);
+                        })];
+                case 6:
+                    _g.sent();
+                    return [3 /*break*/, 8];
+                case 7:
+                    e_3 = _g.sent();
+                    return [2 /*return*/, process({
                             "code": 500,
                             "status": false,
                             "error": "INTERNAL_SERVER_ERROR",
                             "message": "general (unknown) error"
-                        }, null);
+                        }, null)];
+                case 8: return [2 /*return*/];
+            }
+        });
+    }); };
+    gpt.web = function (_b, process_1) { return __awaiter(void 0, [_b, process_1], void 0, function (_c, process) {
+        var response, e_4;
+        var _d = _c.prompt, prompt = _d === void 0 ? "" : _d, _e = _c.markdown, markdown = _e === void 0 ? false : _e;
+        return __generator(_a, function (_f) {
+            switch (_f.label) {
+                case 0:
+                    _f.trys.push([0, 2, , 3]);
+                    return [4 /*yield*/, consult_('https://nexra.aryahcr.cc/api/chat/gptweb', {
+                            prompt: prompt != undefined && prompt != null ? prompt : "",
+                            markdown: markdown != undefined && markdown != null ? markdown : false
+                        })];
+                case 1:
+                    response = _f.sent();
+                    return [2 /*return*/, process(null, response)];
+                case 2:
+                    e_4 = _f.sent();
+                    if (typeof (e_4) == "object") {
+                        return [2 /*return*/, process(e_4, null)];
                     }
-                }
-                catch (e) {
-                    return process({
-                        "code": 500,
-                        "status": false,
-                        "error": "INTERNAL_SERVER_ERROR",
-                        "message": "general (unknown) error"
-                    }, null);
-                }
-            });
-        }
-        catch (e) {
-            return process({
-                "code": 500,
-                "status": false,
-                "error": "INTERNAL_SERVER_ERROR",
-                "message": "general (unknown) error"
-            }, null);
-        }
-    };
+                    else {
+                        return [2 /*return*/, process({
+                                "code": 500,
+                                "status": false,
+                                "error": "INTERNAL_SERVER_ERROR",
+                                "message": "general (unknown) error"
+                            }, null)];
+                    }
+                    return [3 /*break*/, 3];
+                case 3: return [2 /*return*/];
+            }
+        });
+    }); };
     return gpt;
 }());
 exports.gpt = gpt;
-var llama2 = function (_a, process) {
-    var _b = _a.messages, messages = _b === void 0 ? [] : _b, _c = _a.system_message, system_message = _c === void 0 ? "" : _c, _d = _a.temperature, temperature = _d === void 0 ? 0.9 : _d, _e = _a.max_tokens, max_tokens = _e === void 0 ? 4096 : _e, _f = _a.top_p, top_p = _f === void 0 ? 0.6 : _f, _g = _a.repetition_penalty, repetition_penalty = _g === void 0 ? 1.2 : _g, _h = _a.markdown, markdown = _h === void 0 ? false : _h, _j = _a.stream, stream = _j === void 0 ? false : _j;
-    var str = false;
-    try {
-        if (stream != undefined && stream != null && (typeof stream).toString().toLowerCase() === "Boolean".toLowerCase()) {
-            if (stream === true) {
-                str = true;
-            }
-            else {
-                stream = false;
-            }
-        }
-        else {
-            stream = false;
-        }
-    }
-    catch (e) {
-        stream = false;
-    }
-    var config = {};
-    if (str === true) {
-        config = {
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            responseType: "stream"
-        };
-    }
-    else {
-        config = {
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        };
-    }
-    try {
-        axios_1.default.post('https://nexra.aryahcr.cc/api/chat/complements', {
-            messages: messages != undefined && messages != null ? messages : [],
-            model: "llama2",
-            data: {
-                system_message: system_message != undefined && system_message != null ? system_message : "",
-                temperature: temperature != undefined && temperature != null ? temperature : 0.9,
-                max_tokens: max_tokens != undefined && max_tokens != null ? max_tokens : 4096,
-                top_p: top_p != undefined && top_p != null ? top_p : 0.6,
-                repetition_penalty: repetition_penalty != undefined && repetition_penalty != null ? repetition_penalty : 1.2,
-            },
-            markdown: markdown != undefined && markdown != null ? markdown : false,
-            stream: str === true ? true : false
-        }, config).then(function (response) {
-            if (response.status === 200) {
-                if (str === true) {
-                    var chat_2 = null;
-                    var error_2 = false;
-                    response.data.on("data", function (chunk) {
-                        var chk = chunk.toString();
-                        chk = chk.split("");
-                        var tmp = null;
-                        chk.forEach(function (data) {
-                            var result = null;
-                            var convert = "";
-                            try {
-                                convert = JSON.parse(data);
-                                result = data;
-                                tmp = null;
-                            }
-                            catch (e) {
-                                if (tmp === null) {
-                                    tmp = data;
-                                }
-                                else {
-                                    try {
-                                        convert = JSON.parse(tmp);
-                                        result = tmp;
-                                        tmp = null;
-                                    }
-                                    catch (e) {
-                                        tmp = tmp + data;
-                                        try {
-                                            convert = JSON.parse(tmp);
-                                            result = tmp;
-                                            tmp = null;
-                                        }
-                                        catch (e) {
-                                            tmp = tmp;
-                                        }
-                                    }
-                                }
-                            }
-                            if (result != null) {
-                                try {
-                                    result = JSON.parse(result);
-                                    if (chat_2 === null && result != null) {
-                                        chat_2 = "";
-                                    }
-                                    if (result != undefined && result != null && result.code === undefined && result.status === undefined) {
-                                        if (error_2 != true) {
-                                            if (result != undefined && result != null && result.finish != undefined && result.finish != null && result.finish === true) {
-                                                chat_2 = result;
-                                            }
-                                            else {
-                                                chat_2 = result;
-                                                process(null, result);
-                                            }
-                                        }
-                                    }
-                                    else {
-                                        error_2 = true;
-                                        chat_2 = result;
-                                    }
-                                }
-                                catch (e) {
-                                    // continue
-                                }
-                            }
-                        });
-                    });
-                    response.data.on("end", function () {
-                        if (chat_2 != null) {
-                            if (error_2 != true) {
-                                return process(null, chat_2);
-                            }
-                            else {
-                                return process(chat_2, null);
-                            }
+var llama2 = function (_b, process_1) { return __awaiter(void 0, [_b, process_1], void 0, function (_c, process) {
+    var strm, response, e_5, e_6;
+    var _d = _c.messages, messages = _d === void 0 ? [] : _d, _e = _c.system_message, system_message = _e === void 0 ? "" : _e, _f = _c.temperature, temperature = _f === void 0 ? 0.9 : _f, _g = _c.max_tokens, max_tokens = _g === void 0 ? 4096 : _g, _h = _c.top_p, top_p = _h === void 0 ? 0.6 : _h, _j = _c.repetition_penalty, repetition_penalty = _j === void 0 ? 1.2 : _j, _k = _c.markdown, markdown = _k === void 0 ? false : _k, _l = _c.stream, stream = _l === void 0 ? false : _l;
+    return __generator(this, function (_m) {
+        switch (_m.label) {
+            case 0:
+                strm = false;
+                try {
+                    if (stream != undefined && stream != null && (typeof stream).toString().toLowerCase() === "Boolean".toLowerCase()) {
+                        if (stream === true) {
+                            strm = true;
                         }
                         else {
-                            return process({
-                                "code": 500,
-                                "status": false,
-                                "error": "INTERNAL_SERVER_ERROR",
-                                "message": "general (unknown) error"
-                            }, null);
+                            strm = false;
                         }
-                    });
-                    response.data.on("error", function (err) {
-                        return process({
+                    }
+                    else {
+                        strm = false;
+                    }
+                }
+                catch (e) {
+                    strm = false;
+                }
+                if (!(strm === false)) return [3 /*break*/, 5];
+                _m.label = 1;
+            case 1:
+                _m.trys.push([1, 3, , 4]);
+                return [4 /*yield*/, consult_('https://nexra.aryahcr.cc/api/chat/complements', {
+                        messages: messages != undefined && messages != null ? messages : [],
+                        model: "llama2",
+                        data: {
+                            system_message: system_message != undefined && system_message != null ? system_message : "",
+                            temperature: temperature != undefined && temperature != null ? temperature : 0.9,
+                            max_tokens: max_tokens != undefined && max_tokens != null ? max_tokens : 4096,
+                            top_p: top_p != undefined && top_p != null ? top_p : 0.6,
+                            repetition_penalty: repetition_penalty != undefined && repetition_penalty != null ? repetition_penalty : 1.2,
+                        },
+                        markdown: markdown != undefined && markdown != null ? markdown : false,
+                    })];
+            case 2:
+                response = _m.sent();
+                return [2 /*return*/, process(null, response)];
+            case 3:
+                e_5 = _m.sent();
+                if (typeof (e_5) == "object") {
+                    return [2 /*return*/, process(e_5, null)];
+                }
+                else {
+                    return [2 /*return*/, process({
                             "code": 500,
                             "status": false,
                             "error": "INTERNAL_SERVER_ERROR",
                             "message": "general (unknown) error"
-                        }, null);
-                    });
+                        }, null)];
                 }
-                else {
-                    if ((typeof response.data).toString().toLowerCase() === "Object".toLowerCase()) {
-                        if (response.data.code != undefined && response.data.code != null && response.data.code === 200 && response.data.status != undefined && response.data.status != null && response.data.status === true) {
-                            return process(null, response.data);
+                return [3 /*break*/, 4];
+            case 4: return [3 /*break*/, 8];
+            case 5:
+                _m.trys.push([5, 7, , 8]);
+                return [4 /*yield*/, consult_strm('https://nexra.aryahcr.cc/api/chat/complements', {
+                        messages: messages != undefined && messages != null ? messages : [],
+                        model: "llama2",
+                        data: {
+                            system_message: system_message != undefined && system_message != null ? system_message : "",
+                            temperature: temperature != undefined && temperature != null ? temperature : 0.9,
+                            max_tokens: max_tokens != undefined && max_tokens != null ? max_tokens : 4096,
+                            top_p: top_p != undefined && top_p != null ? top_p : 0.6,
+                            repetition_penalty: repetition_penalty != undefined && repetition_penalty != null ? repetition_penalty : 1.2
                         }
-                        else {
-                            return process(response.data, null);
-                        }
-                    }
-                    else {
-                        var js = null;
-                        var count = -1;
-                        for (var i = 0; i < response.data.length; i++) {
-                            if (count <= -1) {
-                                if (response.data[i] === "{") {
-                                    count = i;
-                                }
-                            }
-                            else {
-                                break;
-                            }
-                        }
-                        if (count <= -1) {
-                            return process({
-                                "code": 500,
-                                "status": false,
-                                "error": "INTERNAL_SERVER_ERROR",
-                                "message": "general (unknown) error"
-                            }, null);
-                        }
-                        else {
-                            try {
-                                js = response.data.slice(count);
-                                js = JSON.parse(js);
-                                if (js != undefined && js != null && js.code != undefined && js.code != null && js.code === 200 && js.status != undefined && js.status != null && js.status === true) {
-                                    return process(null, js);
-                                }
-                                else {
-                                    return process(js, null);
-                                }
-                            }
-                            catch (e) {
-                                return process({
-                                    "code": 500,
-                                    "status": false,
-                                    "error": "INTERNAL_SERVER_ERROR",
-                                    "message": "general (unknown) error"
-                                }, null);
-                            }
-                        }
-                    }
-                }
-            }
-            else {
-                return process({
-                    "code": 500,
-                    "status": false,
-                    "error": "INTERNAL_SERVER_ERROR",
-                    "message": "general (unknown) error"
-                }, null);
-            }
-        }).catch(function (error) {
-            try {
-                if (error.response) {
-                    return process(error.response.data, null);
-                }
-                else if (error.request) {
-                    return process({
-                        "code": 404,
-                        "error": "NOT_FOUND",
-                        "message": "the service is currently unavailable"
-                    }, null);
-                }
-                else {
-                    return process({
+                    }, function (err, data) {
+                        return process(err, data);
+                    })];
+            case 6:
+                _m.sent();
+                return [3 /*break*/, 8];
+            case 7:
+                e_6 = _m.sent();
+                return [2 /*return*/, process({
                         "code": 500,
                         "status": false,
                         "error": "INTERNAL_SERVER_ERROR",
                         "message": "general (unknown) error"
-                    }, null);
-                }
-            }
-            catch (e) {
-                return process({
-                    "code": 500,
-                    "status": false,
-                    "error": "INTERNAL_SERVER_ERROR",
-                    "message": "general (unknown) error"
-                }, null);
-            }
-        });
-    }
-    catch (e) {
-        return process({
-            "code": 500,
-            "status": false,
-            "error": "INTERNAL_SERVER_ERROR",
-            "message": "general (unknown) error"
-        }, null);
-    }
-};
+                    }, null)];
+            case 8: return [2 /*return*/];
+        }
+    });
+}); };
 exports.llama2 = llama2;
-var bing = function (_a, process) {
-    var _b = _a.messages, messages = _b === void 0 ? [] : _b, _c = _a.conversation_style, conversation_style = _c === void 0 ? "Balanced" : _c, _d = _a.markdown, markdown = _d === void 0 ? false : _d, _e = _a.stream, stream = _e === void 0 ? false : _e;
-    var str = false;
-    try {
-        if (stream != undefined && stream != null && (typeof stream).toString().toLowerCase() === "Boolean".toLowerCase()) {
-            if (stream === true) {
-                str = true;
-            }
-            else {
-                stream = false;
-            }
-        }
-        else {
-            stream = false;
-        }
-    }
-    catch (e) {
-        stream = false;
-    }
-    var config = {};
-    if (str === true) {
-        config = {
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            responseType: "stream"
-        };
-    }
-    else {
-        config = {
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        };
-    }
-    try {
-        axios_1.default.post('https://nexra.aryahcr.cc/api/chat/complements', {
-            messages: messages != undefined && messages != null ? messages : [],
-            conversation_style: conversation_style,
-            markdown: markdown != undefined && markdown != null ? markdown : false,
-            model: "bing",
-            stream: str === true ? true : false
-        }, config).then(function (response) {
-            if (response.status === 200) {
-                if (str === true) {
-                    var chat_3 = null;
-                    var error_3 = false;
-                    response.data.on("data", function (chunk) {
-                        var chk = chunk.toString();
-                        chk = chk.split("");
-                        var tmp = null;
-                        chk.forEach(function (data) {
-                            var result = null;
-                            var convert = "";
-                            try {
-                                convert = JSON.parse(data);
-                                result = data;
-                                tmp = null;
-                            }
-                            catch (e) {
-                                if (tmp === null) {
-                                    tmp = data;
-                                }
-                                else {
-                                    try {
-                                        convert = JSON.parse(tmp);
-                                        result = tmp;
-                                        tmp = null;
-                                    }
-                                    catch (e) {
-                                        tmp = tmp + data;
-                                        try {
-                                            convert = JSON.parse(tmp);
-                                            result = tmp;
-                                            tmp = null;
-                                        }
-                                        catch (e) {
-                                            tmp = tmp;
-                                        }
-                                    }
-                                }
-                            }
-                            if (result != null) {
-                                try {
-                                    result = JSON.parse(result);
-                                    if (chat_3 === null && result != null) {
-                                        chat_3 = "";
-                                    }
-                                    if (result != undefined && result != null && result.code === undefined && result.status === undefined) {
-                                        if (error_3 != true) {
-                                            if (result != undefined && result != null && result.finish != undefined && result.finish != null && result.finish === true) {
-                                                chat_3 = result;
-                                            }
-                                            else {
-                                                chat_3 = result;
-                                                process(null, result);
-                                            }
-                                        }
-                                    }
-                                    else {
-                                        error_3 = true;
-                                        chat_3 = result;
-                                    }
-                                }
-                                catch (e) {
-                                    // continue
-                                }
-                            }
-                        });
-                    });
-                    response.data.on("end", function () {
-                        if (chat_3 != null) {
-                            if (error_3 != true) {
-                                return process(null, chat_3);
-                            }
-                            else {
-                                return process(chat_3, null);
-                            }
+var bing = function (_b, process_1) { return __awaiter(void 0, [_b, process_1], void 0, function (_c, process) {
+    var strm, response, e_7, e_8;
+    var _d = _c.messages, messages = _d === void 0 ? [] : _d, _e = _c.conversation_style, conversation_style = _e === void 0 ? "Balanced" : _e, _f = _c.markdown, markdown = _f === void 0 ? false : _f, _g = _c.stream, stream = _g === void 0 ? false : _g;
+    return __generator(this, function (_h) {
+        switch (_h.label) {
+            case 0:
+                strm = false;
+                try {
+                    if (stream != undefined && stream != null && (typeof stream).toString().toLowerCase() === "Boolean".toLowerCase()) {
+                        if (stream === true) {
+                            strm = true;
                         }
                         else {
-                            return process({
-                                "code": 500,
-                                "status": false,
-                                "error": "INTERNAL_SERVER_ERROR",
-                                "message": "general (unknown) error"
-                            }, null);
+                            strm = false;
                         }
-                    });
-                    response.data.on("error", function (err) {
-                        return process({
+                    }
+                    else {
+                        strm = false;
+                    }
+                }
+                catch (e) {
+                    strm = false;
+                }
+                if (!(strm === false)) return [3 /*break*/, 5];
+                _h.label = 1;
+            case 1:
+                _h.trys.push([1, 3, , 4]);
+                return [4 /*yield*/, consult_('https://nexra.aryahcr.cc/api/chat/complements', {
+                        messages: messages != undefined && messages != null ? messages : [],
+                        conversation_style: conversation_style,
+                        markdown: markdown != undefined && markdown != null ? markdown : false,
+                        model: "bing"
+                    })];
+            case 2:
+                response = _h.sent();
+                return [2 /*return*/, process(null, response)];
+            case 3:
+                e_7 = _h.sent();
+                if (typeof (e_7) == "object") {
+                    return [2 /*return*/, process(e_7, null)];
+                }
+                else {
+                    return [2 /*return*/, process({
                             "code": 500,
                             "status": false,
                             "error": "INTERNAL_SERVER_ERROR",
                             "message": "general (unknown) error"
-                        }, null);
-                    });
+                        }, null)];
                 }
-                else {
-                    if ((typeof response.data).toString().toLowerCase() === "Object".toLowerCase()) {
-                        if (response.data.code != undefined && response.data.code != null && response.data.code === 200 && response.data.status != undefined && response.data.status != null && response.data.status === true) {
-                            return process(null, response.data);
-                        }
-                        else {
-                            return process(response.data, null);
-                        }
-                    }
-                    else {
-                        var js = null;
-                        var count = -1;
-                        for (var i = 0; i < response.data.length; i++) {
-                            if (count <= -1) {
-                                if (response.data[i] === "{") {
-                                    count = i;
-                                }
-                            }
-                            else {
-                                break;
-                            }
-                        }
-                        if (count <= -1) {
-                            return process({
-                                "code": 500,
-                                "status": false,
-                                "error": "INTERNAL_SERVER_ERROR",
-                                "message": "general (unknown) error"
-                            }, null);
-                        }
-                        else {
-                            try {
-                                js = response.data.slice(count);
-                                js = JSON.parse(js);
-                                if (js != undefined && js != null && js.code != undefined && js.code != null && js.code === 200 && js.status != undefined && js.status != null && js.status === true) {
-                                    return process(null, js);
-                                }
-                                else {
-                                    return process(js, null);
-                                }
-                            }
-                            catch (e) {
-                                return process({
-                                    "code": 500,
-                                    "status": false,
-                                    "error": "INTERNAL_SERVER_ERROR",
-                                    "message": "general (unknown) error"
-                                }, null);
-                            }
-                        }
-                    }
-                }
-            }
-            else {
-                return process({
-                    "code": 500,
-                    "status": false,
-                    "error": "INTERNAL_SERVER_ERROR",
-                    "message": "general (unknown) error"
-                }, null);
-            }
-        }).catch(function (error) {
-            try {
-                if (error.response) {
-                    return process(error.response.data, null);
-                }
-                else if (error.request) {
-                    return process({
-                        "code": 404,
-                        "error": "NOT_FOUND",
-                        "message": "the service is currently unavailable"
-                    }, null);
-                }
-                else {
-                    return process({
+                return [3 /*break*/, 4];
+            case 4: return [3 /*break*/, 8];
+            case 5:
+                _h.trys.push([5, 7, , 8]);
+                return [4 /*yield*/, consult_strm('https://nexra.aryahcr.cc/api/chat/complements', {
+                        messages: messages != undefined && messages != null ? messages : [],
+                        conversation_style: conversation_style,
+                        markdown: markdown != undefined && markdown != null ? markdown : false,
+                        model: "bing"
+                    }, function (err, data) {
+                        return process(err, data);
+                    })];
+            case 6:
+                _h.sent();
+                return [3 /*break*/, 8];
+            case 7:
+                e_8 = _h.sent();
+                return [2 /*return*/, process({
                         "code": 500,
                         "status": false,
                         "error": "INTERNAL_SERVER_ERROR",
                         "message": "general (unknown) error"
-                    }, null);
-                }
-            }
-            catch (e) {
-                return process({
-                    "code": 500,
-                    "status": false,
-                    "error": "INTERNAL_SERVER_ERROR",
-                    "message": "general (unknown) error"
-                }, null);
-            }
-        });
-    }
-    catch (e) {
-        return process({
-            "code": 500,
-            "status": false,
-            "error": "INTERNAL_SERVER_ERROR",
-            "message": "general (unknown) error"
-        }, null);
-    }
-};
+                    }, null)];
+            case 8: return [2 /*return*/];
+        }
+    });
+}); };
 exports.bing = bing;
 var pixart = /** @class */ (function () {
     function pixart() {
     }
-    pixart.a = function (_a, process_1) {
-        return __awaiter(this, arguments, void 0, function (_b, process) {
-            var _c = _b.prompt, prompt = _c === void 0 ? "" : _c, _d = _b.data, data = _d === void 0 ? {
+    pixart.a = function (_b, process_1) {
+        return __awaiter(this, arguments, void 0, function (_c, process) {
+            var response, e_9;
+            var _d = _c.prompt, prompt = _d === void 0 ? "" : _d, _e = _c.data, data = _e === void 0 ? {
                 prompt_negative: "",
                 sampler: "DPM-Solver",
                 image_style: "(No style)",
@@ -1028,253 +696,92 @@ var pixart = /** @class */ (function () {
                 dpm_inference_steps: 14,
                 sa_guidance_scale: 3,
                 sa_inference_steps: 25
-            } : _d;
-            return __generator(this, function (_e) {
-                try {
-                    axios_1.default.post('https://nexra.aryahcr.cc/api/image/complements', {
-                        prompt: prompt != undefined && prompt != null ? prompt : "",
-                        model: "pixart-a",
-                        data: {
-                            prompt_negative: data != undefined && data != null && data.prompt_negative != undefined && data.prompt_negative != null ? data.prompt_negative : "",
-                            sampler: data != undefined && data != null && data.sampler != undefined && data.sampler != null ? data.sampler : "DPM-Solver",
-                            image_style: data != undefined && data != null && data.image_style != undefined && data.image_style != null ? data.image_style : "(No style)",
-                            width: data != undefined && data != null && data.width != undefined && data.width != null ? data.width : 1024,
-                            height: data != undefined && data != null && data.height != undefined && data.height != null ? data.height : 1024,
-                            dpm_guidance_scale: data != undefined && data != null && data.dpm_guidance_scale != undefined && data.dpm_guidance_scale != null ? data.dpm_guidance_scale : 4.5,
-                            dpm_inference_steps: data != undefined && data != null && data.dpm_inference_steps != undefined && data.dpm_inference_steps != null ? data.dpm_inference_steps : 14,
-                            sa_guidance_scale: data != undefined && data != null && data.sa_guidance_scale != undefined && data.sa_guidance_scale != null ? data.sa_guidance_scale : 3,
-                            sa_inference_steps: data != undefined && data != null && data.sa_inference_steps != undefined && data.sa_inference_steps != null ? data.sa_inference_steps : 25
-                        }
-                    }, {
-                        headers: __assign({ 'Content-Type': 'application/json' }, cred)
-                    }).then(function (response) {
-                        if (response.status === 200) {
-                            if ((typeof response.data).toString().toLowerCase() === "Object".toLowerCase()) {
-                                if (response.data.code != undefined && response.data.code != null && response.data.code === 200 && response.data.status != undefined && response.data.status != null && response.data.status === true) {
-                                    return process(null, response.data);
+            } : _e;
+            return __generator(this, function (_f) {
+                switch (_f.label) {
+                    case 0:
+                        _f.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, consult_('https://nexra.aryahcr.cc/api/image/complements', {
+                                prompt: prompt != undefined && prompt != null ? prompt : "",
+                                model: "pixart-a",
+                                data: {
+                                    prompt_negative: data != undefined && data != null && data.prompt_negative != undefined && data.prompt_negative != null ? data.prompt_negative : "",
+                                    sampler: data != undefined && data != null && data.sampler != undefined && data.sampler != null ? data.sampler : "DPM-Solver",
+                                    image_style: data != undefined && data != null && data.image_style != undefined && data.image_style != null ? data.image_style : "(No style)",
+                                    width: data != undefined && data != null && data.width != undefined && data.width != null ? data.width : 1024,
+                                    height: data != undefined && data != null && data.height != undefined && data.height != null ? data.height : 1024,
+                                    dpm_guidance_scale: data != undefined && data != null && data.dpm_guidance_scale != undefined && data.dpm_guidance_scale != null ? data.dpm_guidance_scale : 4.5,
+                                    dpm_inference_steps: data != undefined && data != null && data.dpm_inference_steps != undefined && data.dpm_inference_steps != null ? data.dpm_inference_steps : 14,
+                                    sa_guidance_scale: data != undefined && data != null && data.sa_guidance_scale != undefined && data.sa_guidance_scale != null ? data.sa_guidance_scale : 3,
+                                    sa_inference_steps: data != undefined && data != null && data.sa_inference_steps != undefined && data.sa_inference_steps != null ? data.sa_inference_steps : 25
                                 }
-                                else {
-                                    return process(response.data, null);
-                                }
-                            }
-                            else {
-                                var js = null;
-                                var count = -1;
-                                for (var i = 0; i < response.data.length; i++) {
-                                    if (count <= -1) {
-                                        if (response.data[i] === "{") {
-                                            count = i;
-                                        }
-                                    }
-                                    else {
-                                        break;
-                                    }
-                                }
-                                if (count <= -1) {
-                                    return process({
-                                        "code": 500,
-                                        "status": false,
-                                        "error": "INTERNAL_SERVER_ERROR",
-                                        "message": "general (unknown) error"
-                                    }, null);
-                                }
-                                else {
-                                    try {
-                                        js = response.data.slice(count);
-                                        js = JSON.parse(js);
-                                        if (js != undefined && js != null && js.code != undefined && js.code != null && js.code === 200 && js.status != undefined && js.status != null && js.status === true) {
-                                            return process(null, js);
-                                        }
-                                        else {
-                                            return process(js, null);
-                                        }
-                                    }
-                                    catch (e) {
-                                        return process({
-                                            "code": 500,
-                                            "status": false,
-                                            "error": "INTERNAL_SERVER_ERROR",
-                                            "message": "general (unknown) error"
-                                        }, null);
-                                    }
-                                }
-                            }
+                            })];
+                    case 1:
+                        response = _f.sent();
+                        return [2 /*return*/, process(null, response)];
+                    case 2:
+                        e_9 = _f.sent();
+                        if (typeof (e_9) == "object") {
+                            return [2 /*return*/, process(e_9, null)];
                         }
                         else {
-                            return process({
-                                "code": 500,
-                                "status": false,
-                                "error": "INTERNAL_SERVER_ERROR",
-                                "message": "general (unknown) error"
-                            }, null);
-                        }
-                    }).catch(function (error) {
-                        try {
-                            if (error.response) {
-                                return process(error.response.data, null);
-                            }
-                            else if (error.request) {
-                                return process({
-                                    "code": 404,
-                                    "error": "NOT_FOUND",
-                                    "message": "the service is currently unavailable"
-                                }, null);
-                            }
-                            else {
-                                return process({
+                            return [2 /*return*/, process({
                                     "code": 500,
                                     "status": false,
                                     "error": "INTERNAL_SERVER_ERROR",
                                     "message": "general (unknown) error"
-                                }, null);
-                            }
+                                }, null)];
                         }
-                        catch (e) {
-                            return process({
-                                "code": 500,
-                                "status": false,
-                                "error": "INTERNAL_SERVER_ERROR",
-                                "message": "general (unknown) error"
-                            }, null);
-                        }
-                    });
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
                 }
-                catch (e) {
-                    return [2 /*return*/, process({
-                            "code": 500,
-                            "status": false,
-                            "error": "INTERNAL_SERVER_ERROR",
-                            "message": "general (unknown) error"
-                        }, null)];
-                }
-                return [2 /*return*/];
             });
         });
     };
-    pixart.lcm = function (_a, process_1) {
-        return __awaiter(this, arguments, void 0, function (_b, process) {
-            var _c = _b.prompt, prompt = _c === void 0 ? "" : _c, _d = _b.data, data = _d === void 0 ? {
+    pixart.lcm = function (_b, process_1) {
+        return __awaiter(this, arguments, void 0, function (_c, process) {
+            var response, e_10;
+            var _d = _c.prompt, prompt = _d === void 0 ? "" : _d, _e = _c.data, data = _e === void 0 ? {
                 prompt_negative: "",
                 image_style: "(No style)",
                 width: 1024,
                 height: 1024,
                 lcm_inference_steps: 9
-            } : _d;
-            return __generator(this, function (_e) {
-                try {
-                    axios_1.default.post('https://nexra.aryahcr.cc/api/image/complements', {
-                        prompt: prompt != undefined && prompt != null ? prompt : "",
-                        model: "pixart-lcm",
-                        data: {
-                            prompt_negative: data != undefined && data != null && data.prompt_negative != undefined && data.prompt_negative != null ? data.prompt_negative : "",
-                            image_style: data != undefined && data != null && data.image_style != undefined && data.image_style != null ? data.image_style : "(No style)",
-                            width: data != undefined && data != null && data.width != undefined && data.width != null ? data.width : 1024,
-                            height: data != undefined && data != null && data.height != undefined && data.height != null ? data.height : 1024,
-                            lcm_inference_steps: data != undefined && data != null && data.lcm_inference_steps != undefined && data.lcm_inference_steps != null ? data.lcm_inference_steps : 9
-                        }
-                    }, {
-                        headers: __assign({ 'Content-Type': 'application/json' }, cred)
-                    }).then(function (response) {
-                        if (response.status === 200) {
-                            if ((typeof response.data).toString().toLowerCase() === "Object".toLowerCase()) {
-                                if (response.data.code != undefined && response.data.code != null && response.data.code === 200 && response.data.status != undefined && response.data.status != null && response.data.status === true) {
-                                    return process(null, response.data);
+            } : _e;
+            return __generator(this, function (_f) {
+                switch (_f.label) {
+                    case 0:
+                        _f.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, consult_('https://nexra.aryahcr.cc/api/image/complements', {
+                                prompt: prompt != undefined && prompt != null ? prompt : "",
+                                model: "pixart-lcm",
+                                data: {
+                                    prompt_negative: data != undefined && data != null && data.prompt_negative != undefined && data.prompt_negative != null ? data.prompt_negative : "",
+                                    image_style: data != undefined && data != null && data.image_style != undefined && data.image_style != null ? data.image_style : "(No style)",
+                                    width: data != undefined && data != null && data.width != undefined && data.width != null ? data.width : 1024,
+                                    height: data != undefined && data != null && data.height != undefined && data.height != null ? data.height : 1024,
+                                    lcm_inference_steps: data != undefined && data != null && data.lcm_inference_steps != undefined && data.lcm_inference_steps != null ? data.lcm_inference_steps : 9
                                 }
-                                else {
-                                    return process(response.data, null);
-                                }
-                            }
-                            else {
-                                var js = null;
-                                var count = -1;
-                                for (var i = 0; i < response.data.length; i++) {
-                                    if (count <= -1) {
-                                        if (response.data[i] === "{") {
-                                            count = i;
-                                        }
-                                    }
-                                    else {
-                                        break;
-                                    }
-                                }
-                                if (count <= -1) {
-                                    return process({
-                                        "code": 500,
-                                        "status": false,
-                                        "error": "INTERNAL_SERVER_ERROR",
-                                        "message": "general (unknown) error"
-                                    }, null);
-                                }
-                                else {
-                                    try {
-                                        js = response.data.slice(count);
-                                        js = JSON.parse(js);
-                                        if (js != undefined && js != null && js.code != undefined && js.code != null && js.code === 200 && js.status != undefined && js.status != null && js.status === true) {
-                                            return process(null, js);
-                                        }
-                                        else {
-                                            return process(js, null);
-                                        }
-                                    }
-                                    catch (e) {
-                                        return process({
-                                            "code": 500,
-                                            "status": false,
-                                            "error": "INTERNAL_SERVER_ERROR",
-                                            "message": "general (unknown) error"
-                                        }, null);
-                                    }
-                                }
-                            }
+                            })];
+                    case 1:
+                        response = _f.sent();
+                        return [2 /*return*/, process(null, response)];
+                    case 2:
+                        e_10 = _f.sent();
+                        if (typeof (e_10) == "object") {
+                            return [2 /*return*/, process(e_10, null)];
                         }
                         else {
-                            return process({
-                                "code": 500,
-                                "status": false,
-                                "error": "INTERNAL_SERVER_ERROR",
-                                "message": "general (unknown) error"
-                            }, null);
-                        }
-                    }).catch(function (error) {
-                        try {
-                            if (error.response) {
-                                return process(error.response.data, null);
-                            }
-                            else if (error.request) {
-                                return process({
-                                    "code": 404,
-                                    "error": "NOT_FOUND",
-                                    "message": "the service is currently unavailable"
-                                }, null);
-                            }
-                            else {
-                                return process({
+                            return [2 /*return*/, process({
                                     "code": 500,
                                     "status": false,
                                     "error": "INTERNAL_SERVER_ERROR",
                                     "message": "general (unknown) error"
-                                }, null);
-                            }
+                                }, null)];
                         }
-                        catch (e) {
-                            return process({
-                                "code": 500,
-                                "status": false,
-                                "error": "INTERNAL_SERVER_ERROR",
-                                "message": "general (unknown) error"
-                            }, null);
-                        }
-                    });
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
                 }
-                catch (e) {
-                    return [2 /*return*/, process({
-                            "code": 500,
-                            "status": false,
-                            "error": "INTERNAL_SERVER_ERROR",
-                            "message": "general (unknown) error"
-                        }, null)];
-                }
-                return [2 /*return*/];
             });
         });
     };
@@ -1284,355 +791,116 @@ exports.pixart = pixart;
 var dalle = /** @class */ (function () {
     function dalle() {
     }
-    dalle.v1 = function (_a, process_1) {
-        return __awaiter(this, arguments, void 0, function (_b, process) {
-            var _c = _b.prompt, prompt = _c === void 0 ? "" : _c;
-            return __generator(this, function (_d) {
-                try {
-                    axios_1.default.post('https://nexra.aryahcr.cc/api/image/complements', {
-                        prompt: prompt != undefined && prompt != null ? prompt : "",
-                        model: "dalle"
-                    }, {
-                        headers: {
-                            'Content-Type': 'application/json'
-                        }
-                    }).then(function (response) {
-                        if (response.status === 200) {
-                            if ((typeof response.data).toString().toLowerCase() === "Object".toLowerCase()) {
-                                if (response.data.code != undefined && response.data.code != null && response.data.code === 200 && response.data.status != undefined && response.data.status != null && response.data.status === true) {
-                                    return process(null, response.data);
-                                }
-                                else {
-                                    return process(response.data, null);
-                                }
-                            }
-                            else {
-                                var js = null;
-                                var count = -1;
-                                for (var i = 0; i < response.data.length; i++) {
-                                    if (count <= -1) {
-                                        if (response.data[i] === "{") {
-                                            count = i;
-                                        }
-                                    }
-                                    else {
-                                        break;
-                                    }
-                                }
-                                if (count <= -1) {
-                                    return process({
-                                        "code": 500,
-                                        "status": false,
-                                        "error": "INTERNAL_SERVER_ERROR",
-                                        "message": "general (unknown) error"
-                                    }, null);
-                                }
-                                else {
-                                    try {
-                                        js = response.data.slice(count);
-                                        js = JSON.parse(js);
-                                        if (js != undefined && js != null && js.code != undefined && js.code != null && js.code === 200 && js.status != undefined && js.status != null && js.status === true) {
-                                            return process(null, js);
-                                        }
-                                        else {
-                                            return process(js, null);
-                                        }
-                                    }
-                                    catch (e) {
-                                        return process({
-                                            "code": 500,
-                                            "status": false,
-                                            "error": "INTERNAL_SERVER_ERROR",
-                                            "message": "general (unknown) error"
-                                        }, null);
-                                    }
-                                }
-                            }
+    dalle.v1 = function (_b, process_1) {
+        return __awaiter(this, arguments, void 0, function (_c, process) {
+            var response, e_11;
+            var _d = _c.prompt, prompt = _d === void 0 ? "" : _d;
+            return __generator(this, function (_e) {
+                switch (_e.label) {
+                    case 0:
+                        _e.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, consult_('https://nexra.aryahcr.cc/api/image/complements', {
+                                prompt: prompt != undefined && prompt != null ? prompt : "",
+                                model: "dalle"
+                            })];
+                    case 1:
+                        response = _e.sent();
+                        return [2 /*return*/, process(null, response)];
+                    case 2:
+                        e_11 = _e.sent();
+                        if (typeof (e_11) == "object") {
+                            return [2 /*return*/, process(e_11, null)];
                         }
                         else {
-                            return process({
-                                "code": 500,
-                                "status": false,
-                                "error": "INTERNAL_SERVER_ERROR",
-                                "message": "general (unknown) error"
-                            }, null);
-                        }
-                    }).catch(function (error) {
-                        try {
-                            if (error.response) {
-                                return process(error.response.data, null);
-                            }
-                            else if (error.request) {
-                                return process({
-                                    "code": 404,
-                                    "error": "NOT_FOUND",
-                                    "message": "the service is currently unavailable"
-                                }, null);
-                            }
-                            else {
-                                return process({
+                            return [2 /*return*/, process({
                                     "code": 500,
                                     "status": false,
                                     "error": "INTERNAL_SERVER_ERROR",
                                     "message": "general (unknown) error"
-                                }, null);
-                            }
+                                }, null)];
                         }
-                        catch (e) {
-                            return process({
-                                "code": 500,
-                                "status": false,
-                                "error": "INTERNAL_SERVER_ERROR",
-                                "message": "general (unknown) error"
-                            }, null);
-                        }
-                    });
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
                 }
-                catch (e) {
-                    return [2 /*return*/, process({
-                            "code": 500,
-                            "status": false,
-                            "error": "INTERNAL_SERVER_ERROR",
-                            "message": "general (unknown) error"
-                        }, null)];
-                }
-                return [2 /*return*/];
             });
         });
     };
-    dalle.v2 = function (_a, process_1) {
-        return __awaiter(this, arguments, void 0, function (_b, process) {
-            var _c = _b.prompt, prompt = _c === void 0 ? "" : _c, _d = _b.data, data = _d === void 0 ? {
+    dalle.v2 = function (_b, process_1) {
+        return __awaiter(this, arguments, void 0, function (_c, process) {
+            var response, e_12;
+            var _d = _c.prompt, prompt = _d === void 0 ? "" : _d, _e = _c.data, data = _e === void 0 ? {
                 prompt_negative: "",
                 width: 1024,
                 height: 1024,
                 guidance_scale: 6
-            } : _d;
-            return __generator(this, function (_e) {
-                try {
-                    axios_1.default.post('https://nexra.aryahcr.cc/api/image/complements', {
-                        prompt: prompt != undefined && prompt != null ? prompt : "",
-                        model: "dalle2",
-                        data: {
-                            prompt_negative: data != undefined && data != null && data.prompt_negative != undefined && data.prompt_negative != null ? data.prompt_negative : "",
-                            width: data != undefined && data != null && data.width != undefined && data.width != null ? data.width : 1024,
-                            height: data != undefined && data != null && data.height != undefined && data.height != null ? data.height : 1024,
-                            guidance_scale: data != undefined && data != null && data.guidance_scale != undefined && data.guidance_scale != null ? data.guidance_scale : 6
-                        }
-                    }, {
-                        headers: __assign({ 'Content-Type': 'application/json' }, cred)
-                    }).then(function (response) {
-                        if (response.status === 200) {
-                            if ((typeof response.data).toString().toLowerCase() === "Object".toLowerCase()) {
-                                if (response.data.code != undefined && response.data.code != null && response.data.code === 200 && response.data.status != undefined && response.data.status != null && response.data.status === true) {
-                                    return process(null, response.data);
+            } : _e;
+            return __generator(this, function (_f) {
+                switch (_f.label) {
+                    case 0:
+                        _f.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, consult_('https://nexra.aryahcr.cc/api/image/complements', {
+                                prompt: prompt != undefined && prompt != null ? prompt : "",
+                                model: "dalle2",
+                                data: {
+                                    prompt_negative: data != undefined && data != null && data.prompt_negative != undefined && data.prompt_negative != null ? data.prompt_negative : "",
+                                    width: data != undefined && data != null && data.width != undefined && data.width != null ? data.width : 1024,
+                                    height: data != undefined && data != null && data.height != undefined && data.height != null ? data.height : 1024,
+                                    guidance_scale: data != undefined && data != null && data.guidance_scale != undefined && data.guidance_scale != null ? data.guidance_scale : 6
                                 }
-                                else {
-                                    return process(response.data, null);
-                                }
-                            }
-                            else {
-                                var js = null;
-                                var count = -1;
-                                for (var i = 0; i < response.data.length; i++) {
-                                    if (count <= -1) {
-                                        if (response.data[i] === "{") {
-                                            count = i;
-                                        }
-                                    }
-                                    else {
-                                        break;
-                                    }
-                                }
-                                if (count <= -1) {
-                                    return process({
-                                        "code": 500,
-                                        "status": false,
-                                        "error": "INTERNAL_SERVER_ERROR",
-                                        "message": "general (unknown) error"
-                                    }, null);
-                                }
-                                else {
-                                    try {
-                                        js = response.data.slice(count);
-                                        js = JSON.parse(js);
-                                        if (js != undefined && js != null && js.code != undefined && js.code != null && js.code === 200 && js.status != undefined && js.status != null && js.status === true) {
-                                            return process(null, js);
-                                        }
-                                        else {
-                                            return process(js, null);
-                                        }
-                                    }
-                                    catch (e) {
-                                        return process({
-                                            "code": 500,
-                                            "status": false,
-                                            "error": "INTERNAL_SERVER_ERROR",
-                                            "message": "general (unknown) error"
-                                        }, null);
-                                    }
-                                }
-                            }
+                            })];
+                    case 1:
+                        response = _f.sent();
+                        return [2 /*return*/, process(null, response)];
+                    case 2:
+                        e_12 = _f.sent();
+                        if (typeof (e_12) == "object") {
+                            return [2 /*return*/, process(e_12, null)];
                         }
                         else {
-                            return process({
-                                "code": 500,
-                                "status": false,
-                                "error": "INTERNAL_SERVER_ERROR",
-                                "message": "general (unknown) error"
-                            }, null);
-                        }
-                    }).catch(function (error) {
-                        try {
-                            if (error.response) {
-                                return process(error.response.data, null);
-                            }
-                            else if (error.request) {
-                                return process({
-                                    "code": 404,
-                                    "error": "NOT_FOUND",
-                                    "message": "the service is currently unavailable"
-                                }, null);
-                            }
-                            else {
-                                return process({
+                            return [2 /*return*/, process({
                                     "code": 500,
                                     "status": false,
                                     "error": "INTERNAL_SERVER_ERROR",
                                     "message": "general (unknown) error"
-                                }, null);
-                            }
+                                }, null)];
                         }
-                        catch (e) {
-                            return process({
-                                "code": 500,
-                                "status": false,
-                                "error": "INTERNAL_SERVER_ERROR",
-                                "message": "general (unknown) error"
-                            }, null);
-                        }
-                    });
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
                 }
-                catch (e) {
-                    return [2 /*return*/, process({
-                            "code": 500,
-                            "status": false,
-                            "error": "INTERNAL_SERVER_ERROR",
-                            "message": "general (unknown) error"
-                        }, null)];
-                }
-                return [2 /*return*/];
             });
         });
     };
-    dalle.mini = function (_a, process_1) {
-        return __awaiter(this, arguments, void 0, function (_b, process) {
-            var _c = _b.prompt, prompt = _c === void 0 ? "" : _c;
-            return __generator(this, function (_d) {
-                try {
-                    axios_1.default.post('https://nexra.aryahcr.cc/api/image/complements', {
-                        prompt: prompt != undefined && prompt != null ? prompt : "",
-                        model: "dalle-mini"
-                    }, {
-                        headers: {
-                            'Content-Type': 'application/json'
-                        }
-                    }).then(function (response) {
-                        if (response.status === 200) {
-                            if ((typeof response.data).toString().toLowerCase() === "Object".toLowerCase()) {
-                                if (response.data.code != undefined && response.data.code != null && response.data.code === 200 && response.data.status != undefined && response.data.status != null && response.data.status === true) {
-                                    return process(null, response.data);
-                                }
-                                else {
-                                    return process(response.data, null);
-                                }
-                            }
-                            else {
-                                var js = null;
-                                var count = -1;
-                                for (var i = 0; i < response.data.length; i++) {
-                                    if (count <= -1) {
-                                        if (response.data[i] === "{") {
-                                            count = i;
-                                        }
-                                    }
-                                    else {
-                                        break;
-                                    }
-                                }
-                                if (count <= -1) {
-                                    return process({
-                                        "code": 500,
-                                        "status": false,
-                                        "error": "INTERNAL_SERVER_ERROR",
-                                        "message": "general (unknown) error"
-                                    }, null);
-                                }
-                                else {
-                                    try {
-                                        js = response.data.slice(count);
-                                        js = JSON.parse(js);
-                                        if (js != undefined && js != null && js.code != undefined && js.code != null && js.code === 200 && js.status != undefined && js.status != null && js.status === true) {
-                                            return process(null, js);
-                                        }
-                                        else {
-                                            return process(js, null);
-                                        }
-                                    }
-                                    catch (e) {
-                                        return process({
-                                            "code": 500,
-                                            "status": false,
-                                            "error": "INTERNAL_SERVER_ERROR",
-                                            "message": "general (unknown) error"
-                                        }, null);
-                                    }
-                                }
-                            }
+    dalle.mini = function (_b, process_1) {
+        return __awaiter(this, arguments, void 0, function (_c, process) {
+            var response, e_13;
+            var _d = _c.prompt, prompt = _d === void 0 ? "" : _d;
+            return __generator(this, function (_e) {
+                switch (_e.label) {
+                    case 0:
+                        _e.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, consult_('https://nexra.aryahcr.cc/api/image/complements', {
+                                prompt: prompt != undefined && prompt != null ? prompt : "",
+                                model: "dalle-mini"
+                            })];
+                    case 1:
+                        response = _e.sent();
+                        return [2 /*return*/, process(null, response)];
+                    case 2:
+                        e_13 = _e.sent();
+                        if (typeof (e_13) == "object") {
+                            return [2 /*return*/, process(e_13, null)];
                         }
                         else {
-                            return process(response.data, null);
-                        }
-                    }).catch(function (error) {
-                        try {
-                            if (error.response) {
-                                return process(error.response.data, null);
-                            }
-                            else if (error.request) {
-                                return process({
-                                    "code": 404,
-                                    "error": "NOT_FOUND",
-                                    "message": "the service is currently unavailable"
-                                }, null);
-                            }
-                            else {
-                                return process({
+                            return [2 /*return*/, process({
                                     "code": 500,
                                     "status": false,
                                     "error": "INTERNAL_SERVER_ERROR",
                                     "message": "general (unknown) error"
-                                }, null);
-                            }
+                                }, null)];
                         }
-                        catch (e) {
-                            return process({
-                                "code": 500,
-                                "status": false,
-                                "error": "INTERNAL_SERVER_ERROR",
-                                "message": "general (unknown) error"
-                            }, null);
-                        }
-                    });
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
                 }
-                catch (e) {
-                    return [2 /*return*/, process({
-                            "code": 500,
-                            "status": false,
-                            "error": "INTERNAL_SERVER_ERROR",
-                            "message": "general (unknown) error"
-                        }, null)];
-                }
-                return [2 /*return*/];
             });
         });
     };
@@ -1642,138 +910,57 @@ exports.dalle = dalle;
 var prodia = /** @class */ (function () {
     function prodia() {
     }
-    prodia.v1 = function (_a, process_1) {
-        return __awaiter(this, arguments, void 0, function (_b, process) {
-            var _c = _b.prompt, prompt = _c === void 0 ? "" : _c, _d = _b.data, data = _d === void 0 ? {
+    prodia.v1 = function (_b, process_1) {
+        return __awaiter(this, arguments, void 0, function (_c, process) {
+            var response, e_14;
+            var _d = _c.prompt, prompt = _d === void 0 ? "" : _d, _e = _c.data, data = _e === void 0 ? {
                 model: "absolutereality_V16.safetensors [37db0fc3]",
                 steps: 25,
                 cfg_scale: 7,
                 sampler: "DPM++ 2M Karras",
                 negative_prompt: ""
-            } : _d;
-            return __generator(this, function (_e) {
-                try {
-                    axios_1.default.post('https://nexra.aryahcr.cc/api/image/complements', {
-                        prompt: prompt != undefined && prompt != null ? prompt : "",
-                        model: "prodia",
-                        data: {
-                            model: data != undefined && data != null && data.model != undefined && data.model != null ? data.model : "absolutereality_V16.safetensors [37db0fc3]",
-                            steps: data != undefined && data != null && data.steps != undefined && data.steps != null ? data.steps : 25,
-                            cfg_scale: data != undefined && data != null && data.cfg_scale != undefined && data.cfg_scale != null ? data.cfg_scale : 7,
-                            sampler: data != undefined && data != null && data.sampler != undefined && data.sampler != null ? data.sampler : "DPM++ 2M Karras",
-                            negative_prompt: data != undefined && data != null && data.negative_prompt != undefined && data.negative_prompt != null ? data.negative_prompt : ""
-                        }
-                    }, {
-                        headers: {
-                            'Content-Type': 'application/json'
-                        }
-                    }).then(function (response) {
-                        if (response.status === 200) {
-                            if ((typeof response.data).toString().toLowerCase() === "Object".toLowerCase()) {
-                                if (response.data.code != undefined && response.data.code != null && response.data.code === 200 && response.data.status != undefined && response.data.status != null && response.data.status === true) {
-                                    return process(null, response.data);
+            } : _e;
+            return __generator(this, function (_f) {
+                switch (_f.label) {
+                    case 0:
+                        _f.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, consult_('https://nexra.aryahcr.cc/api/image/complements', {
+                                prompt: prompt != undefined && prompt != null ? prompt : "",
+                                model: "prodia",
+                                data: {
+                                    model: data != undefined && data != null && data.model != undefined && data.model != null ? data.model : "absolutereality_V16.safetensors [37db0fc3]",
+                                    steps: data != undefined && data != null && data.steps != undefined && data.steps != null ? data.steps : 25,
+                                    cfg_scale: data != undefined && data != null && data.cfg_scale != undefined && data.cfg_scale != null ? data.cfg_scale : 7,
+                                    sampler: data != undefined && data != null && data.sampler != undefined && data.sampler != null ? data.sampler : "DPM++ 2M Karras",
+                                    negative_prompt: data != undefined && data != null && data.negative_prompt != undefined && data.negative_prompt != null ? data.negative_prompt : ""
                                 }
-                                else {
-                                    return process(response.data, null);
-                                }
-                            }
-                            else {
-                                var js = null;
-                                var count = -1;
-                                for (var i = 0; i < response.data.length; i++) {
-                                    if (count <= -1) {
-                                        if (response.data[i] === "{") {
-                                            count = i;
-                                        }
-                                    }
-                                    else {
-                                        break;
-                                    }
-                                }
-                                if (count <= -1) {
-                                    return process({
-                                        "code": 500,
-                                        "status": false,
-                                        "error": "INTERNAL_SERVER_ERROR",
-                                        "message": "general (unknown) error"
-                                    }, null);
-                                }
-                                else {
-                                    try {
-                                        js = response.data.slice(count);
-                                        js = JSON.parse(js);
-                                        if (js != undefined && js != null && js.code != undefined && js.code != null && js.code === 200 && js.status != undefined && js.status != null && js.status === true) {
-                                            return process(null, js);
-                                        }
-                                        else {
-                                            return process(js, null);
-                                        }
-                                    }
-                                    catch (e) {
-                                        return process({
-                                            "code": 500,
-                                            "status": false,
-                                            "error": "INTERNAL_SERVER_ERROR",
-                                            "message": "general (unknown) error"
-                                        }, null);
-                                    }
-                                }
-                            }
+                            })];
+                    case 1:
+                        response = _f.sent();
+                        return [2 /*return*/, process(null, response)];
+                    case 2:
+                        e_14 = _f.sent();
+                        if (typeof (e_14) == "object") {
+                            return [2 /*return*/, process(e_14, null)];
                         }
                         else {
-                            return process({
-                                "code": 500,
-                                "status": false,
-                                "error": "INTERNAL_SERVER_ERROR",
-                                "message": "general (unknown) error"
-                            }, null);
-                        }
-                    }).catch(function (error) {
-                        try {
-                            if (error.response) {
-                                return process(error.response.data, null);
-                            }
-                            else if (error.request) {
-                                return process({
-                                    "code": 404,
-                                    "error": "NOT_FOUND",
-                                    "message": "the service is currently unavailable"
-                                }, null);
-                            }
-                            else {
-                                return process({
+                            return [2 /*return*/, process({
                                     "code": 500,
                                     "status": false,
                                     "error": "INTERNAL_SERVER_ERROR",
                                     "message": "general (unknown) error"
-                                }, null);
-                            }
+                                }, null)];
                         }
-                        catch (e) {
-                            return process({
-                                "code": 500,
-                                "status": false,
-                                "error": "INTERNAL_SERVER_ERROR",
-                                "message": "general (unknown) error"
-                            }, null);
-                        }
-                    });
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
                 }
-                catch (e) {
-                    return [2 /*return*/, process({
-                            "code": 500,
-                            "status": false,
-                            "error": "INTERNAL_SERVER_ERROR",
-                            "message": "general (unknown) error"
-                        }, null)];
-                }
-                return [2 /*return*/];
             });
         });
     };
-    prodia.stablediffusion = function (_a, process_1) {
-        return __awaiter(this, arguments, void 0, function (_b, process) {
-            var _c = _b.prompt, prompt = _c === void 0 ? "" : _c, _d = _b.data, data = _d === void 0 ? {
+    prodia.stablediffusion = function (_b, process_1) {
+        return __awaiter(this, arguments, void 0, function (_c, process) {
+            var response, e_15;
+            var _d = _c.prompt, prompt = _d === void 0 ? "" : _d, _e = _c.data, data = _e === void 0 ? {
                 prompt_negative: "",
                 model: "absolutereality_v181.safetensors [3d9d4d2b]",
                 sampling_method: "DPM++ 2M Karras",
@@ -1781,132 +968,50 @@ var prodia = /** @class */ (function () {
                 width: 512,
                 height: 512,
                 cfg_scale: 7
-            } : _d;
-            return __generator(this, function (_e) {
-                try {
-                    axios_1.default.post('https://nexra.aryahcr.cc/api/image/complements', {
-                        prompt: prompt != undefined && prompt != null ? prompt : "",
-                        model: "prodia-stablediffusion",
-                        data: {
-                            model: data != undefined && data != null && data.model != undefined && data.model != null ? data.model : "absolutereality_v181.safetensors [3d9d4d2b]",
-                            sampling_method: data != undefined && data != null && data.sampling_method != undefined && data.sampling_method != null ? data.sampling_method : "DPM++ 2M Karras",
-                            sampling_steps: data != undefined && data != null && data.sampling_steps != undefined && data.sampling_steps != null ? data.sampling_steps : 25,
-                            width: data != undefined && data != null && data.width != undefined && data.width != null ? data.width : 512,
-                            height: data != undefined && data != null && data.height != undefined && data.height != null ? data.height : 512,
-                            cfg_scale: data != undefined && data != null && data.cfg_scale != undefined && data.cfg_scale != null ? data.cfg_scale : 7,
-                            prompt_negative: data != undefined && data != null && data.prompt_negative != undefined && data.prompt_negative != null ? data.prompt_negative : "",
-                        }
-                    }, {
-                        headers: {
-                            'Content-Type': 'application/json'
-                        }
-                    }).then(function (response) {
-                        if (response.status === 200) {
-                            if ((typeof response.data).toString().toLowerCase() === "Object".toLowerCase()) {
-                                if (response.data.code != undefined && response.data.code != null && response.data.code === 200 && response.data.status != undefined && response.data.status != null && response.data.status === true) {
-                                    return process(null, response.data);
+            } : _e;
+            return __generator(this, function (_f) {
+                switch (_f.label) {
+                    case 0:
+                        _f.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, consult_('https://nexra.aryahcr.cc/api/image/complements', {
+                                prompt: prompt != undefined && prompt != null ? prompt : "",
+                                model: "prodia-stablediffusion",
+                                data: {
+                                    model: data != undefined && data != null && data.model != undefined && data.model != null ? data.model : "absolutereality_v181.safetensors [3d9d4d2b]",
+                                    sampling_method: data != undefined && data != null && data.sampling_method != undefined && data.sampling_method != null ? data.sampling_method : "DPM++ 2M Karras",
+                                    sampling_steps: data != undefined && data != null && data.sampling_steps != undefined && data.sampling_steps != null ? data.sampling_steps : 25,
+                                    width: data != undefined && data != null && data.width != undefined && data.width != null ? data.width : 512,
+                                    height: data != undefined && data != null && data.height != undefined && data.height != null ? data.height : 512,
+                                    cfg_scale: data != undefined && data != null && data.cfg_scale != undefined && data.cfg_scale != null ? data.cfg_scale : 7,
+                                    prompt_negative: data != undefined && data != null && data.prompt_negative != undefined && data.prompt_negative != null ? data.prompt_negative : "",
                                 }
-                                else {
-                                    return process(response.data, null);
-                                }
-                            }
-                            else {
-                                var js = null;
-                                var count = -1;
-                                for (var i = 0; i < response.data.length; i++) {
-                                    if (count <= -1) {
-                                        if (response.data[i] === "{") {
-                                            count = i;
-                                        }
-                                    }
-                                    else {
-                                        break;
-                                    }
-                                }
-                                if (count <= -1) {
-                                    return process({
-                                        "code": 500,
-                                        "status": false,
-                                        "error": "INTERNAL_SERVER_ERROR",
-                                        "message": "general (unknown) error"
-                                    }, null);
-                                }
-                                else {
-                                    try {
-                                        js = response.data.slice(count);
-                                        js = JSON.parse(js);
-                                        if (js != undefined && js != null && js.code != undefined && js.code != null && js.code === 200 && js.status != undefined && js.status != null && js.status === true) {
-                                            return process(null, js);
-                                        }
-                                        else {
-                                            return process(js, null);
-                                        }
-                                    }
-                                    catch (e) {
-                                        return process({
-                                            "code": 500,
-                                            "status": false,
-                                            "error": "INTERNAL_SERVER_ERROR",
-                                            "message": "general (unknown) error"
-                                        }, null);
-                                    }
-                                }
-                            }
+                            })];
+                    case 1:
+                        response = _f.sent();
+                        return [2 /*return*/, process(null, response)];
+                    case 2:
+                        e_15 = _f.sent();
+                        if (typeof (e_15) == "object") {
+                            return [2 /*return*/, process(e_15, null)];
                         }
                         else {
-                            return process({
-                                "code": 500,
-                                "status": false,
-                                "error": "INTERNAL_SERVER_ERROR",
-                                "message": "general (unknown) error"
-                            }, null);
-                        }
-                    }).catch(function (error) {
-                        try {
-                            if (error.response) {
-                                return process(error.response.data, null);
-                            }
-                            else if (error.request) {
-                                return process({
-                                    "code": 404,
-                                    "error": "NOT_FOUND",
-                                    "message": "the service is currently unavailable"
-                                }, null);
-                            }
-                            else {
-                                return process({
+                            return [2 /*return*/, process({
                                     "code": 500,
                                     "status": false,
                                     "error": "INTERNAL_SERVER_ERROR",
                                     "message": "general (unknown) error"
-                                }, null);
-                            }
+                                }, null)];
                         }
-                        catch (e) {
-                            return process({
-                                "code": 500,
-                                "status": false,
-                                "error": "INTERNAL_SERVER_ERROR",
-                                "message": "general (unknown) error"
-                            }, null);
-                        }
-                    });
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
                 }
-                catch (e) {
-                    return [2 /*return*/, process({
-                            "code": 500,
-                            "status": false,
-                            "error": "INTERNAL_SERVER_ERROR",
-                            "message": "general (unknown) error"
-                        }, null)];
-                }
-                return [2 /*return*/];
             });
         });
     };
-    prodia.stablediffusion_xl = function (_a, process_1) {
-        return __awaiter(this, arguments, void 0, function (_b, process) {
-            var _c = _b.prompt, prompt = _c === void 0 ? "" : _c, _d = _b.data, data = _d === void 0 ? {
+    prodia.stablediffusion_xl = function (_b, process_1) {
+        return __awaiter(this, arguments, void 0, function (_c, process) {
+            var response, e_16;
+            var _d = _c.prompt, prompt = _d === void 0 ? "" : _d, _e = _c.data, data = _e === void 0 ? {
                 prompt_negative: "",
                 model: "sd_xl_base_1.0.safetensors [be9edd61]",
                 sampling_method: "DPM++ 2M Karras",
@@ -1914,124 +1019,43 @@ var prodia = /** @class */ (function () {
                 width: 1024,
                 height: 1024,
                 cfg_scale: 7
-            } : _d;
-            return __generator(this, function (_e) {
-                try {
-                    axios_1.default.post('https://nexra.aryahcr.cc/api/image/complements', {
-                        prompt: prompt != undefined && prompt != null ? prompt : "",
-                        model: "prodia-stablediffusion-xl",
-                        data: {
-                            model: data != undefined && data != null && data.model != undefined && data.model != null ? data.model : "sd_xl_base_1.0.safetensors [be9edd61]",
-                            sampling_method: data != undefined && data != null && data.sampling_method != undefined && data.sampling_method != null ? data.sampling_method : "DPM++ 2M Karras",
-                            sampling_steps: data != undefined && data != null && data.sampling_steps != undefined && data.sampling_steps != null ? data.sampling_steps : 25,
-                            width: data != undefined && data != null && data.width != undefined && data.width != null ? data.width : 1024,
-                            height: data != undefined && data != null && data.height != undefined && data.height != null ? data.height : 1024,
-                            cfg_scale: data != undefined && data != null && data.cfg_scale != undefined && data.cfg_scale != null ? data.cfg_scale : 7,
-                            prompt_negative: data != undefined && data != null && data.prompt_negative != undefined && data.prompt_negative != null ? data.prompt_negative : "",
-                        }
-                    }, {
-                        headers: __assign({ 'Content-Type': 'application/json' }, cred)
-                    }).then(function (response) {
-                        if (response.status === 200) {
-                            if ((typeof response.data).toString().toLowerCase() === "Object".toLowerCase()) {
-                                if (response.data.code != undefined && response.data.code != null && response.data.code === 200 && response.data.status != undefined && response.data.status != null && response.data.status === true) {
-                                    return process(null, response.data);
+            } : _e;
+            return __generator(this, function (_f) {
+                switch (_f.label) {
+                    case 0:
+                        _f.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, consult_('https://nexra.aryahcr.cc/api/image/complements', {
+                                prompt: prompt != undefined && prompt != null ? prompt : "",
+                                model: "prodia-stablediffusion-xl",
+                                data: {
+                                    model: data != undefined && data != null && data.model != undefined && data.model != null ? data.model : "sd_xl_base_1.0.safetensors [be9edd61]",
+                                    sampling_method: data != undefined && data != null && data.sampling_method != undefined && data.sampling_method != null ? data.sampling_method : "DPM++ 2M Karras",
+                                    sampling_steps: data != undefined && data != null && data.sampling_steps != undefined && data.sampling_steps != null ? data.sampling_steps : 25,
+                                    width: data != undefined && data != null && data.width != undefined && data.width != null ? data.width : 1024,
+                                    height: data != undefined && data != null && data.height != undefined && data.height != null ? data.height : 1024,
+                                    cfg_scale: data != undefined && data != null && data.cfg_scale != undefined && data.cfg_scale != null ? data.cfg_scale : 7,
+                                    prompt_negative: data != undefined && data != null && data.prompt_negative != undefined && data.prompt_negative != null ? data.prompt_negative : "",
                                 }
-                                else {
-                                    return process(response.data, null);
-                                }
-                            }
-                            else {
-                                var js = null;
-                                var count = -1;
-                                for (var i = 0; i < response.data.length; i++) {
-                                    if (count <= -1) {
-                                        if (response.data[i] === "{") {
-                                            count = i;
-                                        }
-                                    }
-                                    else {
-                                        break;
-                                    }
-                                }
-                                if (count <= -1) {
-                                    return process({
-                                        "code": 500,
-                                        "status": false,
-                                        "error": "INTERNAL_SERVER_ERROR",
-                                        "message": "general (unknown) error"
-                                    }, null);
-                                }
-                                else {
-                                    try {
-                                        js = response.data.slice(count);
-                                        js = JSON.parse(js);
-                                        if (js != undefined && js != null && js.code != undefined && js.code != null && js.code === 200 && js.status != undefined && js.status != null && js.status === true) {
-                                            return process(null, js);
-                                        }
-                                        else {
-                                            return process(js, null);
-                                        }
-                                    }
-                                    catch (e) {
-                                        return process({
-                                            "code": 500,
-                                            "status": false,
-                                            "error": "INTERNAL_SERVER_ERROR",
-                                            "message": "general (unknown) error"
-                                        }, null);
-                                    }
-                                }
-                            }
+                            })];
+                    case 1:
+                        response = _f.sent();
+                        return [2 /*return*/, process(null, response)];
+                    case 2:
+                        e_16 = _f.sent();
+                        if (typeof (e_16) == "object") {
+                            return [2 /*return*/, process(e_16, null)];
                         }
                         else {
-                            return process({
-                                "code": 500,
-                                "status": false,
-                                "error": "INTERNAL_SERVER_ERROR",
-                                "message": "general (unknown) error"
-                            }, null);
-                        }
-                    }).catch(function (error) {
-                        try {
-                            if (error.response) {
-                                return process(error.response.data, null);
-                            }
-                            else if (error.request) {
-                                return process({
-                                    "code": 404,
-                                    "error": "NOT_FOUND",
-                                    "message": "the service is currently unavailable"
-                                }, null);
-                            }
-                            else {
-                                return process({
+                            return [2 /*return*/, process({
                                     "code": 500,
                                     "status": false,
                                     "error": "INTERNAL_SERVER_ERROR",
                                     "message": "general (unknown) error"
-                                }, null);
-                            }
+                                }, null)];
                         }
-                        catch (e) {
-                            return process({
-                                "code": 500,
-                                "status": false,
-                                "error": "INTERNAL_SERVER_ERROR",
-                                "message": "general (unknown) error"
-                            }, null);
-                        }
-                    });
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
                 }
-                catch (e) {
-                    return [2 /*return*/, process({
-                            "code": 500,
-                            "status": false,
-                            "error": "INTERNAL_SERVER_ERROR",
-                            "message": "general (unknown) error"
-                        }, null)];
-                }
-                return [2 /*return*/];
             });
         });
     };
@@ -2041,821 +1065,283 @@ exports.prodia = prodia;
 var stablediffusion = /** @class */ (function () {
     function stablediffusion() {
     }
-    stablediffusion.v1 = function (_a, process) {
-        var _b = _a.prompt, prompt = _b === void 0 ? "" : _b;
-        try {
-            axios_1.default.post('https://nexra.aryahcr.cc/api/image/complements', {
-                prompt: prompt != undefined && prompt != null ? prompt : "",
-                model: "stablediffusion-1.5"
-            }, {
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            }).then(function (response) {
-                if (response.status === 200) {
-                    if ((typeof response.data).toString().toLowerCase() === "Object".toLowerCase()) {
-                        if (response.data.code != undefined && response.data.code != null && response.data.code === 200 && response.data.status != undefined && response.data.status != null && response.data.status === true) {
-                            return process(null, response.data);
+    stablediffusion.v1 = function (_b, process_1) {
+        return __awaiter(this, arguments, void 0, function (_c, process) {
+            var response, e_17;
+            var _d = _c.prompt, prompt = _d === void 0 ? "" : _d;
+            return __generator(this, function (_e) {
+                switch (_e.label) {
+                    case 0:
+                        _e.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, consult_('https://nexra.aryahcr.cc/api/image/complements', {
+                                prompt: prompt != undefined && prompt != null ? prompt : "",
+                                model: "stablediffusion-1.5"
+                            })];
+                    case 1:
+                        response = _e.sent();
+                        return [2 /*return*/, process(null, response)];
+                    case 2:
+                        e_17 = _e.sent();
+                        if (typeof (e_17) == "object") {
+                            return [2 /*return*/, process(e_17, null)];
                         }
                         else {
-                            return process(response.data, null);
-                        }
-                    }
-                    else {
-                        var js = null;
-                        var count = -1;
-                        for (var i = 0; i < response.data.length; i++) {
-                            if (count <= -1) {
-                                if (response.data[i] === "{") {
-                                    count = i;
-                                }
-                            }
-                            else {
-                                break;
-                            }
-                        }
-                        if (count <= -1) {
-                            return process({
-                                "code": 500,
-                                "status": false,
-                                "error": "INTERNAL_SERVER_ERROR",
-                                "message": "general (unknown) error"
-                            }, null);
-                        }
-                        else {
-                            try {
-                                js = response.data.slice(count);
-                                js = JSON.parse(js);
-                                if (js != undefined && js != null && js.code != undefined && js.code != null && js.code === 200 && js.status != undefined && js.status != null && js.status === true) {
-                                    return process(null, js);
-                                }
-                                else {
-                                    return process(js, null);
-                                }
-                            }
-                            catch (e) {
-                                return process({
+                            return [2 /*return*/, process({
                                     "code": 500,
                                     "status": false,
                                     "error": "INTERNAL_SERVER_ERROR",
                                     "message": "general (unknown) error"
-                                }, null);
-                            }
+                                }, null)];
                         }
-                    }
-                }
-                else {
-                    return process({
-                        "code": 500,
-                        "status": false,
-                        "error": "INTERNAL_SERVER_ERROR",
-                        "message": "general (unknown) error"
-                    }, null);
-                }
-            }).catch(function (error) {
-                try {
-                    if (error.response) {
-                        return process(error.response.data, null);
-                    }
-                    else if (error.request) {
-                        return process({
-                            "code": 404,
-                            "error": "NOT_FOUND",
-                            "message": "the service is currently unavailable"
-                        }, null);
-                    }
-                    else {
-                        return process({
-                            "code": 500,
-                            "status": false,
-                            "error": "INTERNAL_SERVER_ERROR",
-                            "message": "general (unknown) error"
-                        }, null);
-                    }
-                }
-                catch (e) {
-                    return process({
-                        "code": 500,
-                        "status": false,
-                        "error": "INTERNAL_SERVER_ERROR",
-                        "message": "general (unknown) error"
-                    }, null);
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
                 }
             });
-        }
-        catch (e) {
-            return process({
-                "code": 500,
-                "status": false,
-                "error": "INTERNAL_SERVER_ERROR",
-                "message": "general (unknown) error"
-            }, null);
-        }
+        });
     };
-    stablediffusion.v2 = function (_a, process) {
-        var _b = _a.prompt, prompt = _b === void 0 ? "" : _b, _c = _a.data, data = _c === void 0 ? {
-            prompt_negative: "",
-            guidance_scale: 9
-        } : _c;
-        try {
-            axios_1.default.post('https://nexra.aryahcr.cc/api/image/complements', {
-                prompt: prompt != undefined && prompt != null ? prompt : "",
-                model: "stablediffusion-2.1",
-                data: {
-                    prompt_negative: data != undefined && data != null && data.prompt_negative != undefined && data.prompt_negative != null ? data.prompt_negative : "",
-                    guidance_scale: data != undefined && data != null && data.guidance_scale != undefined && data.guidance_scale != null ? data.guidance_scale : 9,
-                }
-            }, {
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            }).then(function (response) {
-                if (response.status === 200) {
-                    if ((typeof response.data).toString().toLowerCase() === "Object".toLowerCase()) {
-                        if (response.data.code != undefined && response.data.code != null && response.data.code === 200 && response.data.status != undefined && response.data.status != null && response.data.status === true) {
-                            return process(null, response.data);
+    stablediffusion.v2 = function (_b, process_1) {
+        return __awaiter(this, arguments, void 0, function (_c, process) {
+            var response, e_18;
+            var _d = _c.prompt, prompt = _d === void 0 ? "" : _d, _e = _c.data, data = _e === void 0 ? {
+                prompt_negative: "",
+                guidance_scale: 9
+            } : _e;
+            return __generator(this, function (_f) {
+                switch (_f.label) {
+                    case 0:
+                        _f.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, consult_('https://nexra.aryahcr.cc/api/image/complements', {
+                                prompt: prompt != undefined && prompt != null ? prompt : "",
+                                model: "stablediffusion-2.1",
+                                data: {
+                                    prompt_negative: data != undefined && data != null && data.prompt_negative != undefined && data.prompt_negative != null ? data.prompt_negative : "",
+                                    guidance_scale: data != undefined && data != null && data.guidance_scale != undefined && data.guidance_scale != null ? data.guidance_scale : 9,
+                                }
+                            })];
+                    case 1:
+                        response = _f.sent();
+                        return [2 /*return*/, process(null, response)];
+                    case 2:
+                        e_18 = _f.sent();
+                        if (typeof (e_18) == "object") {
+                            return [2 /*return*/, process(e_18, null)];
                         }
                         else {
-                            return process(response.data, null);
-                        }
-                    }
-                    else {
-                        var js = null;
-                        var count = -1;
-                        for (var i = 0; i < response.data.length; i++) {
-                            if (count <= -1) {
-                                if (response.data[i] === "{") {
-                                    count = i;
-                                }
-                            }
-                            else {
-                                break;
-                            }
-                        }
-                        if (count <= -1) {
-                            return process({
-                                "code": 500,
-                                "status": false,
-                                "error": "INTERNAL_SERVER_ERROR",
-                                "message": "general (unknown) error"
-                            }, null);
-                        }
-                        else {
-                            try {
-                                js = response.data.slice(count);
-                                js = JSON.parse(js);
-                                if (js != undefined && js != null && js.code != undefined && js.code != null && js.code === 200 && js.status != undefined && js.status != null && js.status === true) {
-                                    return process(null, js);
-                                }
-                                else {
-                                    return process(js, null);
-                                }
-                            }
-                            catch (e) {
-                                return process({
+                            return [2 /*return*/, process({
                                     "code": 500,
                                     "status": false,
                                     "error": "INTERNAL_SERVER_ERROR",
                                     "message": "general (unknown) error"
-                                }, null);
-                            }
+                                }, null)];
                         }
-                    }
-                }
-                else {
-                    return process({
-                        "code": 500,
-                        "status": false,
-                        "error": "INTERNAL_SERVER_ERROR",
-                        "message": "general (unknown) error"
-                    }, null);
-                }
-            }).catch(function (error) {
-                try {
-                    if (error.response) {
-                        return process(error.response.data, null);
-                    }
-                    else if (error.request) {
-                        return process({
-                            "code": 404,
-                            "error": "NOT_FOUND",
-                            "message": "the service is currently unavailable"
-                        }, null);
-                    }
-                    else {
-                        return process({
-                            "code": 500,
-                            "status": false,
-                            "error": "INTERNAL_SERVER_ERROR",
-                            "message": "general (unknown) error"
-                        }, null);
-                    }
-                }
-                catch (e) {
-                    return process({
-                        "code": 500,
-                        "status": false,
-                        "error": "INTERNAL_SERVER_ERROR",
-                        "message": "general (unknown) error"
-                    }, null);
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
                 }
             });
-        }
-        catch (e) {
-            return process({
-                "code": 500,
-                "status": false,
-                "error": "INTERNAL_SERVER_ERROR",
-                "message": "general (unknown) error"
-            }, null);
-        }
+        });
     };
-    stablediffusion.xl = function (_a, process) {
-        var _b = _a.prompt, prompt = _b === void 0 ? "" : _b, _c = _a.data, data = _c === void 0 ? {
-            prompt_negative: "",
-            image_style: "(No style)",
-            guidance_scale: 7.5
-        } : _c;
-        try {
-            axios_1.default.post('https://nexra.aryahcr.cc/api/image/complements', {
-                prompt: prompt != undefined && prompt != null ? prompt : "",
-                model: "stablediffusion-xl",
-                data: {
-                    prompt_negative: data != undefined && data != null && data.prompt_negative != undefined && data.prompt_negative != null ? data.prompt_negative : "",
-                    image_style: data != undefined && data != null && data.image_style != undefined && data.image_style != null ? data.image_style : "(No style)",
-                    guidance_scale: data != undefined && data != null && data.guidance_scale != undefined && data.guidance_scale != null ? data.guidance_scale : 7.5,
-                }
-            }, {
-                headers: __assign({ 'Content-Type': 'application/json' }, cred)
-            }).then(function (response) {
-                if (response.status === 200) {
-                    if ((typeof response.data).toString().toLowerCase() === "Object".toLowerCase()) {
-                        if (response.data.code != undefined && response.data.code != null && response.data.code === 200 && response.data.status != undefined && response.data.status != null && response.data.status === true) {
-                            return process(null, response.data);
+    stablediffusion.xl = function (_b, process_1) {
+        return __awaiter(this, arguments, void 0, function (_c, process) {
+            var response, e_19;
+            var _d = _c.prompt, prompt = _d === void 0 ? "" : _d, _e = _c.data, data = _e === void 0 ? {
+                prompt_negative: "",
+                image_style: "(No style)",
+                guidance_scale: 7.5
+            } : _e;
+            return __generator(this, function (_f) {
+                switch (_f.label) {
+                    case 0:
+                        _f.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, consult_('https://nexra.aryahcr.cc/api/image/complements', {
+                                prompt: prompt != undefined && prompt != null ? prompt : "",
+                                model: "stablediffusion-xl",
+                                data: {
+                                    prompt_negative: data != undefined && data != null && data.prompt_negative != undefined && data.prompt_negative != null ? data.prompt_negative : "",
+                                    image_style: data != undefined && data != null && data.image_style != undefined && data.image_style != null ? data.image_style : "(No style)",
+                                    guidance_scale: data != undefined && data != null && data.guidance_scale != undefined && data.guidance_scale != null ? data.guidance_scale : 7.5,
+                                }
+                            })];
+                    case 1:
+                        response = _f.sent();
+                        return [2 /*return*/, process(null, response)];
+                    case 2:
+                        e_19 = _f.sent();
+                        if (typeof (e_19) == "object") {
+                            return [2 /*return*/, process(e_19, null)];
                         }
                         else {
-                            return process(response.data, null);
-                        }
-                    }
-                    else {
-                        var js = null;
-                        var count = -1;
-                        for (var i = 0; i < response.data.length; i++) {
-                            if (count <= -1) {
-                                if (response.data[i] === "{") {
-                                    count = i;
-                                }
-                            }
-                            else {
-                                break;
-                            }
-                        }
-                        if (count <= -1) {
-                            return process({
-                                "code": 500,
-                                "status": false,
-                                "error": "INTERNAL_SERVER_ERROR",
-                                "message": "general (unknown) error"
-                            }, null);
-                        }
-                        else {
-                            try {
-                                js = response.data.slice(count);
-                                js = JSON.parse(js);
-                                if (js != undefined && js != null && js.code != undefined && js.code != null && js.code === 200 && js.status != undefined && js.status != null && js.status === true) {
-                                    return process(null, js);
-                                }
-                                else {
-                                    return process(js, null);
-                                }
-                            }
-                            catch (e) {
-                                return process({
+                            return [2 /*return*/, process({
                                     "code": 500,
                                     "status": false,
                                     "error": "INTERNAL_SERVER_ERROR",
                                     "message": "general (unknown) error"
-                                }, null);
-                            }
+                                }, null)];
                         }
-                    }
-                }
-                else {
-                    return process({
-                        "code": 500,
-                        "status": false,
-                        "error": "INTERNAL_SERVER_ERROR",
-                        "message": "general (unknown) error"
-                    }, null);
-                }
-            }).catch(function (error) {
-                try {
-                    if (error.response) {
-                        return process(error.response.data, null);
-                    }
-                    else if (error.request) {
-                        return process({
-                            "code": 404,
-                            "error": "NOT_FOUND",
-                            "message": "the service is currently unavailable"
-                        }, null);
-                    }
-                    else {
-                        return process({
-                            "code": 500,
-                            "status": false,
-                            "error": "INTERNAL_SERVER_ERROR",
-                            "message": "general (unknown) error"
-                        }, null);
-                    }
-                }
-                catch (e) {
-                    return process({
-                        "code": 500,
-                        "status": false,
-                        "error": "INTERNAL_SERVER_ERROR",
-                        "message": "general (unknown) error"
-                    }, null);
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
                 }
             });
-        }
-        catch (e) {
-            return process({
-                "code": 500,
-                "status": false,
-                "error": "INTERNAL_SERVER_ERROR",
-                "message": "general (unknown) error"
-            }, null);
-        }
+        });
     };
     return stablediffusion;
 }());
 exports.stablediffusion = stablediffusion;
-var emi = function (_a, process) {
-    var _b = _a.prompt, prompt = _b === void 0 ? "" : _b;
-    try {
-        axios_1.default.post('https://nexra.aryahcr.cc/api/image/complements', {
-            prompt: prompt != undefined && prompt != null ? prompt : "",
-            model: "emi"
-        }, {
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        }).then(function (response) {
-            if (response.status === 200) {
-                if ((typeof response.data).toString().toLowerCase() === "Object".toLowerCase()) {
-                    if (response.data.code != undefined && response.data.code != null && response.data.code === 200 && response.data.status != undefined && response.data.status != null && response.data.status === true) {
-                        return process(null, response.data);
-                    }
-                    else {
-                        return process(response.data, null);
-                    }
+var emi = function (_b, process_1) { return __awaiter(void 0, [_b, process_1], void 0, function (_c, process) {
+    var response, e_20;
+    var _d = _c.prompt, prompt = _d === void 0 ? "" : _d;
+    return __generator(this, function (_e) {
+        switch (_e.label) {
+            case 0:
+                _e.trys.push([0, 2, , 3]);
+                return [4 /*yield*/, consult_('https://nexra.aryahcr.cc/api/image/complements', {
+                        prompt: prompt != undefined && prompt != null ? prompt : "",
+                        model: "emi"
+                    })];
+            case 1:
+                response = _e.sent();
+                return [2 /*return*/, process(null, response)];
+            case 2:
+                e_20 = _e.sent();
+                if (typeof (e_20) == "object") {
+                    return [2 /*return*/, process(e_20, null)];
                 }
                 else {
-                    var js = null;
-                    var count = -1;
-                    for (var i = 0; i < response.data.length; i++) {
-                        if (count <= -1) {
-                            if (response.data[i] === "{") {
-                                count = i;
-                            }
-                        }
-                        else {
-                            break;
-                        }
-                    }
-                    if (count <= -1) {
-                        return process({
+                    return [2 /*return*/, process({
                             "code": 500,
                             "status": false,
                             "error": "INTERNAL_SERVER_ERROR",
                             "message": "general (unknown) error"
-                        }, null);
-                    }
-                    else {
-                        try {
-                            js = response.data.slice(count);
-                            js = JSON.parse(js);
-                            if (js != undefined && js != null && js.code != undefined && js.code != null && js.code === 200 && js.status != undefined && js.status != null && js.status === true) {
-                                return process(null, js);
-                            }
-                            else {
-                                return process(js, null);
-                            }
-                        }
-                        catch (e) {
-                            return process({
-                                "code": 500,
-                                "status": false,
-                                "error": "INTERNAL_SERVER_ERROR",
-                                "message": "general (unknown) error"
-                            }, null);
-                        }
-                    }
+                        }, null)];
                 }
-            }
-            else {
-                return process({
-                    "code": 500,
-                    "status": false,
-                    "error": "INTERNAL_SERVER_ERROR",
-                    "message": "general (unknown) error"
-                }, null);
-            }
-        }).catch(function (error) {
-            try {
-                if (error.response) {
-                    return process(error.response.data, null);
-                }
-                else if (error.request) {
-                    return process({
-                        "code": 404,
-                        "error": "NOT_FOUND",
-                        "message": "the service is currently unavailable"
-                    }, null);
-                }
-                else {
-                    return process({
-                        "code": 500,
-                        "status": false,
-                        "error": "INTERNAL_SERVER_ERROR",
-                        "message": "general (unknown) error"
-                    }, null);
-                }
-            }
-            catch (e) {
-                return process({
-                    "code": 500,
-                    "status": false,
-                    "error": "INTERNAL_SERVER_ERROR",
-                    "message": "general (unknown) error"
-                }, null);
-            }
-        });
-    }
-    catch (e) {
-        return process({
-            "code": 500,
-            "status": false,
-            "error": "INTERNAL_SERVER_ERROR",
-            "message": "general (unknown) error"
-        }, null);
-    }
-};
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
+        }
+    });
+}); };
 exports.emi = emi;
-var render3d = function (_a, process) {
-    var _b = _a.prompt, prompt = _b === void 0 ? "" : _b, _c = _a.data, data = _c === void 0 ? {
+var render3d = function (_b, process_1) { return __awaiter(void 0, [_b, process_1], void 0, function (_c, process) {
+    var response, e_21;
+    var _d = _c.prompt, prompt = _d === void 0 ? "" : _d, _e = _c.data, data = _e === void 0 ? {
         prompt_negative: ""
-    } : _c;
-    try {
-        axios_1.default.post('https://nexra.aryahcr.cc/api/image/complements', {
-            prompt: prompt != undefined && prompt != null ? prompt : "",
-            model: "render3d",
-            data: {
-                prompt_negative: data != undefined && data != null && data.prompt_negative != undefined && data.prompt_negative != null ? data.prompt_negative : ""
-            }
-        }, {
-            headers: __assign({ 'Content-Type': 'application/json' }, cred)
-        }).then(function (response) {
-            if (response.status === 200) {
-                if ((typeof response.data).toString().toLowerCase() === "Object".toLowerCase()) {
-                    if (response.data.code != undefined && response.data.code != null && response.data.code === 200 && response.data.status != undefined && response.data.status != null && response.data.status === true) {
-                        return process(null, response.data);
-                    }
-                    else {
-                        return process(response.data, null);
-                    }
+    } : _e;
+    return __generator(this, function (_f) {
+        switch (_f.label) {
+            case 0:
+                _f.trys.push([0, 2, , 3]);
+                return [4 /*yield*/, consult_('https://nexra.aryahcr.cc/api/image/complements', {
+                        prompt: prompt != undefined && prompt != null ? prompt : "",
+                        model: "render3d",
+                        data: {
+                            prompt_negative: data != undefined && data != null && data.prompt_negative != undefined && data.prompt_negative != null ? data.prompt_negative : ""
+                        }
+                    })];
+            case 1:
+                response = _f.sent();
+                return [2 /*return*/, process(null, response)];
+            case 2:
+                e_21 = _f.sent();
+                if (typeof (e_21) == "object") {
+                    return [2 /*return*/, process(e_21, null)];
                 }
                 else {
-                    var js = null;
-                    var count = -1;
-                    for (var i = 0; i < response.data.length; i++) {
-                        if (count <= -1) {
-                            if (response.data[i] === "{") {
-                                count = i;
-                            }
-                        }
-                        else {
-                            break;
-                        }
-                    }
-                    if (count <= -1) {
-                        return process({
+                    return [2 /*return*/, process({
                             "code": 500,
                             "status": false,
                             "error": "INTERNAL_SERVER_ERROR",
                             "message": "general (unknown) error"
-                        }, null);
-                    }
-                    else {
-                        try {
-                            js = response.data.slice(count);
-                            js = JSON.parse(js);
-                            if (js != undefined && js != null && js.code != undefined && js.code != null && js.code === 200 && js.status != undefined && js.status != null && js.status === true) {
-                                return process(null, js);
-                            }
-                            else {
-                                return process(js, null);
-                            }
-                        }
-                        catch (e) {
-                            return process({
-                                "code": 500,
-                                "status": false,
-                                "error": "INTERNAL_SERVER_ERROR",
-                                "message": "general (unknown) error"
-                            }, null);
-                        }
-                    }
+                        }, null)];
                 }
-            }
-            else {
-                return process({
-                    "code": 500,
-                    "status": false,
-                    "error": "INTERNAL_SERVER_ERROR",
-                    "message": "general (unknown) error"
-                }, null);
-            }
-        }).catch(function (error) {
-            try {
-                if (error.response) {
-                    return process(error.response.data, null);
-                }
-                else if (error.request) {
-                    return process({
-                        "code": 404,
-                        "error": "NOT_FOUND",
-                        "message": "the service is currently unavailable"
-                    }, null);
-                }
-                else {
-                    return process({
-                        "code": 500,
-                        "status": false,
-                        "error": "INTERNAL_SERVER_ERROR",
-                        "message": "general (unknown) error"
-                    }, null);
-                }
-            }
-            catch (e) {
-                return process({
-                    "code": 500,
-                    "status": false,
-                    "error": "INTERNAL_SERVER_ERROR",
-                    "message": "general (unknown) error"
-                }, null);
-            }
-        });
-    }
-    catch (e) {
-        return process({
-            "code": 500,
-            "status": false,
-            "error": "INTERNAL_SERVER_ERROR",
-            "message": "general (unknown) error"
-        }, null);
-    }
-};
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
+        }
+    });
+}); };
 exports.render3d = render3d;
-var pixelart = function (_a, process) {
-    var _b = _a.prompt, prompt = _b === void 0 ? "" : _b, _c = _a.data, data = _c === void 0 ? {
+var pixelart = function (_b, process_1) { return __awaiter(void 0, [_b, process_1], void 0, function (_c, process) {
+    var response, e_22;
+    var _d = _c.prompt, prompt = _d === void 0 ? "" : _d, _e = _c.data, data = _e === void 0 ? {
         prompt_negative: ""
-    } : _c;
-    try {
-        axios_1.default.post('https://nexra.aryahcr.cc/api/image/complements', {
-            prompt: prompt != undefined && prompt != null ? prompt : "",
-            model: "pixel-art",
-            data: {
-                prompt_negative: data != undefined && data != null && data.prompt_negative != undefined && data.prompt_negative != null ? data.prompt_negative : ""
-            }
-        }, {
-            headers: __assign({ 'Content-Type': 'application/json' }, cred)
-        }).then(function (response) {
-            if (response.status === 200) {
-                if ((typeof response.data).toString().toLowerCase() === "Object".toLowerCase()) {
-                    if (response.data.code != undefined && response.data.code != null && response.data.code === 200 && response.data.status != undefined && response.data.status != null && response.data.status === true) {
-                        return process(null, response.data);
-                    }
-                    else {
-                        return process(response.data, null);
-                    }
+    } : _e;
+    return __generator(this, function (_f) {
+        switch (_f.label) {
+            case 0:
+                _f.trys.push([0, 2, , 3]);
+                return [4 /*yield*/, consult_('https://nexra.aryahcr.cc/api/image/complements', {
+                        prompt: prompt != undefined && prompt != null ? prompt : "",
+                        model: "pixel-art",
+                        data: {
+                            prompt_negative: data != undefined && data != null && data.prompt_negative != undefined && data.prompt_negative != null ? data.prompt_negative : ""
+                        }
+                    })];
+            case 1:
+                response = _f.sent();
+                return [2 /*return*/, process(null, response)];
+            case 2:
+                e_22 = _f.sent();
+                if (typeof (e_22) == "object") {
+                    return [2 /*return*/, process(e_22, null)];
                 }
                 else {
-                    var js = null;
-                    var count = -1;
-                    for (var i = 0; i < response.data.length; i++) {
-                        if (count <= -1) {
-                            if (response.data[i] === "{") {
-                                count = i;
-                            }
-                        }
-                        else {
-                            break;
-                        }
-                    }
-                    if (count <= -1) {
-                        return process({
+                    return [2 /*return*/, process({
                             "code": 500,
                             "status": false,
                             "error": "INTERNAL_SERVER_ERROR",
                             "message": "general (unknown) error"
-                        }, null);
-                    }
-                    else {
-                        try {
-                            js = response.data.slice(count);
-                            js = JSON.parse(js);
-                            if (js != undefined && js != null && js.code != undefined && js.code != null && js.code === 200 && js.status != undefined && js.status != null && js.status === true) {
-                                return process(null, js);
-                            }
-                            else {
-                                return process(js, null);
-                            }
-                        }
-                        catch (e) {
-                            return process({
-                                "code": 500,
-                                "status": false,
-                                "error": "INTERNAL_SERVER_ERROR",
-                                "message": "general (unknown) error"
-                            }, null);
-                        }
-                    }
+                        }, null)];
                 }
-            }
-            else {
-                return process({
-                    "code": 500,
-                    "status": false,
-                    "error": "INTERNAL_SERVER_ERROR",
-                    "message": "general (unknown) error"
-                }, null);
-            }
-        }).catch(function (error) {
-            try {
-                if (error.response) {
-                    return process(error.response.data, null);
-                }
-                else if (error.request) {
-                    return process({
-                        "code": 404,
-                        "error": "NOT_FOUND",
-                        "message": "the service is currently unavailable"
-                    }, null);
-                }
-                else {
-                    return process({
-                        "code": 500,
-                        "status": false,
-                        "error": "INTERNAL_SERVER_ERROR",
-                        "message": "general (unknown) error"
-                    }, null);
-                }
-            }
-            catch (e) {
-                return process({
-                    "code": 500,
-                    "status": false,
-                    "error": "INTERNAL_SERVER_ERROR",
-                    "message": "general (unknown) error"
-                }, null);
-            }
-        });
-    }
-    catch (e) {
-        return process({
-            "code": 500,
-            "status": false,
-            "error": "INTERNAL_SERVER_ERROR",
-            "message": "general (unknown) error"
-        }, null);
-    }
-};
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
+        }
+    });
+}); };
 exports.pixelart = pixelart;
-var playground = function (_a, process) {
-    var _b = _a.prompt, prompt = _b === void 0 ? "" : _b, _c = _a.data, data = _c === void 0 ? {
+var playground = function (_b, process_1) { return __awaiter(void 0, [_b, process_1], void 0, function (_c, process) {
+    var response, e_23;
+    var _d = _c.prompt, prompt = _d === void 0 ? "" : _d, _e = _c.data, data = _e === void 0 ? {
         prompt_negative: "",
         width: 1024,
         height: 1024,
         guidance_scale: 3
-    } : _c;
-    try {
-        axios_1.default.post('https://nexra.aryahcr.cc/api/image/complements', {
-            prompt: prompt != undefined && prompt != null ? prompt : "",
-            model: "playground",
-            data: {
-                prompt_negative: data != undefined && data != null && data.prompt_negative != undefined && data.prompt_negative != null ? data.prompt_negative : "",
-                width: data != undefined && data != null && data.width != undefined && data.width != null ? data.width : 1024,
-                height: data != undefined && data != null && data.height != undefined && data.height != null ? data.height : 1024,
-                guidance_scale: data != undefined && data != null && data.guidance_scale != undefined && data.guidance_scale != null ? data.guidance_scale : 6,
-            }
-        }, {
-            headers: __assign({ 'Content-Type': 'application/json' }, cred)
-        }).then(function (response) {
-            if (response.status === 200) {
-                if ((typeof response.data).toString().toLowerCase() === "Object".toLowerCase()) {
-                    if (response.data.code != undefined && response.data.code != null && response.data.code === 200 && response.data.status != undefined && response.data.status != null && response.data.status === true) {
-                        return process(null, response.data);
-                    }
-                    else {
-                        return process(response.data, null);
-                    }
+    } : _e;
+    return __generator(this, function (_f) {
+        switch (_f.label) {
+            case 0:
+                _f.trys.push([0, 2, , 3]);
+                return [4 /*yield*/, consult_('https://nexra.aryahcr.cc/api/image/complements', {
+                        prompt: prompt != undefined && prompt != null ? prompt : "",
+                        model: "playground",
+                        data: {
+                            prompt_negative: data != undefined && data != null && data.prompt_negative != undefined && data.prompt_negative != null ? data.prompt_negative : "",
+                            width: data != undefined && data != null && data.width != undefined && data.width != null ? data.width : 1024,
+                            height: data != undefined && data != null && data.height != undefined && data.height != null ? data.height : 1024,
+                            guidance_scale: data != undefined && data != null && data.guidance_scale != undefined && data.guidance_scale != null ? data.guidance_scale : 6,
+                        }
+                    })];
+            case 1:
+                response = _f.sent();
+                return [2 /*return*/, process(null, response)];
+            case 2:
+                e_23 = _f.sent();
+                if (typeof (e_23) == "object") {
+                    return [2 /*return*/, process(e_23, null)];
                 }
                 else {
-                    var js = null;
-                    var count = -1;
-                    for (var i = 0; i < response.data.length; i++) {
-                        if (count <= -1) {
-                            if (response.data[i] === "{") {
-                                count = i;
-                            }
-                        }
-                        else {
-                            break;
-                        }
-                    }
-                    if (count <= -1) {
-                        return process({
+                    return [2 /*return*/, process({
                             "code": 500,
                             "status": false,
                             "error": "INTERNAL_SERVER_ERROR",
                             "message": "general (unknown) error"
-                        }, null);
-                    }
-                    else {
-                        try {
-                            js = response.data.slice(count);
-                            js = JSON.parse(js);
-                            if (js != undefined && js != null && js.code != undefined && js.code != null && js.code === 200 && js.status != undefined && js.status != null && js.status === true) {
-                                return process(null, js);
-                            }
-                            else {
-                                return process(js, null);
-                            }
-                        }
-                        catch (e) {
-                            return process({
-                                "code": 500,
-                                "status": false,
-                                "error": "INTERNAL_SERVER_ERROR",
-                                "message": "general (unknown) error"
-                            }, null);
-                        }
-                    }
+                        }, null)];
                 }
-            }
-            else {
-                return process({
-                    "code": 500,
-                    "status": false,
-                    "error": "INTERNAL_SERVER_ERROR",
-                    "message": "general (unknown) error"
-                }, null);
-            }
-        }).catch(function (error) {
-            try {
-                if (error.response) {
-                    return process(error.response.data, null);
-                }
-                else if (error.request) {
-                    return process({
-                        "code": 404,
-                        "error": "NOT_FOUND",
-                        "message": "the service is currently unavailable"
-                    }, null);
-                }
-                else {
-                    return process({
-                        "code": 500,
-                        "status": false,
-                        "error": "INTERNAL_SERVER_ERROR",
-                        "message": "general (unknown) error"
-                    }, null);
-                }
-            }
-            catch (e) {
-                return process({
-                    "code": 500,
-                    "status": false,
-                    "error": "INTERNAL_SERVER_ERROR",
-                    "message": "general (unknown) error"
-                }, null);
-            }
-        });
-    }
-    catch (e) {
-        return process({
-            "code": 500,
-            "status": false,
-            "error": "INTERNAL_SERVER_ERROR",
-            "message": "general (unknown) error"
-        }, null);
-    }
-};
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
+        }
+    });
+}); };
 exports.playground = playground;
-var animagine = function (_a, process) {
-    var _b = _a.prompt, prompt = _b === void 0 ? "" : _b, _c = _a.data, data = _c === void 0 ? {
+var animagine = function (_b, process_1) { return __awaiter(void 0, [_b, process_1], void 0, function (_c, process) {
+    var response, e_24;
+    var _d = _c.prompt, prompt = _d === void 0 ? "" : _d, _e = _c.data, data = _e === void 0 ? {
         prompt_negative: "",
         quality_tags: "Standard",
         style_present: "(None)",
@@ -2866,126 +1352,48 @@ var animagine = function (_a, process) {
         sampler: "Euler a",
         guidance_scale: 7,
         inference_steps: 28
-    } : _c;
-    try {
-        axios_1.default.post('https://nexra.aryahcr.cc/api/image/complements', {
-            prompt: prompt != undefined && prompt != null ? prompt : "",
-            model: "animagine-xl",
-            data: {
-                prompt_negative: data != undefined && data != null && data.prompt_negative != undefined && data.prompt_negative != null ? data.prompt_negative : "",
-                width: data != undefined && data != null && data.width != undefined && data.width != null ? data.width : 1024,
-                height: data != undefined && data != null && data.height != undefined && data.height != null ? data.height : 1024,
-                guidance_scale: data != undefined && data != null && data.guidance_scale != undefined && data.guidance_scale != null ? data.guidance_scale : 7,
-                quality_tags: data != undefined && data != null && data.quality_tags != undefined && data.quality_tags != null ? data.quality_tags : "Standard",
-                style_present: data != undefined && data != null && data.style_present != undefined && data.style_present != null ? data.style_present : "(None)",
-                strength: data != undefined && data != null && data.strength != undefined && data.strength != null ? data.strength : 0.5,
-                upscale: data != undefined && data != null && data.upscale != undefined && data.upscale != null ? data.upscale : 1.5,
-                sampler: data != undefined && data != null && data.sampler != undefined && data.sampler != null ? data.sampler : "Euler a",
-                inference_steps: data != undefined && data != null && data.inference_steps != undefined && data.inference_steps != null ? data.inference_steps : 28
-            }
-        }, {
-            headers: __assign({ 'Content-Type': 'application/json' }, cred)
-        }).then(function (response) {
-            if (response.status === 200) {
-                if ((typeof response.data).toString().toLowerCase() === "Object".toLowerCase()) {
-                    if (response.data.code != undefined && response.data.code != null && response.data.code === 200 && response.data.status != undefined && response.data.status != null && response.data.status === true) {
-                        return process(null, response.data);
-                    }
-                    else {
-                        return process(response.data, null);
-                    }
+    } : _e;
+    return __generator(this, function (_f) {
+        switch (_f.label) {
+            case 0:
+                _f.trys.push([0, 2, , 3]);
+                return [4 /*yield*/, consult_('https://nexra.aryahcr.cc/api/image/complements', {
+                        prompt: prompt != undefined && prompt != null ? prompt : "",
+                        model: "animagine-xl",
+                        data: {
+                            prompt_negative: data != undefined && data != null && data.prompt_negative != undefined && data.prompt_negative != null ? data.prompt_negative : "",
+                            width: data != undefined && data != null && data.width != undefined && data.width != null ? data.width : 1024,
+                            height: data != undefined && data != null && data.height != undefined && data.height != null ? data.height : 1024,
+                            guidance_scale: data != undefined && data != null && data.guidance_scale != undefined && data.guidance_scale != null ? data.guidance_scale : 7,
+                            quality_tags: data != undefined && data != null && data.quality_tags != undefined && data.quality_tags != null ? data.quality_tags : "Standard",
+                            style_present: data != undefined && data != null && data.style_present != undefined && data.style_present != null ? data.style_present : "(None)",
+                            strength: data != undefined && data != null && data.strength != undefined && data.strength != null ? data.strength : 0.5,
+                            upscale: data != undefined && data != null && data.upscale != undefined && data.upscale != null ? data.upscale : 1.5,
+                            sampler: data != undefined && data != null && data.sampler != undefined && data.sampler != null ? data.sampler : "Euler a",
+                            inference_steps: data != undefined && data != null && data.inference_steps != undefined && data.inference_steps != null ? data.inference_steps : 28
+                        }
+                    })];
+            case 1:
+                response = _f.sent();
+                return [2 /*return*/, process(null, response)];
+            case 2:
+                e_24 = _f.sent();
+                if (typeof (e_24) == "object") {
+                    return [2 /*return*/, process(e_24, null)];
                 }
                 else {
-                    var js = null;
-                    var count = -1;
-                    for (var i = 0; i < response.data.length; i++) {
-                        if (count <= -1) {
-                            if (response.data[i] === "{") {
-                                count = i;
-                            }
-                        }
-                        else {
-                            break;
-                        }
-                    }
-                    if (count <= -1) {
-                        return process({
+                    return [2 /*return*/, process({
                             "code": 500,
                             "status": false,
                             "error": "INTERNAL_SERVER_ERROR",
                             "message": "general (unknown) error"
-                        }, null);
-                    }
-                    else {
-                        try {
-                            js = response.data.slice(count);
-                            js = JSON.parse(js);
-                            if (js != undefined && js != null && js.code != undefined && js.code != null && js.code === 200 && js.status != undefined && js.status != null && js.status === true) {
-                                return process(null, js);
-                            }
-                            else {
-                                return process(js, null);
-                            }
-                        }
-                        catch (e) {
-                            return process({
-                                "code": 500,
-                                "status": false,
-                                "error": "INTERNAL_SERVER_ERROR",
-                                "message": "general (unknown) error"
-                            }, null);
-                        }
-                    }
+                        }, null)];
                 }
-            }
-            else {
-                return process({
-                    "code": 500,
-                    "status": false,
-                    "error": "INTERNAL_SERVER_ERROR",
-                    "message": "general (unknown) error"
-                }, null);
-            }
-        }).catch(function (error) {
-            try {
-                if (error.response) {
-                    return process(error.response.data, null);
-                }
-                else if (error.request) {
-                    return process({
-                        "code": 404,
-                        "error": "NOT_FOUND",
-                        "message": "the service is currently unavailable"
-                    }, null);
-                }
-                else {
-                    return process({
-                        "code": 500,
-                        "status": false,
-                        "error": "INTERNAL_SERVER_ERROR",
-                        "message": "general (unknown) error"
-                    }, null);
-                }
-            }
-            catch (e) {
-                return process({
-                    "code": 500,
-                    "status": false,
-                    "error": "INTERNAL_SERVER_ERROR",
-                    "message": "general (unknown) error"
-                }, null);
-            }
-        });
-    }
-    catch (e) {
-        return process({
-            "code": 500,
-            "status": false,
-            "error": "INTERNAL_SERVER_ERROR",
-            "message": "general (unknown) error"
-        }, null);
-    }
-};
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
+        }
+    });
+}); };
 exports.animagine = animagine;
 exports.default = {
     gpt: gpt,

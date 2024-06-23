@@ -46,6 +46,9 @@ If you want to access the premium models, enter your credentials. You can obtain
 
 ```js
 // import { nexra } from "gpti";
+// import { nexra } from "gpti/promise";
+// const { nexra } = require("gpti/promise");
+
 const { nexra } = require("gpti");
 
 nexra("user-xxxxxxxx", "nx-xxxxxxx-xxxxx-xxxxx");
@@ -55,24 +58,26 @@ nexra("user-xxxxxxxx", "nx-xxxxxxx-xxxxx-xxxxx");
 ## Usage GPT
 
 ```javascript
-// import { gpt } from "gpti";
+// const { gpt } = require("gpti/promise");
 const { gpt } = require("gpti");
 
+let history = [
+    {
+        role: "assistant",
+        content: "Hello! How are you today?"
+    },
+    {
+        role: "user",
+        content: "Hello, my name is Yandri."
+    },
+    {
+        role: "assistant",
+        content: "Hello, Yandri! How are you today?"
+    }
+];
+
 gpt.v1({
-    messages: [
-        {
-            role: "assistant",
-            content: "Hello! How are you today?"
-        },
-        {
-            role: "user",
-            content: "Hello, my name is Yandri."
-        },
-        {
-            role: "assistant",
-            content: "Hello, Yandri! How are you today?"
-        }
-    ],
+    messages: history,
     prompt: "Can you repeat my name?",
     model: "GPT-4",
     markdown: false
@@ -83,6 +88,24 @@ gpt.v1({
         console.log(data);
     }
 });
+
+/*
+import { gpt } from "gpti/promise";
+const { gpt } = require("gpti/promise");
+
+try {
+    let data = await gpt.v1({
+        messages: history,
+        prompt: "Can you repeat my name?",
+        model: "GPT-4",
+        markdown: false
+    });
+
+    console.log(data);
+} catch(err){
+    console.log(err);
+}
+*/
 ```
 
 #### JSON
@@ -134,25 +157,27 @@ It's quite similar, with the difference that it has the capability to generate r
 // import { gpt } from "gpti";
 const { gpt } = require("gpti");
 
+let history = [
+    {
+        "role": "assistant",
+        "content": "Hello! How are you today?"
+    },
+    {
+        "role": "user",
+        "content": "Hello, my name is Yandri."
+    },
+    {
+        "role": "assistant",
+        "content": "Hello, Yandri! How are you today?"
+    },
+    {
+        "role": "user",
+        "content": "Can you repeat my name?"
+    }
+];
+
 gpt.v2({
-    messages: [
-        {
-            "role": "assistant",
-            "content": "Hello! How are you today?"
-        },
-        {
-            "role": "user",
-            "content": "Hello, my name is Yandri."
-        },
-        {
-            "role": "assistant",
-            "content": "Hello, Yandri! How are you today?"
-        },
-        {
-            "role": "user",
-            "content": "Can you repeat my name?"
-        }
-    ],
+    messages: history,
     markdown: false,
     stream: false
 }, (err, data) => {
@@ -162,6 +187,34 @@ gpt.v2({
         console.log(data);
     }
 });
+
+/*
+import { gpt } from "gpti/promise";
+const { gpt } = require("gpti/promise");
+
+try {
+    let data = await gpt.v2({
+        messages: history,
+        markdown: false
+    });
+
+    console.log(data);
+
+    // streaming
+    gpt.v2_strm({
+        messages: history,
+        markdown: false
+    }, (err, data) => {
+        if(err != null){
+            console.log(err);
+        } else {
+            console.log(data);
+        }
+    });
+} catch(err){
+    console.log(err);
+}
+*/
 ```
 
 #### JSON
@@ -217,6 +270,22 @@ gpt.web({
         console.log(data);
     }
 });
+
+/*
+import { gpt } from "gpti/promise";
+const { gpt } = require("gpti/promise");
+
+try {
+    let data = await gpt.web({
+        prompt: "Are you familiar with the movie Wonka released in 2023?",
+        markdown: false
+    });
+
+    console.log(data);
+} catch(err){
+    console.log(err);
+}
+*/
 ```
 
 #### JSON
@@ -237,28 +306,30 @@ gpt.web({
 // import { bing } from "gpti";
 const { bing } = require("gpti");
 
+let history = [
+    {
+        role: "assistant",
+        content: "Hello! How can I help you today? 😊"
+    },
+    {
+        role: "user",
+        content: "Hi, tell me the names of the movies released in 2023."
+    },
+    {
+        role: "assistant",
+        content: "Certainly! Here are some movies that were released in 2023:\n\n1.  **About My Father** [^1^](https://editorial.rottentomatoes.com/guide/best-movies-of-2023/)\n2.  **The Little Mermaid** [^1^](https://editorial.rottentomatoes.com/guide/best-movies-of-2023/)\n3.  **Fast X** [^1^](https://editorial.rottentomatoes.com/guide/best-movies-of-2023/)\n4.  **Spider-Man: Across the Spider-Verse** [^1^](https://editorial.rottentomatoes.com/guide/best-movies-of-2023/)\n5.  **The Machine** [^1^](https://editorial.rottentomatoes.com/guide/best-movies-of-2023/)\n6.  **Book Club: The Next Chapter** [^1^](https://editorial.rottentomatoes.com/guide/best-movies-of-2023/)\n7.  **Guardians of the Galaxy Vol. 3** [^1^](https://editorial.rottentomatoes.com/guide/best-movies-of-2023/)\n8.  **John Wick: Chapter 4** [^1^](https://editorial.rottentomatoes.com/guide/best-movies-of-2023/)\n9.  **Are You There God? It's Me, Margaret** [^1^](https://editorial.rottentomatoes.com/guide/best-movies-of-2023/)\n10.  **Evil Dead Rise** [^1^](https://editorial.rottentomatoes.com/guide/best-movies-of-2023/)\n11.  **The Super Mario Bros. Movie** [^1^](https://editorial.rottentomatoes.com/guide/best-movies-of-2023/)\n12.  **Love Again** [^1^](https://editorial.rottentomatoes.com/guide/best-movies-of-2023/)\n13.  **Kandahar** [^1^](https://editorial.rottentomatoes.com/guide/best-movies-of-2023/)\n14.  **Dungeons & Dragons: Honor Among Thieves** [^1^](https://editorial.rottentomatoes.com/guide/best-movies-of-2023/)\n15.  **Shin Kamen Rider** [^1^](https://editorial.rottentomatoes.com/guide/best-movies-of-2023/)\n16.  **Knights of the Zodiac** [^1^](https://editorial.rottentomatoes.com/guide/best-movies-of-2023/)\n17.  **The Pope's Exorcist** [^1^](https://editorial.rottentomatoes.com/guide/best-movies-of-2023/)\n18.  **Shazam! Fury of the Gods** [^1^](https://editorial.rottentomatoes.com/guide/best-movies-of-2023/)\n19.  **All That Breathes** [^1^](https://editorial.rottentomatoes.com/guide/best-movies-of-2023/)\n20.  **Sailor Moon Cosmos** [^1^](https://editorial.rottentomatoes.com/guide/best-movies-of-2023/)\n21.  **Hypnotic** [^1^](https://editorial.rottentomatoes.com/guide/best-movies-of-2023/)\n22.  **Sound of Freedom** [^1^](https://editorial.rottentomatoes.com/guide/best-movies-of-2023/)\n23.  **The Boogeyman** [^1^](https://editorial.rottentomatoes.com/guide/best-movies-of-2023/)\n24.  **Chicken Run: Dawn of the Nugget** [^1^](https://editorial.rottentomatoes.com/guide/best-movies-of-2023/)\n25.  **A Lot of Nothing** [^1^](https://editorial.rottentomatoes.com/guide/best-movies-of-2023/)\n26.  **Followers** [^1^](https://editorial.rottentomatoes.com/guide/best-movies-of-2023/)\n27.  **Big George Foreman** [^1^](https://editorial.rottentomatoes.com/guide/best-movies-of-2023/)\n28.  **Asterix & Obelix: The Middle Kingdom** [^1^](https://editorial.rottentomatoes.com/guide/best-movies-of-2023/)\n29.  **Ant-Man and the Wasp: Quantumania** [^1^](https://editorial.rottentomatoes.com/guide/best-movies-of-2023/)\n30.  **Transformers: Rise of the Beasts** [^1^](https://editorial.rottentomatoes.com/guide/best-movies-of-2023/)\n31.  **Follow Her** [^1^](https://editorial.rottentomatoes.com/guide/best-movies-of-2023/)\n32.  **Prom Pact** [^1^](https://editorial.rottentomatoes.com/guide/best-movies-of-2023/)\n33.  **God Is a Bullet** [^1^](https://editorial.rottentomatoes.com/guide/best-movies-of-2023/)\n34.  **Still: A Michael J. Fox Movie** [^1^](https://editorial.rottentomatoes.com/guide/best-movies-of-2023/)\n35.  **Nefarious** [^1^](https://editorial.rottentomatoes.com/guide/best-movies-of-2023/)\n36.  **Nanny Dearest** [^1^](https://editorial.rottentomatoes.com/guide/best-movies-of-2023/)\n37.  **Monica** [^1^](https://editorial.rottentomatoes.com/guide/best-movies-of-2023/)\n38.  **Wild Life** [^1^](https://editorial.rottentomatoes.com/guide/best-movies-of-2023/)\n39.  **Palm Trees and Power Lines** [^1^](https://editorial.rottentomatoes.com/guide/best-movies-of-2023/)\n40.  **What's Love Got to Do with It?** [^1^](https://editorial.rottentomatoes.com/guide/best-movies-of-2023/)\n41.  **Creed III** [^1^](https://editorial.rottentomatoes.com/guide/best-movies-of-2023/)\n42.  **One True Loves** [^1^](https://editorial.rottentomatoes.com/guide/best-movies-of-2023/)\n43.  **BlackBerry** [^1^](https://editorial.rottentomatoes.com/guide/best-movies-of-2023/)\n44.  **Suzume** [^1^](https://editorial.rottentomatoes.com/guide/best-movies-of-2023/)\n45.  **Rock Dog 3: Battle the Beat** [^1^](https://editorial.rottentomatoes.com/guide/best-movies-of-2023/)\n46.  **Gridman Universe** [^1^](https://editorial.rottentomatoes.com/guide/best-movies-of-2023/)\n47.  **Digimon Adventure 02: The Beginning** [^1^](https://editorial.rottentomatoes.com/guide/best-movies-of-2023/)\n48.  **Woman of the Photographs** [^1^](https://editorial.rottentomatoes.com/guide/best-movies-of-2023/)\n49.  **El Tonto** [^1^](https://editorial.rottentomatoes.com/guide/best-movies-of-2023/)\n50.  **Seriously Red** [^1^](https://editorial.rottentomatoes.com/guide/best-movies-of-2023/)\n\nI hope this helps! Let me know if you have any other questions."
+    },
+    {
+        role: "user",
+        content: "Can you tell me how many movies you've told me about?"
+    }
+];
+
 bing({
-    messages: [
-        {
-            role: "assistant",
-            content: "Hello! How can I help you today? 😊"
-        },
-        {
-            role: "user",
-            content: "Hi, tell me the names of the movies released in 2023."
-        },
-        {
-            role: "assistant",
-            content: "Certainly! Here are some movies that were released in 2023:\n\n1.  **About My Father** [^1^](https://editorial.rottentomatoes.com/guide/best-movies-of-2023/)\n2.  **The Little Mermaid** [^1^](https://editorial.rottentomatoes.com/guide/best-movies-of-2023/)\n3.  **Fast X** [^1^](https://editorial.rottentomatoes.com/guide/best-movies-of-2023/)\n4.  **Spider-Man: Across the Spider-Verse** [^1^](https://editorial.rottentomatoes.com/guide/best-movies-of-2023/)\n5.  **The Machine** [^1^](https://editorial.rottentomatoes.com/guide/best-movies-of-2023/)\n6.  **Book Club: The Next Chapter** [^1^](https://editorial.rottentomatoes.com/guide/best-movies-of-2023/)\n7.  **Guardians of the Galaxy Vol. 3** [^1^](https://editorial.rottentomatoes.com/guide/best-movies-of-2023/)\n8.  **John Wick: Chapter 4** [^1^](https://editorial.rottentomatoes.com/guide/best-movies-of-2023/)\n9.  **Are You There God? It's Me, Margaret** [^1^](https://editorial.rottentomatoes.com/guide/best-movies-of-2023/)\n10.  **Evil Dead Rise** [^1^](https://editorial.rottentomatoes.com/guide/best-movies-of-2023/)\n11.  **The Super Mario Bros. Movie** [^1^](https://editorial.rottentomatoes.com/guide/best-movies-of-2023/)\n12.  **Love Again** [^1^](https://editorial.rottentomatoes.com/guide/best-movies-of-2023/)\n13.  **Kandahar** [^1^](https://editorial.rottentomatoes.com/guide/best-movies-of-2023/)\n14.  **Dungeons & Dragons: Honor Among Thieves** [^1^](https://editorial.rottentomatoes.com/guide/best-movies-of-2023/)\n15.  **Shin Kamen Rider** [^1^](https://editorial.rottentomatoes.com/guide/best-movies-of-2023/)\n16.  **Knights of the Zodiac** [^1^](https://editorial.rottentomatoes.com/guide/best-movies-of-2023/)\n17.  **The Pope's Exorcist** [^1^](https://editorial.rottentomatoes.com/guide/best-movies-of-2023/)\n18.  **Shazam! Fury of the Gods** [^1^](https://editorial.rottentomatoes.com/guide/best-movies-of-2023/)\n19.  **All That Breathes** [^1^](https://editorial.rottentomatoes.com/guide/best-movies-of-2023/)\n20.  **Sailor Moon Cosmos** [^1^](https://editorial.rottentomatoes.com/guide/best-movies-of-2023/)\n21.  **Hypnotic** [^1^](https://editorial.rottentomatoes.com/guide/best-movies-of-2023/)\n22.  **Sound of Freedom** [^1^](https://editorial.rottentomatoes.com/guide/best-movies-of-2023/)\n23.  **The Boogeyman** [^1^](https://editorial.rottentomatoes.com/guide/best-movies-of-2023/)\n24.  **Chicken Run: Dawn of the Nugget** [^1^](https://editorial.rottentomatoes.com/guide/best-movies-of-2023/)\n25.  **A Lot of Nothing** [^1^](https://editorial.rottentomatoes.com/guide/best-movies-of-2023/)\n26.  **Followers** [^1^](https://editorial.rottentomatoes.com/guide/best-movies-of-2023/)\n27.  **Big George Foreman** [^1^](https://editorial.rottentomatoes.com/guide/best-movies-of-2023/)\n28.  **Asterix & Obelix: The Middle Kingdom** [^1^](https://editorial.rottentomatoes.com/guide/best-movies-of-2023/)\n29.  **Ant-Man and the Wasp: Quantumania** [^1^](https://editorial.rottentomatoes.com/guide/best-movies-of-2023/)\n30.  **Transformers: Rise of the Beasts** [^1^](https://editorial.rottentomatoes.com/guide/best-movies-of-2023/)\n31.  **Follow Her** [^1^](https://editorial.rottentomatoes.com/guide/best-movies-of-2023/)\n32.  **Prom Pact** [^1^](https://editorial.rottentomatoes.com/guide/best-movies-of-2023/)\n33.  **God Is a Bullet** [^1^](https://editorial.rottentomatoes.com/guide/best-movies-of-2023/)\n34.  **Still: A Michael J. Fox Movie** [^1^](https://editorial.rottentomatoes.com/guide/best-movies-of-2023/)\n35.  **Nefarious** [^1^](https://editorial.rottentomatoes.com/guide/best-movies-of-2023/)\n36.  **Nanny Dearest** [^1^](https://editorial.rottentomatoes.com/guide/best-movies-of-2023/)\n37.  **Monica** [^1^](https://editorial.rottentomatoes.com/guide/best-movies-of-2023/)\n38.  **Wild Life** [^1^](https://editorial.rottentomatoes.com/guide/best-movies-of-2023/)\n39.  **Palm Trees and Power Lines** [^1^](https://editorial.rottentomatoes.com/guide/best-movies-of-2023/)\n40.  **What's Love Got to Do with It?** [^1^](https://editorial.rottentomatoes.com/guide/best-movies-of-2023/)\n41.  **Creed III** [^1^](https://editorial.rottentomatoes.com/guide/best-movies-of-2023/)\n42.  **One True Loves** [^1^](https://editorial.rottentomatoes.com/guide/best-movies-of-2023/)\n43.  **BlackBerry** [^1^](https://editorial.rottentomatoes.com/guide/best-movies-of-2023/)\n44.  **Suzume** [^1^](https://editorial.rottentomatoes.com/guide/best-movies-of-2023/)\n45.  **Rock Dog 3: Battle the Beat** [^1^](https://editorial.rottentomatoes.com/guide/best-movies-of-2023/)\n46.  **Gridman Universe** [^1^](https://editorial.rottentomatoes.com/guide/best-movies-of-2023/)\n47.  **Digimon Adventure 02: The Beginning** [^1^](https://editorial.rottentomatoes.com/guide/best-movies-of-2023/)\n48.  **Woman of the Photographs** [^1^](https://editorial.rottentomatoes.com/guide/best-movies-of-2023/)\n49.  **El Tonto** [^1^](https://editorial.rottentomatoes.com/guide/best-movies-of-2023/)\n50.  **Seriously Red** [^1^](https://editorial.rottentomatoes.com/guide/best-movies-of-2023/)\n\nI hope this helps! Let me know if you have any other questions."
-        },
-        {
-            role: "user",
-            content: "Can you tell me how many movies you've told me about?"
-        }
-    ],
+    messages: history,
     conversation_style: "Balanced",
     markdown: false,
-    stream: false,
+    stream: false
 }, (err, data) => {
     if(err != null){
         console.log(err);
@@ -266,6 +337,36 @@ bing({
         console.log(data);
     }
 });
+
+/*
+import { bing } from "gpti/promise";
+const { bing } = require("gpti/promise");
+
+try {
+    let data = await bing.asc({
+        messages: history,
+        conversation_style: "Balanced",
+        markdown: false
+    });
+
+    console.log(data);
+
+    // streaming
+    bing.strm({
+        messages: history,
+        conversation_style: "Balanced",
+        markdown: false
+    }, (err, data) => {
+        if(err != null){
+            console.log(err);
+        } else {
+            console.log(data);
+        }
+    });
+} catch(err){
+    console.log(err);
+}
+*/
 ```
 
 #### JSON
@@ -275,7 +376,7 @@ bing({
     "code": 200,
     "status": true,
     "model": "Bing",
-    "message": "I have told you about **50 movies** that were released in 2023. Is there anything else I can help you with?"
+    "message": "I have told you about **50 movies** that were released in 2023. Is there anything else I can help you with?",
     "original:": null
 }
 ```
@@ -331,17 +432,19 @@ bing({
 // import { llama2 } from "gpti";
 const { llama2 } = require("gpti");
 
+let history = [
+    {
+        "role": "assistant",
+        "content": "Hello! How are you?"
+    },
+    {
+        "role": "user",
+        "content": "Hello! How are you? Could you tell me your name?"
+    }
+];
+
 llama2({
-    messages:  [
-        {
-            "role": "assistant",
-            "content": "Hello! How are you?"
-        },
-        {
-            "role": "user",
-            "content": "Hello! How are you? Could you tell me your name?"
-        }
-    ],
+    messages:  history,
     system_message: "",
     temperature: 0.9,
     max_tokens: 4096,
@@ -356,6 +459,44 @@ llama2({
         console.log(data);
     }
 });
+
+/*
+import { llama2 } from "gpti/promise";
+const { llama2 } = require("gpti/promise");
+
+try {
+    let data = await llama2.asc({
+        messages:  history,
+        system_message: "",
+        temperature: 0.9,
+        max_tokens: 4096,
+        top_p: 0.6,
+        repetition_penalty: 1.2,
+        markdown: false
+    });
+
+    console.log(data);
+
+    // streaming
+    llama2.strm({
+        messages:  history,
+        system_message: "",
+        temperature: 0.9,
+        max_tokens: 4096,
+        top_p: 0.6,
+        repetition_penalty: 1.2,
+        markdown: false
+    }, (err, data) => {
+        if(err != null){
+            console.log(err);
+        } else {
+            console.log(data);
+        }
+    });
+} catch(err){
+    console.log(err);
+}
+*/
 ```
 
 #### JSON
@@ -443,15 +584,30 @@ llama2({
 // import { dalle } from "gpti";
 const { dalle } = require("gpti");
 
-dalle.v1({
+let data_js = {
     prompt: "starry sky over the city"
-}, (err, data) => {
+};
+
+dalle.v1(data_js, (err, data) => {
     if(err != null){
         console.log(err);
     } else {
         console.log(data);
     }
 });
+
+/*
+import { dalle } from "gpti/promise";
+const { dalle } = require("gpti/promise");
+
+try {
+    let data = await dalle.v1(data_js);
+
+    console.log(data);
+} catch(err){
+    console.log(err);
+}
+*/
 ```
 
 #### JSON
@@ -475,7 +631,7 @@ dalle.v1({
 // import { dalle } from "gpti";
 const { dalle } = require("gpti");
 
-dalle.v2({
+let data_js = {
     prompt: "An extensive green valley stretches toward imposing mountains, adorned with meadows and a winding stream. The morning sun paints the sky with warm tones, illuminating the landscape with a serenity that invites contemplation and peace.",
     data: {
         prompt_negative: "",
@@ -483,13 +639,28 @@ dalle.v2({
         height: 1024,
         guidance_scale: 6
     }
-}, (err, data) => {
+};
+
+dalle.v2(data_js, (err, data) => {
     if(err != null){
         console.log(err);
     } else {
         console.log(data);
     }
 });
+
+/*
+import { dalle } from "gpti/promise";
+const { dalle } = require("gpti/promise");
+
+try {
+    let data = await dalle.v2(data_js);
+
+    console.log(data);
+} catch(err){
+    console.log(err);
+}
+*/
 ```
 
 #### JSON
@@ -528,15 +699,30 @@ dalle.v2({
 // import { dalle } from "gpti";
 const { dalle } = require("gpti");
 
-dalle.mini({
+let data_js = {
     prompt: "An extensive green valley stretches toward imposing mountains, adorned with meadows and a winding stream. The morning sun paints the sky with warm tones, illuminating the landscape with a serenity that invites contemplation and peace."
-}, (err, data) => {
+};
+
+dalle.mini(data_js, (err, data) => {
     if(err != null){
         console.log(err);
     } else {
         console.log(data);
     }
 });
+
+/*
+import { dalle } from "gpti/promise";
+const { dalle } = require("gpti/promise");
+
+try {
+    let data = await dalle.mini(data_js);
+
+    console.log(data);
+} catch(err){
+    console.log(err);
+}
+*/
 ```
 
 #### JSON
@@ -561,7 +747,7 @@ dalle.mini({
 // import { prodia } from "gpti";
 const { prodia } = require("gpti");
 
-prodia.v1({
+let data_js = {
     prompt: "Friends gathered around a bonfire in an ancient forest. Laughter, stories, and a starry sky paint an unforgettable moment of connection beneath the shadows of the mountains.",
     data: {
         model: "absolutereality_V16.safetensors [37db0fc3]",
@@ -570,13 +756,28 @@ prodia.v1({
         sampler: "DPM++ 2M Karras",
         negative_prompt: ""
     }
-}, (err, data) => {
+};
+
+prodia.v1(data_js, (err, data) => {
     if(err != null){
         console.log(err);
     } else {
         console.log(data);
     }
 });
+
+/*
+import { prodia } from "gpti/promise";
+const { prodia } = require("gpti/promise");
+
+try {
+    let data = await prodia.v1(data_js);
+
+    console.log(data);
+} catch(err){
+    console.log(err);
+}
+*/
 ```
 
 #### JSON
@@ -685,7 +886,7 @@ List of models
 // import { prodia } from "gpti";
 const { prodia } = require("gpti");
 
-prodia.stablediffusion({
+let data_js = {
     prompt: "Friends gathered around a bonfire in an ancient forest. Laughter, stories, and a starry sky paint an unforgettable moment of connection beneath the shadows of the mountains.",
     data: {
         prompt_negative: "",
@@ -696,13 +897,28 @@ prodia.stablediffusion({
         height: 512,
         cfg_scale: 7
     }
-}, (err, data) => {
+};
+
+prodia.stablediffusion(data_js, (err, data) => {
     if(err != null){
         console.log(err);
     } else {
         console.log(data);
     }
 });
+
+/*
+import { prodia } from "gpti/promise";
+const { prodia } = require("gpti/promise");
+
+try {
+    let data = await prodia.stablediffusion(data_js);
+
+    console.log(data);
+} catch(err){
+    console.log(err);
+}
+*/
 ```
 
 #### JSON
@@ -721,7 +937,7 @@ prodia.stablediffusion({
         "width": 512,
         "height": 512,
         "cfg_scale": 7
-    }
+    },
     "images": [
         "data:image/jpeg;base64,..."
     ]
@@ -836,7 +1052,7 @@ List of methods:
 // import { prodia } from "gpti";
 const { prodia } = require("gpti");
 
-prodia.stablediffusion_xl({
+let data_js = {
     prompt: "Friends gathered around a bonfire in an ancient forest. Laughter, stories, and a starry sky paint an unforgettable moment of connection beneath the shadows of the mountains.",
     data: {
         prompt_negative: "",
@@ -847,13 +1063,28 @@ prodia.stablediffusion_xl({
         height: 1024,
         cfg_scale: 7
     }
-}, (err, data) => {
+};
+
+prodia.stablediffusion_xl(data_js, (err, data) => {
     if(err != null){
         console.log(err);
     } else {
         console.log(data);
     }
 });
+
+/*
+import { prodia } from "gpti/promise";
+const { prodia } = require("gpti/promise");
+
+try {
+    let data = await prodia.stablediffusion_xl(data_js);
+
+    console.log(data);
+} catch(err){
+    console.log(err);
+}
+*/
 ```
 
 #### JSON
@@ -872,7 +1103,7 @@ prodia.stablediffusion_xl({
         "width": 1024,
         "height": 1024,
         "cfg_scale": 7
-    }
+    },
     "images": [
         "data:image/jpeg;base64,..."
     ]
@@ -932,7 +1163,7 @@ List of methods:
 // import { pixart } from "gpti";
 const { pixart } = require("gpti");
 
-pixart.a({
+let data_js = {
     prompt: "An urban landscape bathed in the sunset, where the warm tones of the sun reflect on modern buildings and the orange and purple sky. In the foreground, there's a group of friends gathered on a rooftop, laughing and enjoying the moment. Their expressions radiate joy and camaraderie as they embrace and point towards something on the horizon. The scene is enveloped in a nostalgic and emotional aura that conveys the beauty of friendship and the warmth of the sunset in a futuristic city with touches of anime style.",
     data: {
         prompt_negative: "",
@@ -945,13 +1176,28 @@ pixart.a({
         sa_guidance_scale: 3,
         sa_inference_steps: 25
     }
-}, (err, data) => {
+};
+
+pixart.a(data_js, (err, data) => {
     if(err != null){
         console.log(err);
     } else {
         console.log(data);
     }
 });
+
+/*
+import { pixart } from "gpti/promise";
+const { pixart } = require("gpti/promise");
+
+try {
+    let data = await pixart.a(data_js);
+
+    console.log(data);
+} catch(err){
+    console.log(err);
+}
+*/
 ```
 
 #### JSON
@@ -1000,7 +1246,7 @@ pixart.a({
 // import { pixart } from "gpti";
 const { pixart } = require("gpti");
 
-pixart.lcm({
+let data_js = {
     prompt: "An enchanted forest with twisted trees, a waterfall cascading into a pond of bright water lilies, and in the background, a magical tower surrounded by mythical creatures like unicorns, fairies, and dragons, under a starry sky and a giant moon.",
     data: {
         prompt_negative: "",
@@ -1009,13 +1255,28 @@ pixart.lcm({
         height: 1024,
         lcm_inference_steps: 9
     }
-}, (err, data) => {
+};
+
+pixart.lcm(data_js, (err, data) => {
     if(err != null){
         console.log(err);
     } else {
         console.log(data);
     }
 });
+
+/*
+import { pixart } from "gpti/promise";
+const { pixart } = require("gpti/promise");
+
+try {
+    let data = await pixart.lcm(data_js);
+
+    console.log(data);
+} catch(err){
+    console.log(err);
+}
+*/
 ```
 
 #### JSON
@@ -1056,15 +1317,30 @@ pixart.lcm({
 // import { stablediffusion } from "gpti";
 const { stablediffusion } = require("gpti");
 
-stablediffusion.v1({
+let data_js = {
     prompt: "An serene sunset landscape where a river winds through gentle hills covered in trees. The sky is tinged with warm and soft tones, with scattered clouds reflecting the last glimmers of the sun."
-}, (err, data) => {
+};
+
+stablediffusion.v1(data_js, (err, data) => {
     if(err != null){
         console.log(err);
     } else {
         console.log(data);
     }
 });
+
+/*
+import { stablediffusion } from "gpti/promise";
+const { stablediffusion } = require("gpti/promise");
+
+try {
+    let data = await stablediffusion.v1(data_js);
+
+    console.log(data);
+} catch(err){
+    console.log(err);
+}
+*/
 ```
 
 #### JSON
@@ -1089,19 +1365,34 @@ stablediffusion.v1({
 // import { stablediffusion } from "gpti";
 const { stablediffusion } = require("gpti");
 
-stablediffusion.v2({
+let data_js = {
     prompt: "An serene sunset landscape where a river winds through gentle hills covered in trees. The sky is tinged with warm and soft tones, with scattered clouds reflecting the last glimmers of the sun.",
     data: {
         prompt_negative: "",
         guidance_scale: 9
     }
-}, (err, data) => {
+};
+
+stablediffusion.v2(data_js, (err, data) => {
     if(err != null){
         console.log(err);
     } else {
         console.log(data);
     }
 });
+
+/*
+import { stablediffusion } from "gpti/promise";
+const { stablediffusion } = require("gpti/promise");
+
+try {
+    let data = await stablediffusion.v2(data_js);
+
+    console.log(data);
+} catch(err){
+    console.log(err);
+}
+*/
 ```
 
 #### JSON
@@ -1137,20 +1428,35 @@ stablediffusion.v2({
 // import { stablediffusion } from "gpti";
 const { stablediffusion } = require("gpti");
 
-stablediffusion.xl({
+let data_js = {
     prompt: "An serene sunset landscape where a river winds through gentle hills covered in trees. The sky is tinged with warm and soft tones, with scattered clouds reflecting the last glimmers of the sun.",
     data: {
         prompt_negative: "",
         image_style: "(No style)",
         guidance_scale: 7.5
     }
-}, (err, data) => {
+};
+
+stablediffusion.xl(data_js, (err, data) => {
     if(err != null){
         console.log(err);
     } else {
         console.log(data);
     }
 });
+
+/*
+import { stablediffusion } from "gpti/promise";
+const { stablediffusion } = require("gpti/promise");
+
+try {
+    let data = await stablediffusion.xl(data_js);
+
+    console.log(data);
+} catch(err){
+    console.log(err);
+}
+*/
 ```
 
 #### JSON
@@ -1188,15 +1494,30 @@ stablediffusion.xl({
 // import { emi } from "gpti";
 const { emi } = require("gpti");
 
-emi({
+let data_js = {
     prompt: "A beautiful girl in a garden full of bright flowers. Her long, silky hair is adorned with flowers, and her large eyes reflect serenity. She wears a traditional kimono, smiling as she holds a delicate butterfly in her hand.",
-}, (err, data) => {
+};
+
+emi(data_js, (err, data) => {
     if(err != null){
         console.log(err);
     } else {
         console.log(data);
     }
 });
+
+/*
+import { emi } from "gpti/promise";
+const { emi } = require("gpti/promise");
+
+try {
+    let data = await emi(data_js);
+
+    console.log(data);
+} catch(err){
+    console.log(err);
+}
+*/
 ```
 
 #### JSON
@@ -1221,18 +1542,33 @@ emi({
 // import { render3d } from "gpti";
 const { render3d } = require("gpti");
 
-render3d({
+let data_js = {
     prompt: "In a remote corner of the galaxy, a star agonizes in its final stage of life. Its brightness, once dazzling, now fades slowly into the void of space, while a bright nebula forms around it.",
     data: {
         prompt_negative: ""
     }
-}, (err, data) => {
+};
+
+render3d(data_js, (err, data) => {
     if(err != null){
         console.log(err);
     } else {
         console.log(data);
     }
 });
+
+/*
+import { render3d } from "gpti/promise";
+const { render3d } = require("gpti/promise");
+
+try {
+    let data = await render3d(data_js);
+
+    console.log(data);
+} catch(err){
+    console.log(err);
+}
+*/
 ```
 
 #### JSON
@@ -1259,18 +1595,33 @@ render3d({
 // import { pixelart } from "gpti";
 const { pixelart } = require("gpti");
 
-pixelart({
+let data_js = {
     prompt: "A coastal city in the golden hour of the sunset. The sun slowly slips toward the horizon, tinting the sky with golden and pink hues. Skyscrapers stand out against this heavenly backdrop, reflecting the light in their glass windows. In the streets, lights flicker timidly, getting ready to illuminate the night.",
     data: {
         prompt_negative: ""
     }
-}, (err, data) => {
+};
+
+pixelart(data_js, (err, data) => {
     if(err != null){
         console.log(err);
     } else {
         console.log(data);
     }
 });
+
+/*
+import { pixelart } from "gpti/promise";
+const { pixelart } = require("gpti/promise");
+
+try {
+    let data = await pixelart(data_js);
+
+    console.log(data);
+} catch(err){
+    console.log(err);
+}
+*/
 ```
 
 #### JSON
@@ -1297,7 +1648,7 @@ pixelart({
 // import { animagine } from "gpti";
 const { animagine } = require("gpti");
 
-animagine({
+let data_js = {
     prompt: "An anime girl surrounded by cherry blossoms",
     data: {
         prompt_negative: "",
@@ -1311,13 +1662,28 @@ animagine({
         guidance_scale: 7,
         inference_steps: 28
     }
-}, (err, data) => {
+};
+
+animagine(data_js, (err, data) => {
     if(err != null){
         console.log(err);
     } else {
         console.log(data);
     }
 });
+
+/*
+import { animagine } from "gpti/promise";
+const { animagine } = require("gpti/promise");
+
+try {
+    let data = await animagine(data_js);
+
+    console.log(data);
+} catch(err){
+    console.log(err);
+}
+*/
 ```
 
 #### JSON
@@ -1368,22 +1734,36 @@ animagine({
 // import { playground } from "gpti";
 const { playground } = require("gpti");
 
-playground({
+let data_js = {
     prompt: "An illustration of a red owl with bright blue eye",
-    model: "playground",
     data: {
         prompt_negative: "",
         width: 1024,
         height: 1024,
         guidance_scale: 3
     }
-}, (err, data) => {
+};
+
+playground(data_js, (err, data) => {
     if(err != null){
         console.log(err);
     } else {
         console.log(data);
     }
 });
+
+/*
+import { playground } from "gpti/promise";
+const { playground } = require("gpti/promise");
+
+try {
+    let data = await playground(data_js);
+
+    console.log(data);
+} catch(err){
+    console.log(err);
+}
+*/
 ```
 
 #### JSON
