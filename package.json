@@ -1,6 +1,6 @@
 {
   "name": "gpti",
-  "version": "2.1.7",
+  "version": "2.1.8",
   "description": "This package simplifies your interaction with various GPT models, removing the need for tokens or other methods to access GPT",
   "main": "index.js",
   "types": "main.ts",
@@ -12,10 +12,6 @@
     ".": {
       "import": "./main.ts",
       "require": "./main.js"
-    },
-    "./promise": {
-      "import": "./promise.ts",
-      "require": "./promise.js"
     }
   },
   "keywords": [
@@ -26,21 +22,15 @@
     "gpti",
     "gpt-free",
     "ai",
-    "generate-image",
+    "blackbox",
     "prodia",
     "bing",
     "chat",
     "stream",
     "dalle",
-    "dalle-2",
-    "llama-2",
-    "stable-diffusion",
-    "pixart",
-    "EMI",
-    "render3d",
-    "pixel-art",
-    "playground",
-    "animagine-xl"
+    "generate-image",
+    "llama-3.1",
+    "gpt-4o"
   ],
   "author": "yandricr",
   "license": "MIT",
@@ -53,10 +43,6 @@
     "url": "https://github.com/yandricr/gpti-js"
   },
   "homepage": "https://nexra.aryahcr.cc/",
-  "funding": {
-    "type": "individual",
-    "url": "https://ko-fi.com/yandricr"
-  },
   "dependencies": {
     "axios": "^1.7.2"
   }

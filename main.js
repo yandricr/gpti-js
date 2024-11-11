@@ -51,8 +51,23 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.playground = exports.nexra = exports.animagine = exports.render3d = exports.pixelart = exports.llama2 = exports.emi = exports.stablediffusion = exports.prodia = exports.dalle = exports.pixart = exports.bing = exports.gpt = void 0;
+exports.imageai = exports.blackbox = exports.llama = exports.bing = exports.gpt = exports.nexra = void 0;
 var axios_1 = require("axios");
+/* types */
+var sleep = function (n) { return __awaiter(void 0, void 0, void 0, function () {
+    return __generator(this, function (_a) {
+        return [2 /*return*/, new Promise(function (res) {
+                try {
+                    setTimeout(function () {
+                        return res("OK");
+                    }, n);
+                }
+                catch (error) {
+                    return res("OK");
+                }
+            })];
+    });
+}); };
 var cred = {
     "x-nexra-user": null,
     "x-nexra-secret": null
@@ -67,82 +82,70 @@ function consult_(api, data) {
         var _this = this;
         return __generator(this, function (_a) {
             return [2 /*return*/, new Promise(function (res, rej) { return __awaiter(_this, void 0, void 0, function () {
-                    var response, js, count, i, error_1;
+                    var request, id, response, data_, result, success_, error_1;
                     return __generator(this, function (_a) {
                         switch (_a.label) {
                             case 0:
-                                _a.trys.push([0, 2, , 3]);
+                                _a.trys.push([0, 6, , 7]);
                                 return [4 /*yield*/, axios_1.default.post(api, data, {
                                         headers: __assign({ "Content-Type": "application/json" }, cred)
                                     })];
                             case 1:
+                                request = _a.sent();
+                                if (request.status != 200) {
+                                    throw new Error("error");
+                                }
+                                id = request.data.id;
+                                response = null;
+                                data_ = true;
+                                result = null;
+                                success_ = false;
+                                _a.label = 2;
+                            case 2:
+                                if (!data_) return [3 /*break*/, 5];
+                                return [4 /*yield*/, sleep(1000)];
+                            case 3:
+                                _a.sent();
+                                return [4 /*yield*/, axios_1.default.get('https://nexra.aryahcr.cc/api/chat/task/' + encodeURIComponent(id))];
+                            case 4:
                                 response = _a.sent();
-                                if (response.status === 200) {
-                                    if ((typeof response.data).toString().toLowerCase() === "Object".toLowerCase()) {
-                                        if (response.data.code != undefined && response.data.code != null && response.data.code === 200 && response.data.status != undefined && response.data.status != null && response.data.status === true) {
-                                            return [2 /*return*/, res(response.data)];
-                                        }
-                                        else {
-                                            return [2 /*return*/, rej(response.data)];
-                                        }
-                                    }
-                                    else {
-                                        js = null;
-                                        count = -1;
-                                        for (i = 0; i < response.data.length; i++) {
-                                            if (count <= -1) {
-                                                if (response.data[i] === "{") {
-                                                    count = i;
-                                                }
-                                            }
-                                            else {
-                                                break;
-                                            }
-                                        }
-                                        if (count <= -1) {
-                                            return [2 /*return*/, rej({
-                                                    "code": 500,
-                                                    "status": false,
-                                                    "error": "INTERNAL_SERVER_ERROR",
-                                                    "message": "general (unknown) error"
-                                                })];
-                                        }
-                                        else {
-                                            try {
-                                                js = response.data.slice(count);
-                                                js = JSON.parse(js);
-                                                if (js != undefined && js != null && js.code != undefined && js.code != null && js.code === 200 && js.status != undefined && js.status != null && js.status === true) {
-                                                    return [2 /*return*/, res(js)];
-                                                }
-                                                else {
-                                                    return [2 /*return*/, rej(js)];
-                                                }
-                                            }
-                                            catch (e) {
-                                                return [2 /*return*/, rej({
-                                                        "code": 500,
-                                                        "status": false,
-                                                        "error": "INTERNAL_SERVER_ERROR",
-                                                        "message": "general (unknown) error"
-                                                    })];
-                                            }
-                                        }
-                                    }
+                                response = response.data;
+                                switch (response.status) {
+                                    case "pending":
+                                        data_ = true;
+                                        break;
+                                    case "error":
+                                    case "completed":
+                                        success_ = true;
+                                        result = response;
+                                    case "not_found":
+                                    default:
+                                        result = response;
+                                        data_ = false;
+                                        break;
+                                }
+                                return [3 /*break*/, 2];
+                            case 5:
+                                if (result === undefined || result === null) {
+                                    throw new Error("error");
+                                }
+                                if (success_ === false) {
+                                    return [2 /*return*/, rej(result)];
                                 }
                                 else {
-                                    return [2 /*return*/, rej({
-                                            "code": 500,
-                                            "status": false,
-                                            "error": "INTERNAL_SERVER_ERROR",
-                                            "message": "general (unknown) error"
-                                        })];
+                                    return [2 /*return*/, res(result)];
                                 }
-                                return [3 /*break*/, 3];
-                            case 2:
+                                return [3 /*break*/, 7];
+                            case 6:
                                 error_1 = _a.sent();
                                 try {
                                     if (error_1.response) {
-                                        return [2 /*return*/, rej(error_1.response.data)];
+                                        if (typeof error_1.response.data === "object") {
+                                            return [2 /*return*/, rej(error_1.response.data)];
+                                        }
+                                        else {
+                                            throw new Error("error");
+                                        }
                                     }
                                     else if (error_1.request) {
                                         return [2 /*return*/, rej({
@@ -154,7 +157,6 @@ function consult_(api, data) {
                                     else {
                                         return [2 /*return*/, rej({
                                                 "code": 500,
-                                                "status": false,
                                                 "error": "INTERNAL_SERVER_ERROR",
                                                 "message": "general (unknown) error"
                                             })];
@@ -163,13 +165,112 @@ function consult_(api, data) {
                                 catch (e) {
                                     return [2 /*return*/, rej({
                                             "code": 500,
-                                            "status": false,
                                             "error": "INTERNAL_SERVER_ERROR",
                                             "message": "general (unknown) error"
                                         })];
                                 }
-                                return [3 /*break*/, 3];
-                            case 3: return [2 /*return*/];
+                                return [3 /*break*/, 7];
+                            case 7: return [2 /*return*/];
+                        }
+                    });
+                }); })];
+        });
+    });
+}
+function consult_img(data) {
+    return __awaiter(this, void 0, void 0, function () {
+        var _this = this;
+        return __generator(this, function (_a) {
+            return [2 /*return*/, new Promise(function (res, rej) { return __awaiter(_this, void 0, void 0, function () {
+                    var request, id, response, data_, result, success_, error_2;
+                    return __generator(this, function (_a) {
+                        switch (_a.label) {
+                            case 0:
+                                _a.trys.push([0, 6, , 7]);
+                                return [4 /*yield*/, axios_1.default.post("https://nexra.aryahcr.cc/api/image/complements", data, {
+                                        headers: __assign({ "Content-Type": "application/json" }, cred)
+                                    })];
+                            case 1:
+                                request = _a.sent();
+                                if (request.status != 200) {
+                                    throw new Error("error");
+                                }
+                                id = request.data.id;
+                                response = null;
+                                data_ = true;
+                                result = null;
+                                success_ = false;
+                                _a.label = 2;
+                            case 2:
+                                if (!data_) return [3 /*break*/, 5];
+                                return [4 /*yield*/, sleep(1000)];
+                            case 3:
+                                _a.sent();
+                                return [4 /*yield*/, axios_1.default.get('https://nexra.aryahcr.cc/api/image/complements/' + encodeURIComponent(id))];
+                            case 4:
+                                response = _a.sent();
+                                response = response.data;
+                                switch (response.status) {
+                                    case "pending":
+                                        data_ = true;
+                                        break;
+                                    case "error":
+                                    case "completed":
+                                        success_ = true;
+                                        result = response;
+                                    case "not_found":
+                                    default:
+                                        result = response;
+                                        data_ = false;
+                                        break;
+                                }
+                                return [3 /*break*/, 2];
+                            case 5:
+                                if (result === undefined || result === null) {
+                                    throw new Error("error");
+                                }
+                                if (success_ === false) {
+                                    return [2 /*return*/, rej(result)];
+                                }
+                                else {
+                                    return [2 /*return*/, res(result)];
+                                }
+                                return [3 /*break*/, 7];
+                            case 6:
+                                error_2 = _a.sent();
+                                try {
+                                    if (error_2.response) {
+                                        if (typeof error_2.response.data === "object") {
+                                            return [2 /*return*/, rej(error_2.response.data)];
+                                        }
+                                        else {
+                                            throw new Error("error");
+                                        }
+                                    }
+                                    else if (error_2.request) {
+                                        return [2 /*return*/, rej({
+                                                "code": 404,
+                                                "error": "NOT_FOUND",
+                                                "message": "the service is currently unavailable"
+                                            })];
+                                    }
+                                    else {
+                                        return [2 /*return*/, rej({
+                                                "code": 500,
+                                                "error": "INTERNAL_SERVER_ERROR",
+                                                "message": "general (unknown) error"
+                                            })];
+                                    }
+                                }
+                                catch (e) {
+                                    return [2 /*return*/, rej({
+                                            "code": 500,
+                                            "error": "INTERNAL_SERVER_ERROR",
+                                            "message": "general (unknown) error"
+                                        })];
+                                }
+                                return [3 /*break*/, 7];
+                            case 7: return [2 /*return*/];
                         }
                     });
                 }); })];
@@ -178,7 +279,7 @@ function consult_(api, data) {
 }
 function consult_strm(api, data, process) {
     return __awaiter(this, void 0, void 0, function () {
-        var response, chat_1, error_3, error_2, err_1;
+        var response, chat_1, error_4, tmp_1, error_3, err_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -191,38 +292,38 @@ function consult_strm(api, data, process) {
                     response = _a.sent();
                     if (response.status === 200) {
                         chat_1 = null;
-                        error_3 = false;
+                        error_4 = false;
+                        tmp_1 = null;
                         response.data.on("data", function (chunk) {
                             var chk = chunk.toString();
                             chk = chk.split("");
-                            var tmp = null;
                             chk.forEach(function (data) {
                                 var result = null;
                                 var convert = "";
                                 try {
                                     convert = JSON.parse(data);
                                     result = data;
-                                    tmp = null;
+                                    tmp_1 = null;
                                 }
                                 catch (e) {
-                                    if (tmp === null) {
-                                        tmp = data;
+                                    if (tmp_1 === null) {
+                                        tmp_1 = data;
                                     }
                                     else {
                                         try {
-                                            convert = JSON.parse(tmp);
-                                            result = tmp;
-                                            tmp = null;
+                                            convert = JSON.parse(tmp_1);
+                                            result = tmp_1;
+                                            tmp_1 = null;
                                         }
                                         catch (e) {
-                                            tmp = tmp + data;
+                                            tmp_1 = tmp_1 + data;
                                             try {
-                                                convert = JSON.parse(tmp);
-                                                result = tmp;
-                                                tmp = null;
+                                                convert = JSON.parse(tmp_1);
+                                                result = tmp_1;
+                                                tmp_1 = null;
                                             }
                                             catch (e) {
-                                                tmp = tmp;
+                                                tmp_1 = tmp_1;
                                             }
                                         }
                                     }
@@ -234,7 +335,7 @@ function consult_strm(api, data, process) {
                                             chat_1 = "";
                                         }
                                         if (result != undefined && result != null && result.code === undefined && result.status === undefined) {
-                                            if (error_3 != true) {
+                                            if (error_4 != true) {
                                                 if (result != undefined && result != null && result.finish != undefined && result.finish != null && result.finish === true) {
                                                     chat_1 = result;
                                                 }
@@ -245,7 +346,7 @@ function consult_strm(api, data, process) {
                                             }
                                         }
                                         else {
-                                            error_3 = true;
+                                            error_4 = true;
                                             chat_1 = result;
                                         }
                                     }
@@ -257,7 +358,7 @@ function consult_strm(api, data, process) {
                         });
                         response.data.on("end", function () {
                             if (chat_1 != null) {
-                                if (error_3 != true) {
+                                if (error_4 != true) {
                                     return process(null, chat_1);
                                 }
                                 else {
@@ -274,12 +375,6 @@ function consult_strm(api, data, process) {
                             }
                         });
                         response.data.on("error", function (err) {
-                            return process({
-                                "code": 500,
-                                "status": false,
-                                "error": "INTERNAL_SERVER_ERROR",
-                                "message": "general (unknown) error"
-                            }, null);
                         });
                     }
                     else {
@@ -292,12 +387,12 @@ function consult_strm(api, data, process) {
                     }
                     return [3 /*break*/, 3];
                 case 2:
-                    error_2 = _a.sent();
+                    error_3 = _a.sent();
                     try {
-                        if (error_2.response) {
+                        if (error_3.response) {
                             try {
                                 err_1 = null;
-                                error_2.response.data.on("data", function (chk) {
+                                error_3.response.data.on("data", function (chk) {
                                     if (err_1 != null) {
                                         err_1 += chk.toString();
                                     }
@@ -305,7 +400,7 @@ function consult_strm(api, data, process) {
                                         err_1 = chk.toString();
                                     }
                                 });
-                                error_2.response.data.on("end", function () {
+                                error_3.response.data.on("end", function () {
                                     try {
                                         err_1 = JSON.parse(err_1);
                                         return process(err_1, null);
@@ -319,13 +414,7 @@ function consult_strm(api, data, process) {
                                         }, null);
                                     }
                                 });
-                                error_2.response.data.on("error", function () {
-                                    return process({
-                                        "code": 500,
-                                        "status": false,
-                                        "error": "INTERNAL_SERVER_ERROR",
-                                        "message": "general (unknown) error"
-                                    }, null);
+                                error_3.response.data.on("error", function () {
                                 });
                             }
                             catch (error) {
@@ -337,7 +426,7 @@ function consult_strm(api, data, process) {
                                     }, null)];
                             }
                         }
-                        else if (error_2.request) {
+                        else if (error_3.request) {
                             return [2 /*return*/, process({
                                     "code": 404,
                                     "error": "NOT_FOUND",
@@ -370,1043 +459,484 @@ function consult_strm(api, data, process) {
 var gpt = /** @class */ (function () {
     function gpt() {
     }
-    var _a;
-    _a = gpt;
-    gpt.v1 = function (_b, process_1) { return __awaiter(void 0, [_b, process_1], void 0, function (_c, process) {
-        var response, e_1;
-        var _d = _c.messages, messages = _d === void 0 ? [] : _d, _e = _c.prompt, prompt = _e === void 0 ? "" : _e, _f = _c.model, model = _f === void 0 ? "" : _f, _g = _c.markdown, markdown = _g === void 0 ? false : _g;
-        return __generator(_a, function (_h) {
-            switch (_h.label) {
-                case 0:
-                    _h.trys.push([0, 2, , 3]);
-                    return [4 /*yield*/, consult_('https://nexra.aryahcr.cc/api/chat/gpt', {
-                            messages: messages != undefined && messages != null ? messages : [],
-                            prompt: prompt != undefined && prompt != null ? prompt : "",
-                            model: model != undefined && model != null ? model : "",
-                            markdown: markdown != undefined && markdown != null ? markdown : false
-                        })];
-                case 1:
-                    response = _h.sent();
-                    return [2 /*return*/, process(null, response)];
-                case 2:
-                    e_1 = _h.sent();
-                    if (typeof (e_1) == "object") {
-                        return [2 /*return*/, process(e_1, null)];
+    gpt.v1 = function (_a) {
+        return __awaiter(this, arguments, void 0, function (_b) {
+            var _this = this;
+            var _c = _b.prompt, prompt = _c === void 0 ? "" : _c, _d = _b.messages, messages = _d === void 0 ? [] : _d, _e = _b.model, model = _e === void 0 ? "" : _e, _f = _b.markdown, markdown = _f === void 0 ? false : _f;
+            return __generator(this, function (_g) {
+                return [2 /*return*/, new Promise(function (res, rej) { return __awaiter(_this, void 0, void 0, function () {
+                        var response, error_5;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0:
+                                    _a.trys.push([0, 2, , 3]);
+                                    return [4 /*yield*/, consult_("https://nexra.aryahcr.cc/api/chat/gpt", {
+                                            messages: messages,
+                                            prompt: prompt,
+                                            model: model,
+                                            markdown: markdown
+                                        })];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, res(response)];
+                                case 2:
+                                    error_5 = _a.sent();
+                                    if (typeof error_5 === "object") {
+                                        return [2 /*return*/, rej(error_5)];
+                                    }
+                                    else {
+                                        return [2 /*return*/, rej({
+                                                "code": 500,
+                                                "status": false,
+                                                "error": "INTERNAL_SERVER_ERROR",
+                                                "message": "general (unknown) error"
+                                            })];
+                                    }
+                                    return [3 /*break*/, 3];
+                                case 3: return [2 /*return*/];
+                            }
+                        });
+                    }); })];
+            });
+        });
+    };
+    gpt.v2 = function (_a) {
+        return __awaiter(this, arguments, void 0, function (_b) {
+            var stream_;
+            var _this = this;
+            var _c = _b.messages, messages = _c === void 0 ? [] : _c, _d = _b.markdown, markdown = _d === void 0 ? false : _d, _e = _b.stream, stream = _e === void 0 ? false : _e, _f = _b.results, results = _f === void 0 ? function () { } : _f;
+            return __generator(this, function (_g) {
+                stream_ = false;
+                try {
+                    if (stream === true) {
+                        stream_ = true;
                     }
                     else {
-                        return [2 /*return*/, process({
-                                "code": 500,
-                                "status": false,
-                                "error": "INTERNAL_SERVER_ERROR",
-                                "message": "general (unknown) error"
-                            }, null)];
+                        throw new Error("error");
                     }
-                    return [3 /*break*/, 3];
-                case 3: return [2 /*return*/];
-            }
-        });
-    }); };
-    gpt.v2 = function (_b, process_1) { return __awaiter(void 0, [_b, process_1], void 0, function (_c, process) {
-        var strm, response, e_2, e_3;
-        var _d = _c.messages, messages = _d === void 0 ? [] : _d, _e = _c.markdown, markdown = _e === void 0 ? false : _e, _f = _c.stream, stream = _f === void 0 ? false : _f;
-        return __generator(_a, function (_g) {
-            switch (_g.label) {
-                case 0:
-                    strm = false;
-                    try {
-                        if (stream != undefined && stream != null && (typeof stream).toString().toLowerCase() === "Boolean".toLowerCase()) {
-                            if (stream === true) {
-                                strm = true;
-                            }
-                            else {
-                                strm = false;
-                            }
+                }
+                catch (error) {
+                    stream_ = false;
+                }
+                if (stream_ === false) {
+                    return [2 /*return*/, new Promise(function (res, rej) { return __awaiter(_this, void 0, void 0, function () {
+                            var response, error_6;
+                            return __generator(this, function (_a) {
+                                switch (_a.label) {
+                                    case 0:
+                                        _a.trys.push([0, 2, , 3]);
+                                        return [4 /*yield*/, consult_("https://nexra.aryahcr.cc/api/chat/complements", {
+                                                messages: messages,
+                                                markdown: markdown,
+                                                stream: false,
+                                                model: "chatgpt"
+                                            })];
+                                    case 1:
+                                        response = _a.sent();
+                                        return [2 /*return*/, res(response)];
+                                    case 2:
+                                        error_6 = _a.sent();
+                                        if (typeof error_6 === "object") {
+                                            return [2 /*return*/, rej(error_6)];
+                                        }
+                                        else {
+                                            return [2 /*return*/, rej({
+                                                    "code": 500,
+                                                    "status": false,
+                                                    "error": "INTERNAL_SERVER_ERROR",
+                                                    "message": "general (unknown) error"
+                                                })];
+                                        }
+                                        return [3 /*break*/, 3];
+                                    case 3: return [2 /*return*/];
+                                }
+                            });
+                        }); })];
+                }
+                else {
+                    consult_strm("https://nexra.aryahcr.cc/api/chat/complements", {
+                        messages: messages,
+                        markdown: markdown,
+                        stream: false,
+                        model: "chatgpt"
+                    }, function (err, data) {
+                        if ((data === null || data === void 0 ? void 0 : data.finish) === true) {
+                            return results(err, data);
                         }
                         else {
-                            strm = false;
+                            results(err, data);
                         }
-                    }
-                    catch (e) {
-                        strm = false;
-                    }
-                    if (!(strm === false)) return [3 /*break*/, 5];
-                    _g.label = 1;
-                case 1:
-                    _g.trys.push([1, 3, , 4]);
-                    return [4 /*yield*/, consult_('https://nexra.aryahcr.cc/api/chat/gpt', {
-                            messages: messages != undefined && messages != null ? messages : [],
-                            model: "chatgpt",
-                            markdown: markdown != undefined && markdown != null ? markdown : false,
-                        })];
-                case 2:
-                    response = _g.sent();
-                    return [2 /*return*/, process(null, response)];
-                case 3:
-                    e_2 = _g.sent();
-                    if (typeof (e_2) == "object") {
-                        return [2 /*return*/, process(e_2, null)];
+                    });
+                }
+                return [2 /*return*/];
+            });
+        });
+    };
+    gpt.v3 = function (_a) {
+        return __awaiter(this, arguments, void 0, function (_b) {
+            var stream_;
+            var _this = this;
+            var _c = _b.messages, messages = _c === void 0 ? [] : _c, _d = _b.markdown, markdown = _d === void 0 ? false : _d, _e = _b.stream, stream = _e === void 0 ? false : _e, _f = _b.results, results = _f === void 0 ? function () { } : _f;
+            return __generator(this, function (_g) {
+                stream_ = false;
+                try {
+                    if (stream === true) {
+                        stream_ = true;
                     }
                     else {
-                        return [2 /*return*/, process({
-                                "code": 500,
-                                "status": false,
-                                "error": "INTERNAL_SERVER_ERROR",
-                                "message": "general (unknown) error"
-                            }, null)];
+                        throw new Error("error");
                     }
-                    return [3 /*break*/, 4];
-                case 4: return [3 /*break*/, 8];
-                case 5:
-                    _g.trys.push([5, 7, , 8]);
-                    return [4 /*yield*/, consult_strm('https://nexra.aryahcr.cc/api/chat/complements', {
-                            messages: messages != undefined && messages != null ? messages : [],
-                            model: "chatgpt",
-                            markdown: markdown != undefined && markdown != null ? markdown : false,
-                        }, function (err, data) {
-                            return process(err, data);
-                        })];
-                case 6:
-                    _g.sent();
-                    return [3 /*break*/, 8];
-                case 7:
-                    e_3 = _g.sent();
-                    return [2 /*return*/, process({
-                            "code": 500,
-                            "status": false,
-                            "error": "INTERNAL_SERVER_ERROR",
-                            "message": "general (unknown) error"
-                        }, null)];
-                case 8: return [2 /*return*/];
-            }
+                }
+                catch (error) {
+                    stream_ = false;
+                }
+                if (stream_ === false) {
+                    return [2 /*return*/, new Promise(function (res, rej) { return __awaiter(_this, void 0, void 0, function () {
+                            var response, error_7;
+                            return __generator(this, function (_a) {
+                                switch (_a.label) {
+                                    case 0:
+                                        _a.trys.push([0, 2, , 3]);
+                                        return [4 /*yield*/, consult_("https://nexra.aryahcr.cc/api/chat/complements", {
+                                                messages: messages,
+                                                markdown: markdown,
+                                                stream: false,
+                                                model: "gpt-4o"
+                                            })];
+                                    case 1:
+                                        response = _a.sent();
+                                        return [2 /*return*/, res(response)];
+                                    case 2:
+                                        error_7 = _a.sent();
+                                        if (typeof error_7 === "object") {
+                                            return [2 /*return*/, rej(error_7)];
+                                        }
+                                        else {
+                                            return [2 /*return*/, rej({
+                                                    "code": 500,
+                                                    "status": false,
+                                                    "error": "INTERNAL_SERVER_ERROR",
+                                                    "message": "general (unknown) error"
+                                                })];
+                                        }
+                                        return [3 /*break*/, 3];
+                                    case 3: return [2 /*return*/];
+                                }
+                            });
+                        }); })];
+                }
+                else {
+                    consult_strm("https://nexra.aryahcr.cc/api/chat/complements", {
+                        messages: messages,
+                        markdown: markdown,
+                        model: "gpt-4o"
+                    }, function (err, data) {
+                        if ((data === null || data === void 0 ? void 0 : data.finish) === true) {
+                            return results(err, data);
+                        }
+                        else {
+                            results(err, data);
+                        }
+                    });
+                }
+                return [2 /*return*/];
+            });
         });
-    }); };
-    gpt.web = function (_b, process_1) { return __awaiter(void 0, [_b, process_1], void 0, function (_c, process) {
-        var response, e_4;
-        var _d = _c.prompt, prompt = _d === void 0 ? "" : _d, _e = _c.markdown, markdown = _e === void 0 ? false : _e;
-        return __generator(_a, function (_f) {
-            switch (_f.label) {
-                case 0:
-                    _f.trys.push([0, 2, , 3]);
-                    return [4 /*yield*/, consult_('https://nexra.aryahcr.cc/api/chat/gptweb', {
-                            prompt: prompt != undefined && prompt != null ? prompt : "",
-                            markdown: markdown != undefined && markdown != null ? markdown : false
-                        })];
-                case 1:
-                    response = _f.sent();
-                    return [2 /*return*/, process(null, response)];
-                case 2:
-                    e_4 = _f.sent();
-                    if (typeof (e_4) == "object") {
-                        return [2 /*return*/, process(e_4, null)];
-                    }
-                    else {
-                        return [2 /*return*/, process({
-                                "code": 500,
-                                "status": false,
-                                "error": "INTERNAL_SERVER_ERROR",
-                                "message": "general (unknown) error"
-                            }, null)];
-                    }
-                    return [3 /*break*/, 3];
-                case 3: return [2 /*return*/];
-            }
+    };
+    gpt.web = function (_a) {
+        return __awaiter(this, arguments, void 0, function (_b) {
+            var _this = this;
+            var _c = _b.prompt, prompt = _c === void 0 ? "" : _c, _d = _b.markdown, markdown = _d === void 0 ? false : _d;
+            return __generator(this, function (_e) {
+                return [2 /*return*/, new Promise(function (res, rej) { return __awaiter(_this, void 0, void 0, function () {
+                        var response, error_8;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0:
+                                    _a.trys.push([0, 2, , 3]);
+                                    return [4 /*yield*/, consult_("https://nexra.aryahcr.cc/api/chat/gptweb", {
+                                            prompt: prompt,
+                                            markdown: markdown
+                                        })];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, res(response)];
+                                case 2:
+                                    error_8 = _a.sent();
+                                    if (typeof error_8 === "object") {
+                                        return [2 /*return*/, rej(error_8)];
+                                    }
+                                    else {
+                                        return [2 /*return*/, rej({
+                                                "code": 500,
+                                                "status": false,
+                                                "error": "INTERNAL_SERVER_ERROR",
+                                                "message": "general (unknown) error"
+                                            })];
+                                    }
+                                    return [3 /*break*/, 3];
+                                case 3: return [2 /*return*/];
+                            }
+                        });
+                    }); })];
+            });
         });
-    }); };
+    };
     return gpt;
 }());
 exports.gpt = gpt;
-var llama2 = function (_b, process_1) { return __awaiter(void 0, [_b, process_1], void 0, function (_c, process) {
-    var strm, response, e_5, e_6;
-    var _d = _c.messages, messages = _d === void 0 ? [] : _d, _e = _c.system_message, system_message = _e === void 0 ? "" : _e, _f = _c.temperature, temperature = _f === void 0 ? 0.9 : _f, _g = _c.max_tokens, max_tokens = _g === void 0 ? 4096 : _g, _h = _c.top_p, top_p = _h === void 0 ? 0.6 : _h, _j = _c.repetition_penalty, repetition_penalty = _j === void 0 ? 1.2 : _j, _k = _c.markdown, markdown = _k === void 0 ? false : _k, _l = _c.stream, stream = _l === void 0 ? false : _l;
-    return __generator(this, function (_m) {
-        switch (_m.label) {
-            case 0:
-                strm = false;
-                try {
-                    if (stream != undefined && stream != null && (typeof stream).toString().toLowerCase() === "Boolean".toLowerCase()) {
-                        if (stream === true) {
-                            strm = true;
-                        }
-                        else {
-                            strm = false;
-                        }
-                    }
-                    else {
-                        strm = false;
-                    }
-                }
-                catch (e) {
-                    strm = false;
-                }
-                if (!(strm === false)) return [3 /*break*/, 5];
-                _m.label = 1;
-            case 1:
-                _m.trys.push([1, 3, , 4]);
-                return [4 /*yield*/, consult_('https://nexra.aryahcr.cc/api/chat/complements', {
-                        messages: messages != undefined && messages != null ? messages : [],
-                        model: "llama2",
-                        data: {
-                            system_message: system_message != undefined && system_message != null ? system_message : "",
-                            temperature: temperature != undefined && temperature != null ? temperature : 0.9,
-                            max_tokens: max_tokens != undefined && max_tokens != null ? max_tokens : 4096,
-                            top_p: top_p != undefined && top_p != null ? top_p : 0.6,
-                            repetition_penalty: repetition_penalty != undefined && repetition_penalty != null ? repetition_penalty : 1.2,
-                        },
-                        markdown: markdown != undefined && markdown != null ? markdown : false,
-                    })];
-            case 2:
-                response = _m.sent();
-                return [2 /*return*/, process(null, response)];
-            case 3:
-                e_5 = _m.sent();
-                if (typeof (e_5) == "object") {
-                    return [2 /*return*/, process(e_5, null)];
-                }
-                else {
-                    return [2 /*return*/, process({
-                            "code": 500,
-                            "status": false,
-                            "error": "INTERNAL_SERVER_ERROR",
-                            "message": "general (unknown) error"
-                        }, null)];
-                }
-                return [3 /*break*/, 4];
-            case 4: return [3 /*break*/, 8];
-            case 5:
-                _m.trys.push([5, 7, , 8]);
-                return [4 /*yield*/, consult_strm('https://nexra.aryahcr.cc/api/chat/complements', {
-                        messages: messages != undefined && messages != null ? messages : [],
-                        model: "llama2",
-                        data: {
-                            system_message: system_message != undefined && system_message != null ? system_message : "",
-                            temperature: temperature != undefined && temperature != null ? temperature : 0.9,
-                            max_tokens: max_tokens != undefined && max_tokens != null ? max_tokens : 4096,
-                            top_p: top_p != undefined && top_p != null ? top_p : 0.6,
-                            repetition_penalty: repetition_penalty != undefined && repetition_penalty != null ? repetition_penalty : 1.2
-                        }
-                    }, function (err, data) {
-                        return process(err, data);
-                    })];
-            case 6:
-                _m.sent();
-                return [3 /*break*/, 8];
-            case 7:
-                e_6 = _m.sent();
-                return [2 /*return*/, process({
-                        "code": 500,
-                        "status": false,
-                        "error": "INTERNAL_SERVER_ERROR",
-                        "message": "general (unknown) error"
-                    }, null)];
-            case 8: return [2 /*return*/];
-        }
-    });
-}); };
-exports.llama2 = llama2;
-var bing = function (_b, process_1) { return __awaiter(void 0, [_b, process_1], void 0, function (_c, process) {
-    var strm, response, e_7, e_8;
-    var _d = _c.messages, messages = _d === void 0 ? [] : _d, _e = _c.conversation_style, conversation_style = _e === void 0 ? "Balanced" : _e, _f = _c.markdown, markdown = _f === void 0 ? false : _f, _g = _c.stream, stream = _g === void 0 ? false : _g;
+var bing = function (_a) { return __awaiter(void 0, [_a], void 0, function (_b) {
+    var stream_;
+    var _c = _b.messages, messages = _c === void 0 ? [] : _c, _d = _b.markdown, markdown = _d === void 0 ? false : _d, _e = _b.stream, stream = _e === void 0 ? false : _e, _f = _b.conversation_style, conversation_style = _f === void 0 ? "Balanced" : _f, _g = _b.results, results = _g === void 0 ? function () { } : _g;
     return __generator(this, function (_h) {
-        switch (_h.label) {
-            case 0:
-                strm = false;
-                try {
-                    if (stream != undefined && stream != null && (typeof stream).toString().toLowerCase() === "Boolean".toLowerCase()) {
-                        if (stream === true) {
-                            strm = true;
+        stream_ = false;
+        try {
+            if (stream === true) {
+                stream_ = true;
+            }
+            else {
+                throw new Error("error");
+            }
+        }
+        catch (error) {
+            stream_ = false;
+        }
+        if (stream_ === false) {
+            return [2 /*return*/, new Promise(function (res, rej) { return __awaiter(void 0, void 0, void 0, function () {
+                    var response, error_9;
+                    return __generator(this, function (_a) {
+                        switch (_a.label) {
+                            case 0:
+                                _a.trys.push([0, 2, , 3]);
+                                return [4 /*yield*/, consult_("https://nexra.aryahcr.cc/api/chat/complements", {
+                                        messages: messages,
+                                        markdown: markdown,
+                                        stream: false,
+                                        conversation_style: conversation_style,
+                                        model: "Bing"
+                                    })];
+                            case 1:
+                                response = _a.sent();
+                                return [2 /*return*/, res(response)];
+                            case 2:
+                                error_9 = _a.sent();
+                                if (typeof error_9 === "object") {
+                                    return [2 /*return*/, rej(error_9)];
+                                }
+                                else {
+                                    return [2 /*return*/, rej({
+                                            "code": 500,
+                                            "status": false,
+                                            "error": "INTERNAL_SERVER_ERROR",
+                                            "message": "general (unknown) error"
+                                        })];
+                                }
+                                return [3 /*break*/, 3];
+                            case 3: return [2 /*return*/];
                         }
-                        else {
-                            strm = false;
-                        }
-                    }
-                    else {
-                        strm = false;
-                    }
-                }
-                catch (e) {
-                    strm = false;
-                }
-                if (!(strm === false)) return [3 /*break*/, 5];
-                _h.label = 1;
-            case 1:
-                _h.trys.push([1, 3, , 4]);
-                return [4 /*yield*/, consult_('https://nexra.aryahcr.cc/api/chat/complements', {
-                        messages: messages != undefined && messages != null ? messages : [],
-                        conversation_style: conversation_style,
-                        markdown: markdown != undefined && markdown != null ? markdown : false,
-                        model: "bing"
-                    })];
-            case 2:
-                response = _h.sent();
-                return [2 /*return*/, process(null, response)];
-            case 3:
-                e_7 = _h.sent();
-                if (typeof (e_7) == "object") {
-                    return [2 /*return*/, process(e_7, null)];
+                    });
+                }); })];
+        }
+        else {
+            consult_strm("https://nexra.aryahcr.cc/api/chat/complements", {
+                messages: messages,
+                markdown: markdown,
+                conversation_style: conversation_style,
+                model: "Bing"
+            }, function (err, data) {
+                if ((data === null || data === void 0 ? void 0 : data.finish) === true) {
+                    return results(err, data);
                 }
                 else {
-                    return [2 /*return*/, process({
-                            "code": 500,
-                            "status": false,
-                            "error": "INTERNAL_SERVER_ERROR",
-                            "message": "general (unknown) error"
-                        }, null)];
+                    results(err, data);
                 }
-                return [3 /*break*/, 4];
-            case 4: return [3 /*break*/, 8];
-            case 5:
-                _h.trys.push([5, 7, , 8]);
-                return [4 /*yield*/, consult_strm('https://nexra.aryahcr.cc/api/chat/complements', {
-                        messages: messages != undefined && messages != null ? messages : [],
-                        conversation_style: conversation_style,
-                        markdown: markdown != undefined && markdown != null ? markdown : false,
-                        model: "bing"
-                    }, function (err, data) {
-                        return process(err, data);
-                    })];
-            case 6:
-                _h.sent();
-                return [3 /*break*/, 8];
-            case 7:
-                e_8 = _h.sent();
-                return [2 /*return*/, process({
-                        "code": 500,
-                        "status": false,
-                        "error": "INTERNAL_SERVER_ERROR",
-                        "message": "general (unknown) error"
-                    }, null)];
-            case 8: return [2 /*return*/];
+            });
         }
+        return [2 /*return*/];
     });
 }); };
 exports.bing = bing;
-var pixart = /** @class */ (function () {
-    function pixart() {
-    }
-    pixart.a = function (_b, process_1) {
-        return __awaiter(this, arguments, void 0, function (_c, process) {
-            var response, e_9;
-            var _d = _c.prompt, prompt = _d === void 0 ? "" : _d, _e = _c.data, data = _e === void 0 ? {
-                prompt_negative: "",
-                sampler: "DPM-Solver",
-                image_style: "(No style)",
-                width: 1024,
-                height: 1024,
-                dpm_guidance_scale: 4.5,
-                dpm_inference_steps: 14,
-                sa_guidance_scale: 3,
-                sa_inference_steps: 25
-            } : _e;
-            return __generator(this, function (_f) {
-                switch (_f.label) {
-                    case 0:
-                        _f.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, consult_('https://nexra.aryahcr.cc/api/image/complements', {
-                                prompt: prompt != undefined && prompt != null ? prompt : "",
-                                model: "pixart-a",
-                                data: {
-                                    prompt_negative: data != undefined && data != null && data.prompt_negative != undefined && data.prompt_negative != null ? data.prompt_negative : "",
-                                    sampler: data != undefined && data != null && data.sampler != undefined && data.sampler != null ? data.sampler : "DPM-Solver",
-                                    image_style: data != undefined && data != null && data.image_style != undefined && data.image_style != null ? data.image_style : "(No style)",
-                                    width: data != undefined && data != null && data.width != undefined && data.width != null ? data.width : 1024,
-                                    height: data != undefined && data != null && data.height != undefined && data.height != null ? data.height : 1024,
-                                    dpm_guidance_scale: data != undefined && data != null && data.dpm_guidance_scale != undefined && data.dpm_guidance_scale != null ? data.dpm_guidance_scale : 4.5,
-                                    dpm_inference_steps: data != undefined && data != null && data.dpm_inference_steps != undefined && data.dpm_inference_steps != null ? data.dpm_inference_steps : 14,
-                                    sa_guidance_scale: data != undefined && data != null && data.sa_guidance_scale != undefined && data.sa_guidance_scale != null ? data.sa_guidance_scale : 3,
-                                    sa_inference_steps: data != undefined && data != null && data.sa_inference_steps != undefined && data.sa_inference_steps != null ? data.sa_inference_steps : 25
+var llama = function (_a) { return __awaiter(void 0, [_a], void 0, function (_b) {
+    var stream_;
+    var _c = _b.messages, messages = _c === void 0 ? [] : _c, _d = _b.markdown, markdown = _d === void 0 ? false : _d, _e = _b.stream, stream = _e === void 0 ? false : _e, _f = _b.results, results = _f === void 0 ? function () { } : _f;
+    return __generator(this, function (_g) {
+        stream_ = false;
+        try {
+            if (stream === true) {
+                stream_ = true;
+            }
+            else {
+                throw new Error("error");
+            }
+        }
+        catch (error) {
+            stream_ = false;
+        }
+        if (stream_ === false) {
+            return [2 /*return*/, new Promise(function (res, rej) { return __awaiter(void 0, void 0, void 0, function () {
+                    var response, error_10;
+                    return __generator(this, function (_a) {
+                        switch (_a.label) {
+                            case 0:
+                                _a.trys.push([0, 2, , 3]);
+                                return [4 /*yield*/, consult_("https://nexra.aryahcr.cc/api/chat/complements", {
+                                        messages: messages,
+                                        markdown: markdown,
+                                        stream: false,
+                                        model: "llama-3.1"
+                                    })];
+                            case 1:
+                                response = _a.sent();
+                                return [2 /*return*/, res(response)];
+                            case 2:
+                                error_10 = _a.sent();
+                                if (typeof error_10 === "object") {
+                                    return [2 /*return*/, rej(error_10)];
                                 }
-                            })];
-                    case 1:
-                        response = _f.sent();
-                        return [2 /*return*/, process(null, response)];
-                    case 2:
-                        e_9 = _f.sent();
-                        if (typeof (e_9) == "object") {
-                            return [2 /*return*/, process(e_9, null)];
-                        }
-                        else {
-                            return [2 /*return*/, process({
-                                    "code": 500,
-                                    "status": false,
-                                    "error": "INTERNAL_SERVER_ERROR",
-                                    "message": "general (unknown) error"
-                                }, null)];
-                        }
-                        return [3 /*break*/, 3];
-                    case 3: return [2 /*return*/];
-                }
-            });
-        });
-    };
-    pixart.lcm = function (_b, process_1) {
-        return __awaiter(this, arguments, void 0, function (_c, process) {
-            var response, e_10;
-            var _d = _c.prompt, prompt = _d === void 0 ? "" : _d, _e = _c.data, data = _e === void 0 ? {
-                prompt_negative: "",
-                image_style: "(No style)",
-                width: 1024,
-                height: 1024,
-                lcm_inference_steps: 9
-            } : _e;
-            return __generator(this, function (_f) {
-                switch (_f.label) {
-                    case 0:
-                        _f.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, consult_('https://nexra.aryahcr.cc/api/image/complements', {
-                                prompt: prompt != undefined && prompt != null ? prompt : "",
-                                model: "pixart-lcm",
-                                data: {
-                                    prompt_negative: data != undefined && data != null && data.prompt_negative != undefined && data.prompt_negative != null ? data.prompt_negative : "",
-                                    image_style: data != undefined && data != null && data.image_style != undefined && data.image_style != null ? data.image_style : "(No style)",
-                                    width: data != undefined && data != null && data.width != undefined && data.width != null ? data.width : 1024,
-                                    height: data != undefined && data != null && data.height != undefined && data.height != null ? data.height : 1024,
-                                    lcm_inference_steps: data != undefined && data != null && data.lcm_inference_steps != undefined && data.lcm_inference_steps != null ? data.lcm_inference_steps : 9
+                                else {
+                                    return [2 /*return*/, rej({
+                                            "code": 500,
+                                            "status": false,
+                                            "error": "INTERNAL_SERVER_ERROR",
+                                            "message": "general (unknown) error"
+                                        })];
                                 }
-                            })];
-                    case 1:
-                        response = _f.sent();
-                        return [2 /*return*/, process(null, response)];
-                    case 2:
-                        e_10 = _f.sent();
-                        if (typeof (e_10) == "object") {
-                            return [2 /*return*/, process(e_10, null)];
+                                return [3 /*break*/, 3];
+                            case 3: return [2 /*return*/];
                         }
-                        else {
-                            return [2 /*return*/, process({
-                                    "code": 500,
-                                    "status": false,
-                                    "error": "INTERNAL_SERVER_ERROR",
-                                    "message": "general (unknown) error"
-                                }, null)];
-                        }
-                        return [3 /*break*/, 3];
-                    case 3: return [2 /*return*/];
-                }
-            });
-        });
-    };
-    return pixart;
-}());
-exports.pixart = pixart;
-var dalle = /** @class */ (function () {
-    function dalle() {
-    }
-    dalle.v1 = function (_b, process_1) {
-        return __awaiter(this, arguments, void 0, function (_c, process) {
-            var response, e_11;
-            var _d = _c.prompt, prompt = _d === void 0 ? "" : _d;
-            return __generator(this, function (_e) {
-                switch (_e.label) {
-                    case 0:
-                        _e.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, consult_('https://nexra.aryahcr.cc/api/image/complements', {
-                                prompt: prompt != undefined && prompt != null ? prompt : "",
-                                model: "dalle"
-                            })];
-                    case 1:
-                        response = _e.sent();
-                        return [2 /*return*/, process(null, response)];
-                    case 2:
-                        e_11 = _e.sent();
-                        if (typeof (e_11) == "object") {
-                            return [2 /*return*/, process(e_11, null)];
-                        }
-                        else {
-                            return [2 /*return*/, process({
-                                    "code": 500,
-                                    "status": false,
-                                    "error": "INTERNAL_SERVER_ERROR",
-                                    "message": "general (unknown) error"
-                                }, null)];
-                        }
-                        return [3 /*break*/, 3];
-                    case 3: return [2 /*return*/];
-                }
-            });
-        });
-    };
-    dalle.v2 = function (_b, process_1) {
-        return __awaiter(this, arguments, void 0, function (_c, process) {
-            var response, e_12;
-            var _d = _c.prompt, prompt = _d === void 0 ? "" : _d, _e = _c.data, data = _e === void 0 ? {
-                prompt_negative: "",
-                width: 1024,
-                height: 1024,
-                guidance_scale: 6
-            } : _e;
-            return __generator(this, function (_f) {
-                switch (_f.label) {
-                    case 0:
-                        _f.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, consult_('https://nexra.aryahcr.cc/api/image/complements', {
-                                prompt: prompt != undefined && prompt != null ? prompt : "",
-                                model: "dalle2",
-                                data: {
-                                    prompt_negative: data != undefined && data != null && data.prompt_negative != undefined && data.prompt_negative != null ? data.prompt_negative : "",
-                                    width: data != undefined && data != null && data.width != undefined && data.width != null ? data.width : 1024,
-                                    height: data != undefined && data != null && data.height != undefined && data.height != null ? data.height : 1024,
-                                    guidance_scale: data != undefined && data != null && data.guidance_scale != undefined && data.guidance_scale != null ? data.guidance_scale : 6
-                                }
-                            })];
-                    case 1:
-                        response = _f.sent();
-                        return [2 /*return*/, process(null, response)];
-                    case 2:
-                        e_12 = _f.sent();
-                        if (typeof (e_12) == "object") {
-                            return [2 /*return*/, process(e_12, null)];
-                        }
-                        else {
-                            return [2 /*return*/, process({
-                                    "code": 500,
-                                    "status": false,
-                                    "error": "INTERNAL_SERVER_ERROR",
-                                    "message": "general (unknown) error"
-                                }, null)];
-                        }
-                        return [3 /*break*/, 3];
-                    case 3: return [2 /*return*/];
-                }
-            });
-        });
-    };
-    dalle.mini = function (_b, process_1) {
-        return __awaiter(this, arguments, void 0, function (_c, process) {
-            var response, e_13;
-            var _d = _c.prompt, prompt = _d === void 0 ? "" : _d;
-            return __generator(this, function (_e) {
-                switch (_e.label) {
-                    case 0:
-                        _e.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, consult_('https://nexra.aryahcr.cc/api/image/complements', {
-                                prompt: prompt != undefined && prompt != null ? prompt : "",
-                                model: "dalle-mini"
-                            })];
-                    case 1:
-                        response = _e.sent();
-                        return [2 /*return*/, process(null, response)];
-                    case 2:
-                        e_13 = _e.sent();
-                        if (typeof (e_13) == "object") {
-                            return [2 /*return*/, process(e_13, null)];
-                        }
-                        else {
-                            return [2 /*return*/, process({
-                                    "code": 500,
-                                    "status": false,
-                                    "error": "INTERNAL_SERVER_ERROR",
-                                    "message": "general (unknown) error"
-                                }, null)];
-                        }
-                        return [3 /*break*/, 3];
-                    case 3: return [2 /*return*/];
-                }
-            });
-        });
-    };
-    return dalle;
-}());
-exports.dalle = dalle;
-var prodia = /** @class */ (function () {
-    function prodia() {
-    }
-    prodia.v1 = function (_b, process_1) {
-        return __awaiter(this, arguments, void 0, function (_c, process) {
-            var response, e_14;
-            var _d = _c.prompt, prompt = _d === void 0 ? "" : _d, _e = _c.data, data = _e === void 0 ? {
-                model: "absolutereality_V16.safetensors [37db0fc3]",
-                steps: 25,
-                cfg_scale: 7,
-                sampler: "DPM++ 2M Karras",
-                negative_prompt: ""
-            } : _e;
-            return __generator(this, function (_f) {
-                switch (_f.label) {
-                    case 0:
-                        _f.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, consult_('https://nexra.aryahcr.cc/api/image/complements', {
-                                prompt: prompt != undefined && prompt != null ? prompt : "",
-                                model: "prodia",
-                                data: {
-                                    model: data != undefined && data != null && data.model != undefined && data.model != null ? data.model : "absolutereality_V16.safetensors [37db0fc3]",
-                                    steps: data != undefined && data != null && data.steps != undefined && data.steps != null ? data.steps : 25,
-                                    cfg_scale: data != undefined && data != null && data.cfg_scale != undefined && data.cfg_scale != null ? data.cfg_scale : 7,
-                                    sampler: data != undefined && data != null && data.sampler != undefined && data.sampler != null ? data.sampler : "DPM++ 2M Karras",
-                                    negative_prompt: data != undefined && data != null && data.negative_prompt != undefined && data.negative_prompt != null ? data.negative_prompt : ""
-                                }
-                            })];
-                    case 1:
-                        response = _f.sent();
-                        return [2 /*return*/, process(null, response)];
-                    case 2:
-                        e_14 = _f.sent();
-                        if (typeof (e_14) == "object") {
-                            return [2 /*return*/, process(e_14, null)];
-                        }
-                        else {
-                            return [2 /*return*/, process({
-                                    "code": 500,
-                                    "status": false,
-                                    "error": "INTERNAL_SERVER_ERROR",
-                                    "message": "general (unknown) error"
-                                }, null)];
-                        }
-                        return [3 /*break*/, 3];
-                    case 3: return [2 /*return*/];
-                }
-            });
-        });
-    };
-    prodia.stablediffusion = function (_b, process_1) {
-        return __awaiter(this, arguments, void 0, function (_c, process) {
-            var response, e_15;
-            var _d = _c.prompt, prompt = _d === void 0 ? "" : _d, _e = _c.data, data = _e === void 0 ? {
-                prompt_negative: "",
-                model: "absolutereality_v181.safetensors [3d9d4d2b]",
-                sampling_method: "DPM++ 2M Karras",
-                sampling_steps: 25,
-                width: 512,
-                height: 512,
-                cfg_scale: 7
-            } : _e;
-            return __generator(this, function (_f) {
-                switch (_f.label) {
-                    case 0:
-                        _f.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, consult_('https://nexra.aryahcr.cc/api/image/complements', {
-                                prompt: prompt != undefined && prompt != null ? prompt : "",
-                                model: "prodia-stablediffusion",
-                                data: {
-                                    model: data != undefined && data != null && data.model != undefined && data.model != null ? data.model : "absolutereality_v181.safetensors [3d9d4d2b]",
-                                    sampling_method: data != undefined && data != null && data.sampling_method != undefined && data.sampling_method != null ? data.sampling_method : "DPM++ 2M Karras",
-                                    sampling_steps: data != undefined && data != null && data.sampling_steps != undefined && data.sampling_steps != null ? data.sampling_steps : 25,
-                                    width: data != undefined && data != null && data.width != undefined && data.width != null ? data.width : 512,
-                                    height: data != undefined && data != null && data.height != undefined && data.height != null ? data.height : 512,
-                                    cfg_scale: data != undefined && data != null && data.cfg_scale != undefined && data.cfg_scale != null ? data.cfg_scale : 7,
-                                    prompt_negative: data != undefined && data != null && data.prompt_negative != undefined && data.prompt_negative != null ? data.prompt_negative : "",
-                                }
-                            })];
-                    case 1:
-                        response = _f.sent();
-                        return [2 /*return*/, process(null, response)];
-                    case 2:
-                        e_15 = _f.sent();
-                        if (typeof (e_15) == "object") {
-                            return [2 /*return*/, process(e_15, null)];
-                        }
-                        else {
-                            return [2 /*return*/, process({
-                                    "code": 500,
-                                    "status": false,
-                                    "error": "INTERNAL_SERVER_ERROR",
-                                    "message": "general (unknown) error"
-                                }, null)];
-                        }
-                        return [3 /*break*/, 3];
-                    case 3: return [2 /*return*/];
-                }
-            });
-        });
-    };
-    prodia.stablediffusion_xl = function (_b, process_1) {
-        return __awaiter(this, arguments, void 0, function (_c, process) {
-            var response, e_16;
-            var _d = _c.prompt, prompt = _d === void 0 ? "" : _d, _e = _c.data, data = _e === void 0 ? {
-                prompt_negative: "",
-                model: "sd_xl_base_1.0.safetensors [be9edd61]",
-                sampling_method: "DPM++ 2M Karras",
-                sampling_steps: 25,
-                width: 1024,
-                height: 1024,
-                cfg_scale: 7
-            } : _e;
-            return __generator(this, function (_f) {
-                switch (_f.label) {
-                    case 0:
-                        _f.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, consult_('https://nexra.aryahcr.cc/api/image/complements', {
-                                prompt: prompt != undefined && prompt != null ? prompt : "",
-                                model: "prodia-stablediffusion-xl",
-                                data: {
-                                    model: data != undefined && data != null && data.model != undefined && data.model != null ? data.model : "sd_xl_base_1.0.safetensors [be9edd61]",
-                                    sampling_method: data != undefined && data != null && data.sampling_method != undefined && data.sampling_method != null ? data.sampling_method : "DPM++ 2M Karras",
-                                    sampling_steps: data != undefined && data != null && data.sampling_steps != undefined && data.sampling_steps != null ? data.sampling_steps : 25,
-                                    width: data != undefined && data != null && data.width != undefined && data.width != null ? data.width : 1024,
-                                    height: data != undefined && data != null && data.height != undefined && data.height != null ? data.height : 1024,
-                                    cfg_scale: data != undefined && data != null && data.cfg_scale != undefined && data.cfg_scale != null ? data.cfg_scale : 7,
-                                    prompt_negative: data != undefined && data != null && data.prompt_negative != undefined && data.prompt_negative != null ? data.prompt_negative : "",
-                                }
-                            })];
-                    case 1:
-                        response = _f.sent();
-                        return [2 /*return*/, process(null, response)];
-                    case 2:
-                        e_16 = _f.sent();
-                        if (typeof (e_16) == "object") {
-                            return [2 /*return*/, process(e_16, null)];
-                        }
-                        else {
-                            return [2 /*return*/, process({
-                                    "code": 500,
-                                    "status": false,
-                                    "error": "INTERNAL_SERVER_ERROR",
-                                    "message": "general (unknown) error"
-                                }, null)];
-                        }
-                        return [3 /*break*/, 3];
-                    case 3: return [2 /*return*/];
-                }
-            });
-        });
-    };
-    return prodia;
-}());
-exports.prodia = prodia;
-var stablediffusion = /** @class */ (function () {
-    function stablediffusion() {
-    }
-    stablediffusion.v1 = function (_b, process_1) {
-        return __awaiter(this, arguments, void 0, function (_c, process) {
-            var response, e_17;
-            var _d = _c.prompt, prompt = _d === void 0 ? "" : _d;
-            return __generator(this, function (_e) {
-                switch (_e.label) {
-                    case 0:
-                        _e.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, consult_('https://nexra.aryahcr.cc/api/image/complements', {
-                                prompt: prompt != undefined && prompt != null ? prompt : "",
-                                model: "stablediffusion-1.5"
-                            })];
-                    case 1:
-                        response = _e.sent();
-                        return [2 /*return*/, process(null, response)];
-                    case 2:
-                        e_17 = _e.sent();
-                        if (typeof (e_17) == "object") {
-                            return [2 /*return*/, process(e_17, null)];
-                        }
-                        else {
-                            return [2 /*return*/, process({
-                                    "code": 500,
-                                    "status": false,
-                                    "error": "INTERNAL_SERVER_ERROR",
-                                    "message": "general (unknown) error"
-                                }, null)];
-                        }
-                        return [3 /*break*/, 3];
-                    case 3: return [2 /*return*/];
-                }
-            });
-        });
-    };
-    stablediffusion.v2 = function (_b, process_1) {
-        return __awaiter(this, arguments, void 0, function (_c, process) {
-            var response, e_18;
-            var _d = _c.prompt, prompt = _d === void 0 ? "" : _d, _e = _c.data, data = _e === void 0 ? {
-                prompt_negative: "",
-                guidance_scale: 9
-            } : _e;
-            return __generator(this, function (_f) {
-                switch (_f.label) {
-                    case 0:
-                        _f.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, consult_('https://nexra.aryahcr.cc/api/image/complements', {
-                                prompt: prompt != undefined && prompt != null ? prompt : "",
-                                model: "stablediffusion-2.1",
-                                data: {
-                                    prompt_negative: data != undefined && data != null && data.prompt_negative != undefined && data.prompt_negative != null ? data.prompt_negative : "",
-                                    guidance_scale: data != undefined && data != null && data.guidance_scale != undefined && data.guidance_scale != null ? data.guidance_scale : 9,
-                                }
-                            })];
-                    case 1:
-                        response = _f.sent();
-                        return [2 /*return*/, process(null, response)];
-                    case 2:
-                        e_18 = _f.sent();
-                        if (typeof (e_18) == "object") {
-                            return [2 /*return*/, process(e_18, null)];
-                        }
-                        else {
-                            return [2 /*return*/, process({
-                                    "code": 500,
-                                    "status": false,
-                                    "error": "INTERNAL_SERVER_ERROR",
-                                    "message": "general (unknown) error"
-                                }, null)];
-                        }
-                        return [3 /*break*/, 3];
-                    case 3: return [2 /*return*/];
-                }
-            });
-        });
-    };
-    stablediffusion.xl = function (_b, process_1) {
-        return __awaiter(this, arguments, void 0, function (_c, process) {
-            var response, e_19;
-            var _d = _c.prompt, prompt = _d === void 0 ? "" : _d, _e = _c.data, data = _e === void 0 ? {
-                prompt_negative: "",
-                image_style: "(No style)",
-                guidance_scale: 7.5
-            } : _e;
-            return __generator(this, function (_f) {
-                switch (_f.label) {
-                    case 0:
-                        _f.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, consult_('https://nexra.aryahcr.cc/api/image/complements', {
-                                prompt: prompt != undefined && prompt != null ? prompt : "",
-                                model: "stablediffusion-xl",
-                                data: {
-                                    prompt_negative: data != undefined && data != null && data.prompt_negative != undefined && data.prompt_negative != null ? data.prompt_negative : "",
-                                    image_style: data != undefined && data != null && data.image_style != undefined && data.image_style != null ? data.image_style : "(No style)",
-                                    guidance_scale: data != undefined && data != null && data.guidance_scale != undefined && data.guidance_scale != null ? data.guidance_scale : 7.5,
-                                }
-                            })];
-                    case 1:
-                        response = _f.sent();
-                        return [2 /*return*/, process(null, response)];
-                    case 2:
-                        e_19 = _f.sent();
-                        if (typeof (e_19) == "object") {
-                            return [2 /*return*/, process(e_19, null)];
-                        }
-                        else {
-                            return [2 /*return*/, process({
-                                    "code": 500,
-                                    "status": false,
-                                    "error": "INTERNAL_SERVER_ERROR",
-                                    "message": "general (unknown) error"
-                                }, null)];
-                        }
-                        return [3 /*break*/, 3];
-                    case 3: return [2 /*return*/];
-                }
-            });
-        });
-    };
-    return stablediffusion;
-}());
-exports.stablediffusion = stablediffusion;
-var emi = function (_b, process_1) { return __awaiter(void 0, [_b, process_1], void 0, function (_c, process) {
-    var response, e_20;
-    var _d = _c.prompt, prompt = _d === void 0 ? "" : _d;
-    return __generator(this, function (_e) {
-        switch (_e.label) {
-            case 0:
-                _e.trys.push([0, 2, , 3]);
-                return [4 /*yield*/, consult_('https://nexra.aryahcr.cc/api/image/complements', {
-                        prompt: prompt != undefined && prompt != null ? prompt : "",
-                        model: "emi"
-                    })];
-            case 1:
-                response = _e.sent();
-                return [2 /*return*/, process(null, response)];
-            case 2:
-                e_20 = _e.sent();
-                if (typeof (e_20) == "object") {
-                    return [2 /*return*/, process(e_20, null)];
+                    });
+                }); })];
+        }
+        else {
+            consult_strm("https://nexra.aryahcr.cc/api/chat/complements", {
+                messages: messages,
+                markdown: markdown,
+                model: "llama-3.1"
+            }, function (err, data) {
+                if ((data === null || data === void 0 ? void 0 : data.finish) === true) {
+                    return results(err, data);
                 }
                 else {
-                    return [2 /*return*/, process({
-                            "code": 500,
-                            "status": false,
-                            "error": "INTERNAL_SERVER_ERROR",
-                            "message": "general (unknown) error"
-                        }, null)];
+                    results(err, data);
                 }
-                return [3 /*break*/, 3];
-            case 3: return [2 /*return*/];
+            });
         }
+        return [2 /*return*/];
     });
 }); };
-exports.emi = emi;
-var render3d = function (_b, process_1) { return __awaiter(void 0, [_b, process_1], void 0, function (_c, process) {
-    var response, e_21;
-    var _d = _c.prompt, prompt = _d === void 0 ? "" : _d, _e = _c.data, data = _e === void 0 ? {
-        prompt_negative: ""
-    } : _e;
+exports.llama = llama;
+var blackbox = function (_a) { return __awaiter(void 0, [_a], void 0, function (_b) {
+    var stream_;
+    var _c = _b.messages, messages = _c === void 0 ? [] : _c, _d = _b.markdown, markdown = _d === void 0 ? false : _d, _e = _b.stream, stream = _e === void 0 ? false : _e, _f = _b.results, results = _f === void 0 ? function () { } : _f;
+    return __generator(this, function (_g) {
+        stream_ = false;
+        try {
+            if (stream === true) {
+                stream_ = true;
+            }
+            else {
+                throw new Error("error");
+            }
+        }
+        catch (error) {
+            stream_ = false;
+        }
+        if (stream_ === false) {
+            return [2 /*return*/, new Promise(function (res, rej) { return __awaiter(void 0, void 0, void 0, function () {
+                    var response, error_11;
+                    return __generator(this, function (_a) {
+                        switch (_a.label) {
+                            case 0:
+                                _a.trys.push([0, 2, , 3]);
+                                return [4 /*yield*/, consult_("https://nexra.aryahcr.cc/api/chat/complements", {
+                                        messages: messages,
+                                        markdown: markdown,
+                                        stream: false,
+                                        model: "blackbox"
+                                    })];
+                            case 1:
+                                response = _a.sent();
+                                return [2 /*return*/, res(response)];
+                            case 2:
+                                error_11 = _a.sent();
+                                if (typeof error_11 === "object") {
+                                    return [2 /*return*/, rej(error_11)];
+                                }
+                                else {
+                                    return [2 /*return*/, rej({
+                                            "code": 500,
+                                            "status": false,
+                                            "error": "INTERNAL_SERVER_ERROR",
+                                            "message": "general (unknown) error"
+                                        })];
+                                }
+                                return [3 /*break*/, 3];
+                            case 3: return [2 /*return*/];
+                        }
+                    });
+                }); })];
+        }
+        else {
+            consult_strm("https://nexra.aryahcr.cc/api/chat/complements", {
+                messages: messages,
+                markdown: markdown,
+                model: "blackbox"
+            }, function (err, data) {
+                if ((data === null || data === void 0 ? void 0 : data.finish) === true) {
+                    return results(err, data);
+                }
+                else {
+                    results(err, data);
+                }
+            });
+        }
+        return [2 /*return*/];
+    });
+}); };
+exports.blackbox = blackbox;
+var imageai = function (_a) { return __awaiter(void 0, [_a], void 0, function (_b) {
+    var _c = _b.prompt, prompt = _c === void 0 ? "" : _c, _d = _b.model, model = _d === void 0 ? "" : _d, _e = _b.response, response = _e === void 0 ? "url" : _e, Object = _b.data;
     return __generator(this, function (_f) {
-        switch (_f.label) {
-            case 0:
-                _f.trys.push([0, 2, , 3]);
-                return [4 /*yield*/, consult_('https://nexra.aryahcr.cc/api/image/complements', {
-                        prompt: prompt != undefined && prompt != null ? prompt : "",
-                        model: "render3d",
-                        data: {
-                            prompt_negative: data != undefined && data != null && data.prompt_negative != undefined && data.prompt_negative != null ? data.prompt_negative : ""
-                        }
-                    })];
-            case 1:
-                response = _f.sent();
-                return [2 /*return*/, process(null, response)];
-            case 2:
-                e_21 = _f.sent();
-                if (typeof (e_21) == "object") {
-                    return [2 /*return*/, process(e_21, null)];
-                }
-                else {
-                    return [2 /*return*/, process({
-                            "code": 500,
-                            "status": false,
-                            "error": "INTERNAL_SERVER_ERROR",
-                            "message": "general (unknown) error"
-                        }, null)];
-                }
-                return [3 /*break*/, 3];
-            case 3: return [2 /*return*/];
-        }
+        return [2 /*return*/, new Promise(function (res, rej) { return __awaiter(void 0, void 0, void 0, function () {
+                var response_, error_12;
+                return __generator(this, function (_a) {
+                    switch (_a.label) {
+                        case 0:
+                            _a.trys.push([0, 2, , 3]);
+                            return [4 /*yield*/, consult_img({
+                                    prompt: prompt,
+                                    model: model,
+                                    response: response
+                                })];
+                        case 1:
+                            response_ = _a.sent();
+                            return [2 /*return*/, res(response_)];
+                        case 2:
+                            error_12 = _a.sent();
+                            if (typeof error_12 === "object") {
+                                return [2 /*return*/, rej(error_12)];
+                            }
+                            else {
+                                return [2 /*return*/, rej({
+                                        "code": 500,
+                                        "status": false,
+                                        "error": "INTERNAL_SERVER_ERROR",
+                                        "message": "general (unknown) error"
+                                    })];
+                            }
+                            return [3 /*break*/, 3];
+                        case 3: return [2 /*return*/];
+                    }
+                });
+            }); })];
     });
 }); };
-exports.render3d = render3d;
-var pixelart = function (_b, process_1) { return __awaiter(void 0, [_b, process_1], void 0, function (_c, process) {
-    var response, e_22;
-    var _d = _c.prompt, prompt = _d === void 0 ? "" : _d, _e = _c.data, data = _e === void 0 ? {
-        prompt_negative: ""
-    } : _e;
-    return __generator(this, function (_f) {
-        switch (_f.label) {
-            case 0:
-                _f.trys.push([0, 2, , 3]);
-                return [4 /*yield*/, consult_('https://nexra.aryahcr.cc/api/image/complements', {
-                        prompt: prompt != undefined && prompt != null ? prompt : "",
-                        model: "pixel-art",
-                        data: {
-                            prompt_negative: data != undefined && data != null && data.prompt_negative != undefined && data.prompt_negative != null ? data.prompt_negative : ""
-                        }
-                    })];
-            case 1:
-                response = _f.sent();
-                return [2 /*return*/, process(null, response)];
-            case 2:
-                e_22 = _f.sent();
-                if (typeof (e_22) == "object") {
-                    return [2 /*return*/, process(e_22, null)];
-                }
-                else {
-                    return [2 /*return*/, process({
-                            "code": 500,
-                            "status": false,
-                            "error": "INTERNAL_SERVER_ERROR",
-                            "message": "general (unknown) error"
-                        }, null)];
-                }
-                return [3 /*break*/, 3];
-            case 3: return [2 /*return*/];
-        }
-    });
-}); };
-exports.pixelart = pixelart;
-var playground = function (_b, process_1) { return __awaiter(void 0, [_b, process_1], void 0, function (_c, process) {
-    var response, e_23;
-    var _d = _c.prompt, prompt = _d === void 0 ? "" : _d, _e = _c.data, data = _e === void 0 ? {
-        prompt_negative: "",
-        width: 1024,
-        height: 1024,
-        guidance_scale: 3
-    } : _e;
-    return __generator(this, function (_f) {
-        switch (_f.label) {
-            case 0:
-                _f.trys.push([0, 2, , 3]);
-                return [4 /*yield*/, consult_('https://nexra.aryahcr.cc/api/image/complements', {
-                        prompt: prompt != undefined && prompt != null ? prompt : "",
-                        model: "playground",
-                        data: {
-                            prompt_negative: data != undefined && data != null && data.prompt_negative != undefined && data.prompt_negative != null ? data.prompt_negative : "",
-                            width: data != undefined && data != null && data.width != undefined && data.width != null ? data.width : 1024,
-                            height: data != undefined && data != null && data.height != undefined && data.height != null ? data.height : 1024,
-                            guidance_scale: data != undefined && data != null && data.guidance_scale != undefined && data.guidance_scale != null ? data.guidance_scale : 6,
-                        }
-                    })];
-            case 1:
-                response = _f.sent();
-                return [2 /*return*/, process(null, response)];
-            case 2:
-                e_23 = _f.sent();
-                if (typeof (e_23) == "object") {
-                    return [2 /*return*/, process(e_23, null)];
-                }
-                else {
-                    return [2 /*return*/, process({
-                            "code": 500,
-                            "status": false,
-                            "error": "INTERNAL_SERVER_ERROR",
-                            "message": "general (unknown) error"
-                        }, null)];
-                }
-                return [3 /*break*/, 3];
-            case 3: return [2 /*return*/];
-        }
-    });
-}); };
-exports.playground = playground;
-var animagine = function (_b, process_1) { return __awaiter(void 0, [_b, process_1], void 0, function (_c, process) {
-    var response, e_24;
-    var _d = _c.prompt, prompt = _d === void 0 ? "" : _d, _e = _c.data, data = _e === void 0 ? {
-        prompt_negative: "",
-        quality_tags: "Standard",
-        style_present: "(None)",
-        width: 1024,
-        height: 1024,
-        strength: 0.5,
-        upscale: 1.5,
-        sampler: "Euler a",
-        guidance_scale: 7,
-        inference_steps: 28
-    } : _e;
-    return __generator(this, function (_f) {
-        switch (_f.label) {
-            case 0:
-                _f.trys.push([0, 2, , 3]);
-                return [4 /*yield*/, consult_('https://nexra.aryahcr.cc/api/image/complements', {
-                        prompt: prompt != undefined && prompt != null ? prompt : "",
-                        model: "animagine-xl",
-                        data: {
-                            prompt_negative: data != undefined && data != null && data.prompt_negative != undefined && data.prompt_negative != null ? data.prompt_negative : "",
-                            width: data != undefined && data != null && data.width != undefined && data.width != null ? data.width : 1024,
-                            height: data != undefined && data != null && data.height != undefined && data.height != null ? data.height : 1024,
-                            guidance_scale: data != undefined && data != null && data.guidance_scale != undefined && data.guidance_scale != null ? data.guidance_scale : 7,
-                            quality_tags: data != undefined && data != null && data.quality_tags != undefined && data.quality_tags != null ? data.quality_tags : "Standard",
-                            style_present: data != undefined && data != null && data.style_present != undefined && data.style_present != null ? data.style_present : "(None)",
-                            strength: data != undefined && data != null && data.strength != undefined && data.strength != null ? data.strength : 0.5,
-                            upscale: data != undefined && data != null && data.upscale != undefined && data.upscale != null ? data.upscale : 1.5,
-                            sampler: data != undefined && data != null && data.sampler != undefined && data.sampler != null ? data.sampler : "Euler a",
-                            inference_steps: data != undefined && data != null && data.inference_steps != undefined && data.inference_steps != null ? data.inference_steps : 28
-                        }
-                    })];
-            case 1:
-                response = _f.sent();
-                return [2 /*return*/, process(null, response)];
-            case 2:
-                e_24 = _f.sent();
-                if (typeof (e_24) == "object") {
-                    return [2 /*return*/, process(e_24, null)];
-                }
-                else {
-                    return [2 /*return*/, process({
-                            "code": 500,
-                            "status": false,
-                            "error": "INTERNAL_SERVER_ERROR",
-                            "message": "general (unknown) error"
-                        }, null)];
-                }
-                return [3 /*break*/, 3];
-            case 3: return [2 /*return*/];
-        }
-    });
-}); };
-exports.animagine = animagine;
+exports.imageai = imageai;
 exports.default = {
+    nexra: nexra,
     gpt: gpt,
     bing: bing,
-    pixart: pixart,
-    dalle: dalle,
-    prodia: prodia,
-    stablediffusion: stablediffusion,
-    emi: emi,
-    llama2: llama2,
-    pixelart: pixelart,
-    render3d: render3d,
-    animagine: animagine,
-    nexra: nexra,
-    playground: playground
+    llama: llama,
+    blackbox: blackbox,
+    imageai: imageai
 };
